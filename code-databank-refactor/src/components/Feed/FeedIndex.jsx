@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import FeedDisplay from "./FeedDisplay";
 
-const FeedIndex = ({ token }) => {
+const FeedIndex = ({ token, userId }) => {
   const [posts, setPosts] = useState([]);
   const [createReply, setCreateReply] = useState({});
   const [replyActive, setReplyActive] = useState(false);
@@ -52,6 +52,7 @@ const FeedIndex = ({ token }) => {
       replyOn={replyOn}
       replyOff={replyOff}
       getPosts={getPosts}
+      userId={userId}
     />
   );
 };
