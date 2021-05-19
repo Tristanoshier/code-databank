@@ -16,8 +16,11 @@ import {
   ArrowUpOutlined,
   ArrowDownOutlined,
   EllipsisOutlined,
+  EditOutlined,
+  DeleteOutlined,
 } from "@ant-design/icons";
 import CreateReply from "../Replies/CreateReply";
+import "./FeedCard-Styles.css";
 
 const { Panel } = Collapse;
 
@@ -38,29 +41,33 @@ const FeedCard = ({
     return localStorage.getItem("id") != post.ownerId ? (
       ""
     ) : (
-      <button>Delete</button>
+      <Menu.Item danger>
+        <a onClick={() => deletePost(post)}>
+          <DeleteOutlined />
+          Delete Post
+        </a>
+      </Menu.Item>
     );
   };
 
   const menu = (
     <Menu>
       <Menu.Item>
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://www.antgroup.com"
-        >
-          Edit
-        </a>
+        <EditOutlined />
+        Edit Post
       </Menu.Item>
-      <Menu.Item danger>Delete</Menu.Item>
+      {deleteButton()}
     </Menu>
   );
 
   const cardDropdown = () => {
     return (
       <Dropdown overlay={menu}>
-        <Button type="default" onClick={(e) => e.preventDefault()}>
+        <Button
+          className="settings-button"
+          type="default"
+          onClick={(e) => e.preventDefault()}
+        >
           <EllipsisOutlined key="ellipsis" />
         </Button>
       </Dropdown>
@@ -89,7 +96,7 @@ const FeedCard = ({
   };
 
   const downVote = (reply) => {
-    let newUpvotes = reply.upVotes + 1;
+    let newUpvotes = reply.upVotes - 1;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -109,6 +116,16 @@ const FeedCard = ({
       });
   };
 
+  const deletePost = (post) => {
+    fetch(`http://localhost:3000/posts/${post.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    }).then(() => getPosts());
+  };
+
   return (
     <Row justif="center">
       <Col span={8}>
@@ -117,7 +134,11 @@ const FeedCard = ({
           style={{ width: 600, marginBottom: "40px", borderRadius: "5px" }}
           extra={cardDropdown()}
         >
+          <p>{post.postMessage}</p>
           <p>{post.postType}</p>
+          <div style={{ marginBottom: "30px" }}>
+            <b>Posted by: {post.posterName}</b>
+          </div>
           {post?.replies
             .sort((a, b) => {
               return b.upVotes - a.upVotes;
@@ -198,7 +219,6 @@ const FeedCard = ({
               />
             </Panel>
           </Collapse>
-          {deleteButton()}
         </Card>
       </Col>
     </Row>

@@ -33,4 +33,23 @@ router.post("/", (req, res) => {
   }
 });
 
+router.delete("/:id", (req, res) => {
+  Posts.destroy({
+    where: {
+      id: req.params.id,
+      ownerId: req.user.id,
+    },
+  })
+    .then((post) =>
+      res.status(200).json({
+        post: post,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
 module.exports = router;

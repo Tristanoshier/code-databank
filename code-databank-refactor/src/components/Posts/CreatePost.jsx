@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Form, Input, Button, Card, Select } from "antd";
 
+const { TextArea } = Input;
+
 const CreatePost = ({ token, getPosts }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
@@ -54,7 +56,7 @@ const CreatePost = ({ token, getPosts }) => {
           />
         </Form.Item>
         <Form.Item label="Message">
-          <Input
+          <TextArea
             name="postMessage"
             value={postMessage}
             required
