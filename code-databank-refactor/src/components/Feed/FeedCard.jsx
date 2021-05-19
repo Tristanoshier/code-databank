@@ -137,7 +137,7 @@ const FeedCard = ({
           <p>{post.postMessage}</p>
           <p>{post.postType}</p>
           <div style={{ marginBottom: "30px" }}>
-            <b>Posted by: {post.posterName}</b>
+            <h5>Posted by: {post.posterName}</h5>
           </div>
           {post?.replies
             .sort((a, b) => {
