@@ -11,7 +11,7 @@ const FeedDisplay = ({
   replyOn,
   replyOff,
   getPosts,
-  firstName,
+  userId,
 }) => {
   return (
     <div>
@@ -20,23 +20,28 @@ const FeedDisplay = ({
           <CreatePost token={token} getPosts={getPosts} />
         </Col>
       </Row>
-      {posts?.map((post, index) => (
-        <Row justify="center">
-          <Col span={13}>
-            <FeedCard
-              post={post}
-              index={index}
-              token={token}
-              key={index}
-              addReply={addReply}
-              createReply={createReply}
-              replyOn={replyOn}
-              replyOff={replyOff}
-              getPosts={getPosts}
-            />
-          </Col>
-        </Row>
-      ))}
+      {posts
+        ?.sort((a, b) => {
+          return b.id - a.id;
+        })
+        .map((post, index) => (
+          <Row justify="center">
+            <Col span={13}>
+              <FeedCard
+                post={post}
+                index={index}
+                token={token}
+                key={index}
+                addReply={addReply}
+                createReply={createReply}
+                replyOn={replyOn}
+                replyOff={replyOff}
+                getPosts={getPosts}
+                userId={userId}
+              />
+            </Col>
+          </Row>
+        ))}
     </div>
   );
 };

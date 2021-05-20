@@ -13,8 +13,14 @@ const Post = db.define("post", {
   postType: {
     type: DataTypes.STRING,
   },
+  codeType: {
+    type: DataTypes.STRING,
+  },
   posterName: {
     type: DataTypes.STRING,
+  },
+  upVotes: {
+    type: DataTypes.INTEGER,
   },
   ownerId: {
     type: DataTypes.INTEGER,

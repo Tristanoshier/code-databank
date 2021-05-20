@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import { Form, Input, Button, Card, Select } from "antd";
 
+const { TextArea } = Input;
+const { Option } = Select;
+
 const CreatePost = ({ token, getPosts }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
-  const [postType, setPostType] = useState("");
-  const [codeType, setCodeType] = useState("");
+  const [postType, setPostType] = useState("Question");
+  const [codeType, setCodeType] = useState("JavaScript");
 
   const handleSubmit = async () => {
     console.log(token);
@@ -54,7 +57,7 @@ const CreatePost = ({ token, getPosts }) => {
           />
         </Form.Item>
         <Form.Item label="Message">
-          <Input
+          <TextArea
             name="postMessage"
             value={postMessage}
             required
@@ -62,18 +65,31 @@ const CreatePost = ({ token, getPosts }) => {
           />
         </Form.Item>
         <Form.Item label="Post Type">
-          <Input
-            name="postType"
+          <Select
             value={postType}
-            onChange={(e) => setPostType(e.target.value)}
-          />
+            defaultActiveFirstOption={true}
+            onChange={(value) => {
+              setPostType(value);
+            }}
+          >
+            <Option value="Question">Question</Option>
+            <Option value="Error">Error</Option>
+          </Select>
         </Form.Item>
         <Form.Item label="Code Type">
-          <Input
-            name="codeType"
+          <Select
             value={codeType}
-            onChange={(e) => setCodeType(e.target.value)}
-          />
+            defaultActiveFirstOption={true}
+            onChange={(value) => {
+              setCodeType(value);
+            }}
+          >
+            <Option value="HTML">HTML</Option>
+            <Option value="CSS">CSS</Option>
+            <Option value="JavaScript">JavaScript</Option>
+            <Option value="React">React</Option>
+            <Option value="Github">Github</Option>
+          </Select>
         </Form.Item>
 
         <Form.Item label="Submit">

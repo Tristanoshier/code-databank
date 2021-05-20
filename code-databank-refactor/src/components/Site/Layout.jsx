@@ -6,7 +6,7 @@ import Nav from "./Nav";
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ clickLogout, token, firstName }) => {
+const MainLayout = ({ clickLogout, token, firstName, userId }) => {
   return (
     <Router>
       <Layout className="mainLayout">
@@ -19,7 +19,11 @@ const MainLayout = ({ clickLogout, token, firstName }) => {
             <div className="content">
               <Switch>
                 <Route exact path="/">
-                  <FeedIndex token={token} firstName={firstName} />
+                  <FeedIndex
+                    token={token}
+                    firstName={firstName}
+                    userId={userId}
+                  />
                 </Route>
                 <Route exact path="/hours">
                   {/* <GetHours token={props.token} /> */}

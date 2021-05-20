@@ -1,0 +1,64 @@
+/* ellipsis */
+.settings-button {
+  border: none;
+}
+/* icons */
+i {
+  padding-right: 5px;
+}
+
+.fa-bookmark {
+  color: #1890ff;
+}
+
+.saved-icon-button {
+  display: none;
+}
+
+/* card */
+
+.card-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.card-header-arrow-container {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  max-height: 40px;
+}
+
+.arrow {
+  max-height: 20px;
+}
+
+.arrow-up .arrow-down {
+  font-size: 15px;
+}
+
+.container-sub {
+  padding: 10px;
+  padding-left: 20px;
+}
+
+.postedBy {
+  margin-bottom: 30px;
+}
+
+.feed-card {
+  margin-bottom: 40px;
+  border-radius: 5px;
+}
+
+#replyName {
+  float: left;
+}
+
+.reply-container {
+  background-color: #f1eded;
+  border-radius: 5px;
+  padding: 10px;
+  padding-left: 2em;
+  margin-bottom: 10px;
+}

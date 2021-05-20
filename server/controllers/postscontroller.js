@@ -19,7 +19,10 @@ router.post("/", (req, res) => {
     Posts.create({
       postTitle: req.body.postTitle,
       postMessage: req.body.postMessage,
+      postType: req.body.postType,
+      codeType: req.body.codeType,
       posterName: req.user.firstName,
+      upVotes: req.body.upVotes,
       ownerId: req.user.id,
     });
     res.status(200).json({
@@ -31,6 +34,48 @@ router.post("/", (req, res) => {
       message: "Post failed to submit",
     });
   }
+});
+
+router.put("/:id", (req, res) => {
+  const query = { where: { id: req.params.id } };
+  const updatePost = {
+    postTitle: req.body.postTitle,
+    postMessage: req.body.postMessage,
+    postType: req.body.postType,
+    codeType: req.body.codeType,
+    posterName: req.user.firstName,
+    upVotes: req.body.upVotes,
+  };
+  Posts.update(updatePost, query)
+    .then(
+      res.status(200).json({
+        message: "Updated",
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        message: "Failed to update",
+      })
+    );
+});
+
+router.delete("/:id", (req, res) => {
+  Posts.destroy({
+    where: {
+      id: req.params.id,
+      ownerId: req.user.id,
+    },
+  })
+    .then((post) =>
+      res.status(200).json({
+        post: post,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
 });
 
 module.exports = router;
