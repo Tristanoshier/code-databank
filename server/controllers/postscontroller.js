@@ -24,6 +24,7 @@ router.post("/", (req, res) => {
       posterName: req.user.firstName,
       upVotes: req.body.upVotes,
       ownerId: req.user.id,
+      userId: req.user.id,
     });
     res.status(200).json({
       message: "Post submitted",

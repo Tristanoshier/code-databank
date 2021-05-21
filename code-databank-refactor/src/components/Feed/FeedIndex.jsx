@@ -36,7 +36,7 @@ const FeedIndex = ({ token, userId }) => {
   };
 
   const replyOff = () => {
-    setReplyActive(false);
+    setReplyActive(!replyActive);
   };
 
   useEffect(() => {
@@ -53,6 +53,7 @@ const FeedIndex = ({ token, userId }) => {
       replyOff={replyOff}
       getPosts={getPosts}
       userId={userId}
+      replyActive={replyActive}
     />
   );
 };

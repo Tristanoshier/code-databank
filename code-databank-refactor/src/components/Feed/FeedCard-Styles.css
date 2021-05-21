@@ -55,6 +55,10 @@ i {
   float: left;
 }
 
+#postTitle {
+  text-align: center;
+}
+
 .reply-container {
   background-color: #f1eded;
   border-radius: 5px;

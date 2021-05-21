@@ -20,9 +20,9 @@ const CreateReply = ({ token, createReply, replyOff, getPosts }) => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        replyOff();
         setReplyMessage("");
         getPosts();
+        replyOff();
       });
   };
 

@@ -11,6 +11,7 @@ import {
   Button,
   Menu,
   Dropdown,
+  notification,
 } from "antd";
 import {
   ArrowUpOutlined,
@@ -20,7 +21,6 @@ import {
   DeleteOutlined,
 } from "@ant-design/icons";
 import CreateReply from "../Replies/CreateReply";
-import DeletePost from "../Fetches/DeletePost";
 import "./FeedCard-Styles.css";
 
 const { Panel } = Collapse;
@@ -34,7 +34,7 @@ const FeedCard = ({
   addReply,
   createReply,
   getPosts,
-  userId,
+  replyActive,
 }) => {
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
@@ -50,7 +50,7 @@ const FeedCard = ({
           Edit Post
         </Menu.Item>
         <Menu.Item danger>
-          <a onClick={() => DeletePost(post, token)}>
+          <a onClick={() => DeletePost(post)}>
             <DeleteOutlined />
             Delete Post
           </a>
@@ -107,6 +107,15 @@ const FeedCard = ({
 
   const toggleIcon = () => {
     setUnSaved(!unSaved);
+  };
+
+  const openDeleteNotification = (post) => {
+    const args = {
+      message: "Success!",
+      description: "Your post has been deleted!",
+      duration: 2,
+    };
+    notification.open(args);
   };
 
   const upVoteReply = (reply) => {
@@ -191,14 +200,20 @@ const FeedCard = ({
       });
   };
 
-  const deletePost = (post) => {
+  const DeletePost = (post) => {
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
         Authorization: token,
       }),
-    }).then(() => getPosts());
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        openDeleteNotification(post);
+        getPosts();
+        return data;
+      });
   };
 
   return (
@@ -249,7 +264,7 @@ const FeedCard = ({
               cardDropdown(),
             ]}
           >
-            <h4>{post.postTitle}</h4>
+            <h4 id="postTitle">{post.postTitle}</h4>
             <p>{post.postMessage}</p>
             <p>{post.postType}</p>
             <div className="postedBy">
@@ -343,12 +358,22 @@ const FeedCard = ({
                   </Button>
                 }
               >
-                <CreateReply
+                {replyActive ? (
+                  <CreateReply
+                    token={token}
+                    createReply={createReply}
+                    replyOff={replyOff}
+                    getPosts={getPosts}
+                  />
+                ) : (
+                  <></>
+                )}
+                {/* <CreateReply
                   token={token}
                   createReply={createReply}
                   replyOff={replyOff}
                   getPosts={getPosts}
-                />
+                /> */}
               </Panel>
             </Collapse>
           </Card>

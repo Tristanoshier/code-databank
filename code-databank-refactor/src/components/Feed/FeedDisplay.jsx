@@ -12,6 +12,7 @@ const FeedDisplay = ({
   replyOff,
   getPosts,
   userId,
+  replyActive,
 }) => {
   return (
     <div>
@@ -38,6 +39,7 @@ const FeedDisplay = ({
                 replyOff={replyOff}
                 getPosts={getPosts}
                 userId={userId}
+                replyActive={replyActive}
               />
             </Col>
           </Row>
