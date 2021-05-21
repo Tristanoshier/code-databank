@@ -217,169 +217,166 @@ const FeedCard = ({
   };
 
   return (
-    <Row justif="center">
-      <Col span={8}>
-        <Badge.Ribbon
-          text={post.upVotes === null || 0 ? 0 : post.upVotes}
-          color="#f50"
-          placement="start"
-        >
-          <Card
-            className="feed-card"
-            title={[
-              <div className="card-header">
-                <div className="card-header-arrow-container">
-                  <div className="arrow-container">
-                    <div className="arrow">
-                      <ArrowUpOutlined
-                        className="arrow-up"
-                        onClick={() => {
-                          upVotePost(post);
-                        }}
-                      />
-                    </div>
-                  </div>
+    <Badge.Ribbon
+      text={post.upVotes === null || 0 ? 0 : post.upVotes}
+      color="#f50"
+      placement="start"
+    >
+      <Card
+        className="feed-card"
+        title={[
+          <div className="card-header">
+            <div className="card-header-arrow-container">
+              <div className="arrow-container">
+                <div className="arrow">
+                  <ArrowUpOutlined
+                    className="arrow-up"
+                    onClick={() => {
+                      upVotePost(post);
+                    }}
+                  />
+                </div>
+              </div>
 
-                  <div className="arrow">
-                    <ArrowDownOutlined
-                      className="arrow-down"
-                      onClick={() => downVotePost(post)}
+              <div className="arrow">
+                <ArrowDownOutlined
+                  className="arrow-down"
+                  onClick={() => downVotePost(post)}
+                />
+              </div>
+            </div>
+
+            <div className="container-sub">
+              {iconType()}
+              {post.codeType}
+            </div>
+          </div>,
+        ]}
+        style={{ width: 600 }}
+        extra={[
+          <>
+            <Button type="link" onClick={toggleIcon}>
+              {icon}
+            </Button>
+          </>,
+          cardDropdown(),
+        ]}
+      >
+        <h4 id="postTitle">{post.postTitle}</h4>
+        <hr style={{ maxWidth: "25%", opacity: "0.2" }} />
+
+        <h4>{post.postType}</h4>
+        <div className="reply-container">
+          <p>{post.postMessage}</p>
+        </div>
+
+        <div className="postedBy">
+          <h5>Posted by: {post.posterName}</h5>
+        </div>
+        {post?.replies
+          .sort((a, b) => {
+            return b.upVotes - a.upVotes;
+          })
+          .map((reply, index) => (
+            <div>
+              <Row justify="center" align="start">
+                <Col span={2}>
+                  <div>
+                    <ArrowUpOutlined
+                      onClick={() => {
+                        upVoteReply(reply);
+                      }}
                     />
                   </div>
-                </div>
-
-                <div className="container-sub">
-                  {iconType()}
-                  {post.codeType}
-                </div>
-              </div>,
-            ]}
-            style={{ width: 600 }}
-            extra={[
-              <>
-                <Button type="link" onClick={toggleIcon}>
-                  {icon}
-                </Button>
-              </>,
-              cardDropdown(),
-            ]}
-          >
-            <h4 id="postTitle">{post.postTitle}</h4>
-            <p>{post.postMessage}</p>
-            <p>{post.postType}</p>
-            <div className="postedBy">
-              <h5>Posted by: {post.posterName}</h5>
-            </div>
-            {post?.replies
-              .sort((a, b) => {
-                return b.upVotes - a.upVotes;
-              })
-              .map((reply, index) => (
-                <div>
-                  <Row justify="center" align="start">
-                    <Col span={2}>
-                      <div>
-                        <ArrowUpOutlined
-                          onClick={() => {
-                            upVoteReply(reply);
+                  <div>
+                    <ArrowDownOutlined onClick={() => downVoteReply(reply)} />
+                  </div>
+                </Col>
+                <Col span={22}>
+                  {post.codeType === "Github" ? (
+                    <Badge.Ribbon
+                      text={reply.upVotes === null || 0 ? 0 : reply.upVotes}
+                      color="#f50"
+                      placement="start"
+                    >
+                      <div className="reply-container">
+                        <p>{reply.replyMessage}</p>
+                      </div>
+                    </Badge.Ribbon>
+                  ) : (
+                    <div className="code-container">
+                      <Badge.Ribbon
+                        text={reply.upVotes === null || 0 ? 0 : reply.upVotes}
+                        color="#f50"
+                        placement="start"
+                      >
+                        <SyntaxHighlighter
+                          lineProps={{
+                            style: {
+                              // wordBreak: "break-all",
+                              whiteSpace: "pre-line",
+                              // whiteSpace: "pre-wrap"
+                            },
                           }}
-                        />
-                      </div>
-                      <div>
-                        <ArrowDownOutlined
-                          onClick={() => downVoteReply(reply)}
-                        />
-                      </div>
-                    </Col>
-                    <Col span={22}>
-                      {post.codeType === "Github" ? (
-                        <Badge.Ribbon
-                          text={reply.upVotes === null || 0 ? 0 : reply.upVotes}
-                          color="#f50"
-                          placement="start"
+                          customStyle={{
+                            paddingLeft: "2em",
+                            borderRadius: "5px",
+                          }}
+                          useInlineStyles={true}
+                          wrapLines={true}
+                          key={reply.id}
+                          language={post.codeType}
+                          language="Javascript"
+                          style={rainbow}
                         >
-                          <div className="reply-container">
-                            <p>{reply.replyMessage}</p>
-                          </div>
-                        </Badge.Ribbon>
-                      ) : (
-                        <div className="code-container">
-                          <Badge.Ribbon
-                            text={
-                              reply.upVotes === null || 0 ? 0 : reply.upVotes
-                            }
-                            color="#f50"
-                            placement="start"
-                          >
-                            <SyntaxHighlighter
-                              lineProps={{
-                                style: {
-                                  // wordBreak: "break-all",
-                                  whiteSpace: "pre-line",
-                                  // whiteSpace: "pre-wrap"
-                                },
-                              }}
-                              customStyle={{
-                                paddingLeft: "2em",
-                                borderRadius: "5px",
-                              }}
-                              useInlineStyles={true}
-                              wrapLines={true}
-                              key={reply.id}
-                              language={post.codeType}
-                              language="Javascript"
-                              style={rainbow}
-                            >
-                              {reply.replyMessage}
-                            </SyntaxHighlighter>
-                          </Badge.Ribbon>
-                        </div>
-                      )}
-                      <h5 id="replyName">Posted by: {reply.replyName}</h5>
-                      <Divider />
-                    </Col>
-                  </Row>
-                </div>
-              ))}
-            <Collapse ghost>
-              <Panel
-                showArrow={false}
-                key="1"
-                extra={
-                  <Button
-                    type="ghost"
-                    onClick={() => {
-                      replyOn();
-                      addReply(post);
-                      console.log(post.id);
-                    }}
-                  >
-                    Add Reply
-                  </Button>
-                }
+                          {reply.replyMessage}
+                        </SyntaxHighlighter>
+                      </Badge.Ribbon>
+                    </div>
+                  )}
+                  <h5 id="replyName">Posted by: {reply.replyName}</h5>
+                  <Divider />
+                </Col>
+              </Row>
+            </div>
+          ))}
+        <Collapse ghost>
+          <Panel
+            showArrow={false}
+            key="1"
+            extra={
+              <Button
+                type="ghost"
+                onClick={() => {
+                  replyOn();
+                  addReply(post);
+                  console.log(post.id);
+                }}
               >
-                {replyActive ? (
-                  <CreateReply
-                    token={token}
-                    createReply={createReply}
-                    replyOff={replyOff}
-                    getPosts={getPosts}
-                  />
-                ) : (
-                  <></>
-                )}
-                {/* <CreateReply
+                Add Reply
+              </Button>
+            }
+          >
+            {replyActive ? (
+              <CreateReply
+                token={token}
+                createReply={createReply}
+                replyOff={replyOff}
+                getPosts={getPosts}
+              />
+            ) : (
+              <></>
+            )}
+            {/* <CreateReply
                   token={token}
                   createReply={createReply}
                   replyOff={replyOff}
                   getPosts={getPosts}
                 /> */}
-              </Panel>
-            </Collapse>
-          </Card>
-        </Badge.Ribbon>
-      </Col>
-    </Row>
+          </Panel>
+        </Collapse>
+      </Card>
+    </Badge.Ribbon>
   );
 };
 

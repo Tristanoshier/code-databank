@@ -6,6 +6,8 @@ const FeedIndex = ({ token, userId }) => {
   const [posts, setPosts] = useState([]);
   const [createReply, setCreateReply] = useState({});
   const [replyActive, setReplyActive] = useState(false);
+  const [postActive, setPostActive] = useState(false);
+  const [createPost, setCreatePost] = useState({});
 
   // main GET fetch
   const getPosts = async () => {
@@ -24,6 +26,18 @@ const FeedIndex = ({ token, userId }) => {
     } catch (error) {
       console.log("error", error);
     }
+  };
+  // post actives
+  const addPost = (post) => {
+    setCreatePost(post);
+  };
+
+  const postOn = () => {
+    setPostActive(true);
+  };
+
+  const postOff = () => {
+    setPostActive(false);
   };
 
   // reply actives
@@ -54,6 +68,9 @@ const FeedIndex = ({ token, userId }) => {
       getPosts={getPosts}
       userId={userId}
       replyActive={replyActive}
+      postOn={postOn}
+      postOff={postOff}
+      postActive={postActive}
     />
   );
 };

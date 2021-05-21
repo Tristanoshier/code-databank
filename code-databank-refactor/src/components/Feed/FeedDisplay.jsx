@@ -1,7 +1,8 @@
 import React from "react";
 import FeedCard from "./FeedCard";
-import { Row, Col } from "antd";
+import { Row, Col, Button } from "antd";
 import CreatePost from "../Posts/CreatePost";
+import DashboardIndex from "../Dashboard/DashboardIndex";
 
 const FeedDisplay = ({
   token,
@@ -13,12 +14,18 @@ const FeedDisplay = ({
   getPosts,
   userId,
   replyActive,
+  postOn,
+  postOff,
+  postActive,
 }) => {
   return (
     <div>
       <Row justify="center">
-        <Col span={11}>
-          <CreatePost token={token} getPosts={getPosts} />
+        <Col span={1}>
+          {/* <CreatePost token={token} getPosts={getPosts} /> */}
+          <Button type="default" onClick={() => postOn()}>
+            Create a post
+          </Button>
         </Col>
       </Row>
       {posts
@@ -44,6 +51,11 @@ const FeedDisplay = ({
             </Col>
           </Row>
         ))}
+      {postActive ? (
+        <CreatePost token={token} getPosts={getPosts} postOff={postOff} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
