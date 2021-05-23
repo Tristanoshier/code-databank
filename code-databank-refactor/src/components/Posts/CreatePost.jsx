@@ -1,15 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Form, Input, Button, Card, Select, Modal } from "antd";
+import { TokenContext } from "../../App";
+import { GetPostsContext } from "../Feed/FeedIndex";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const CreatePost = ({ token, getPosts, postOff }) => {
+const CreatePost = ({ postOff }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
   const [postType, setPostType] = useState("Question");
   const [codeType, setCodeType] = useState("JavaScript");
+
+  const token = useContext(TokenContext);
+  const getPosts = useContext(GetPostsContext);
 
   const handleCancel = () => {
     postOff();
