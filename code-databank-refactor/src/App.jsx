@@ -5,7 +5,9 @@ import "./App.css";
 import "antd/dist/antd.css";
 import Auth from "./components/Auth/Auth";
 import MainLayout from "./components/Site/Layout";
-import FeedProvider from "./components/Feed/FeedIndex";
+import FeedIndexProvider from "./components/Feed/FeedIndex";
+import FeedDisplayProvider from "./components/Feed/FeedDisplay";
+import FeedCardProvider from "./components/Feed/FeedCard";
 export const TokenContext = React.createContext();
 
 function App() {
@@ -55,14 +57,7 @@ function App() {
     return (token === localStorage.getItem("token")) |
       (localStorage.getItem("token") === !undefined) ? (
       <TokenContext.Provider value={token}>
-        <FeedProvider>
-          <MainLayout
-            clickLogout={clearToken}
-            token={token}
-            firstName={firstName}
-            userId={userId}
-          />
-        </FeedProvider>
+        <MainLayout clickLogout={clearToken} />
       </TokenContext.Provider>
     ) : (
       <Auth

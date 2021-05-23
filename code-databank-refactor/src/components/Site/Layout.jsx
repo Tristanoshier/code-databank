@@ -5,31 +5,45 @@ import FeedIndex from "../Feed/FeedIndex";
 import Nav from "./Nav";
 import ViewPost from "../Feed/ViewPost";
 import { TokenContext } from "../../App";
+import FeedIndexProvider from "../Feed/FeedIndex";
+import FeedDisplayProvider from "../Feed/FeedDisplay";
+import FeedCardProvider from "../Feed/FeedCard";
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ clickLogout, firstName }) => {
+const MainLayout = ({ clickLogout }) => {
   return (
-    // <Router>
-    <Layout className="mainLayout">
-      <Header>
-        <Nav clickLogout={clickLogout} />
-      </Header>
-      <div className="spacer"></div>
-      <Content>
-        <div className="container-fluid">
-          <div className="content">
-            <Switch>
-              <Route exact path="/">
-                <FeedIndex />
-              </Route>
-              <Route path="/post" component={ViewPost} />
-            </Switch>
+    <Router>
+      <Layout className="mainLayout">
+        <Header>
+          <Nav clickLogout={clickLogout} />
+        </Header>
+        <div className="spacer"></div>
+        <Content>
+          <div className="container-fluid">
+            <div className="content">
+              <FeedIndexProvider>
+                <FeedDisplayProvider>
+                  <FeedCardProvider>
+                    <ViewPost>
+                      <Switch>
+                        <Route exact path="/">
+                          <FeedIndex />
+                        </Route>
+                        {/* <Route exact path="/post" component={ViewPost} /> */}
+                        <Route exact path="/">
+                          <ViewPost />
+                        </Route>
+                      </Switch>
+                    </ViewPost>
+                  </FeedCardProvider>
+                </FeedDisplayProvider>
+              </FeedIndexProvider>
+            </div>
           </div>
-        </div>
-      </Content>
-    </Layout>
-    // </Router>
+        </Content>
+      </Layout>
+    </Router>
   );
 };
 

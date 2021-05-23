@@ -238,8 +238,7 @@ const ViewPost = () => {
 
   return (
     <div>
-      <p>new component</p>
-      <button onClick={() => console.log(singlePost)}>Single Post</button>
+      <p>ViewPost Component</p>
       {/* <Badge.Ribbon
         text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
         color="#f50"
@@ -366,17 +365,6 @@ const ViewPost = () => {
               </div>
             ))}
           <Divider />
-          <div className="post-footer">
-            <div className="view-replies-container">
-              <i className="fas fa-comment-alt"></i>
-
-              <Link to="/post">
-                <a>View Replies ({post?.replies.length}) </a>
-              </Link>
-            </div>
-            <h5>Placeholder</h5>
-            <h5>Placeholder</h5>
-          </div>
           <Collapse ghost>
             <Panel
               showArrow={false}

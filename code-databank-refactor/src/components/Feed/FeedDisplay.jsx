@@ -7,7 +7,7 @@ import { TokenContext } from "../../App";
 import { PostsContext, PostActiveContext, PostOnContext } from "./FeedIndex";
 export const PostContext = React.createContext();
 
-const FeedDisplay = () => {
+const FeedDisplay = (props) => {
   const token = useContext(TokenContext);
   const posts = useContext(PostsContext);
   const postActive = useContext(PostActiveContext);
@@ -31,7 +31,8 @@ const FeedDisplay = () => {
               <PostContext.Provider value={post}>
                 <Row justify="center">
                   <Col span={13}>
-                    <FeedCard />
+                    {/* <FeedCard /> */}
+                    {props.children}
                   </Col>
                 </Row>
               </PostContext.Provider>

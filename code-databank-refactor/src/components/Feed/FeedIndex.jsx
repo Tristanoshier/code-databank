@@ -16,7 +16,7 @@ export const AddReplyContext = React.createContext();
 export const ReplyOnContext = React.createContext();
 export const ReplyOffContext = React.createContext();
 
-const FeedIndex = () => {
+const FeedIndex = (props) => {
   const token = useContext(TokenContext);
 
   const [posts, setPosts] = useState([]);
@@ -87,7 +87,8 @@ const FeedIndex = () => {
                       <AddReplyContext.Provider value={addReply}>
                         <ReplyOnContext.Provider value={replyOn}>
                           <ReplyOffContext.Provider value={replyOff}>
-                            <FeedDisplay />
+                            {/* <FeedDisplay /> */}
+                            {props.children}
                           </ReplyOffContext.Provider>
                         </ReplyOnContext.Provider>
                       </AddReplyContext.Provider>
