@@ -1,11 +1,29 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
+import { TokenContext } from "../../App";
 import axios from "axios";
 import FeedDisplay from "./FeedDisplay";
 
-const FeedIndex = ({ token }) => {
+export const PostsContext = React.createContext();
+export const GetPostsContext = React.createContext();
+export const CreateReplyContext = React.createContext();
+export const ReplyActiveContext = React.createContext();
+export const PostActiveContext = React.createContext();
+export const CreatePostContext = React.createContext();
+export const AddPostContext = React.createContext();
+export const PostOnContext = React.createContext();
+export const PostOffContext = React.createContext();
+export const AddReplyContext = React.createContext();
+export const ReplyOnContext = React.createContext();
+export const ReplyOffContext = React.createContext();
+
+const FeedIndex = (props) => {
+  const token = useContext(TokenContext);
+
   const [posts, setPosts] = useState([]);
   const [createReply, setCreateReply] = useState({});
   const [replyActive, setReplyActive] = useState(false);
+  const [postActive, setPostActive] = useState(false);
+  const [createPost, setCreatePost] = useState({});
 
   // main GET fetch
   const getPosts = async () => {
@@ -26,6 +44,19 @@ const FeedIndex = ({ token }) => {
     }
   };
 
+  // post actives
+  const addPost = (post) => {
+    setCreatePost(post);
+  };
+
+  const postOn = () => {
+    setPostActive(true);
+  };
+
+  const postOff = () => {
+    setPostActive(false);
+  };
+
   // reply actives
   const addReply = (reply) => {
     setCreateReply(reply);
@@ -36,7 +67,7 @@ const FeedIndex = ({ token }) => {
   };
 
   const replyOff = () => {
-    setReplyActive(false);
+    setReplyActive(!replyActive);
   };
 
   useEffect(() => {
@@ -44,15 +75,32 @@ const FeedIndex = ({ token }) => {
   }, []);
 
   return (
-    <FeedDisplay
-      token={token}
-      posts={posts}
-      addReply={addReply}
-      createReply={createReply}
-      replyOn={replyOn}
-      replyOff={replyOff}
-      getPosts={getPosts}
-    />
+    <GetPostsContext.Provider value={getPosts}>
+      <PostsContext.Provider value={posts}>
+        <CreateReplyContext.Provider value={createReply}>
+          <ReplyActiveContext.Provider value={replyActive}>
+            <PostActiveContext.Provider value={postActive}>
+              <CreatePostContext.Provider value={createPost}>
+                <AddPostContext.Provider value={addPost}>
+                  <PostOnContext.Provider value={postOn}>
+                    <PostOffContext.Provider value={postOff}>
+                      <AddReplyContext.Provider value={addReply}>
+                        <ReplyOnContext.Provider value={replyOn}>
+                          <ReplyOffContext.Provider value={replyOff}>
+                            {/* <FeedDisplay /> */}
+                            {props.children}
+                          </ReplyOffContext.Provider>
+                        </ReplyOnContext.Provider>
+                      </AddReplyContext.Provider>
+                    </PostOffContext.Provider>
+                  </PostOnContext.Provider>
+                </AddPostContext.Provider>
+              </CreatePostContext.Provider>
+            </PostActiveContext.Provider>
+          </ReplyActiveContext.Provider>
+        </CreateReplyContext.Provider>
+      </PostsContext.Provider>
+    </GetPostsContext.Provider>
   );
 };
 

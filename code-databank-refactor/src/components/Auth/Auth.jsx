@@ -42,6 +42,7 @@ const Auth = (props) => {
       .then((data) => {
         props.updateToken(data.token);
         props.updatedFirstName(data.user.firstName);
+        props.updatedUserId(data.user.id);
       });
     setLoading(true);
   };
