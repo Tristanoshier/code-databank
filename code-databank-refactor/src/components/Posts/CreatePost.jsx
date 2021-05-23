@@ -2,12 +2,12 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Form, Input, Button, Card, Select, Modal } from "antd";
 import { TokenContext } from "../../App";
-import { GetPostsContext } from "../Feed/FeedIndex";
+import { GetPostsContext, PostOffContext } from "../Feed/FeedIndex";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const CreatePost = ({ postOff }) => {
+const CreatePost = () => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
   const [postType, setPostType] = useState("Question");
@@ -15,6 +15,7 @@ const CreatePost = ({ postOff }) => {
 
   const token = useContext(TokenContext);
   const getPosts = useContext(GetPostsContext);
+  const postOff = useContext(PostOffContext);
 
   const handleCancel = () => {
     postOff();

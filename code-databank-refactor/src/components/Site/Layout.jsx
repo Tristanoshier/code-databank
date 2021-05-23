@@ -9,31 +9,27 @@ import { TokenContext } from "../../App";
 const { Header, Content } = Layout;
 
 const MainLayout = ({ clickLogout, firstName }) => {
-  const token = useContext(TokenContext);
   return (
-    <Router>
-      <Layout className="mainLayout">
-        <Header>
-          <Nav clickLogout={clickLogout} />
-        </Header>
-        <div className="spacer"></div>
-        <Content>
-          <div className="container-fluid">
-            <div className="content">
-              <Switch>
-                <Route exact path="/">
-                  <FeedIndex token={token} firstName={firstName} />
-                </Route>
-                <Route exact path="/hours">
-                  {/* <GetHours token={props.token} /> */}
-                </Route>
-                <Route path="/post" component={ViewPost} />
-              </Switch>
-            </div>
+    // <Router>
+    <Layout className="mainLayout">
+      <Header>
+        <Nav clickLogout={clickLogout} />
+      </Header>
+      <div className="spacer"></div>
+      <Content>
+        <div className="container-fluid">
+          <div className="content">
+            <Switch>
+              <Route exact path="/">
+                <FeedIndex />
+              </Route>
+              <Route path="/post" component={ViewPost} />
+            </Switch>
           </div>
-        </Content>
-      </Layout>
-    </Router>
+        </div>
+      </Content>
+    </Layout>
+    // </Router>
   );
 };
 

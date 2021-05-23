@@ -35,7 +35,7 @@ import {
   ReplyOffContext,
 } from "./FeedIndex";
 import { TokenContext } from "../../App";
-import { PostContext } from "./FeedDisplay";
+import { SinglePostContext } from "./FeedCard";
 
 const { Panel } = Collapse;
 
@@ -46,8 +46,10 @@ const ViewPost = () => {
   const [unSaved, setUnSaved] = useState(false);
 
   // context
+
+  const singlePost = useContext(SinglePostContext);
+
   const token = useContext(TokenContext);
-  const post = useContext(PostContext);
   const getPosts = useContext(GetPostsContext);
   const createReply = useContext(CreateReplyContext);
   const replyActive = useContext(ReplyActiveContext);
@@ -57,187 +59,188 @@ const ViewPost = () => {
   const replyOff = useContext(ReplyOffContext);
 
   console.log(token);
-  console.log(post);
 
-  const controlButtons = () => {
-    return localStorage.getItem("id") != post?.ownerId ? (
-      ""
-    ) : (
-      <>
-        <Menu.Item>
-          <EditOutlined />
-          Edit Post
-        </Menu.Item>
-        <Menu.Item danger>
-          <a onClick={() => DeletePost(post)}>
-            <DeleteOutlined />
-            Delete Post
-          </a>
-        </Menu.Item>
-      </>
-    );
-  };
+  // const controlButtons = () => {
+  //   return localStorage.getItem("id") != post?.ownerId ? (
+  //     ""
+  //   ) : (
+  //     <>
+  //       <Menu.Item>
+  //         <EditOutlined />
+  //         Edit Post
+  //       </Menu.Item>
+  //       <Menu.Item danger>
+  //         <a onClick={() => DeletePost(post)}>
+  //           <DeleteOutlined />
+  //           Delete Post
+  //         </a>
+  //       </Menu.Item>
+  //     </>
+  //   );
+  // };
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <i className="far fa-bookmark"></i>
-        Save Post
-      </Menu.Item>
-      {controlButtons()}
-    </Menu>
-  );
+  // const menu = (
+  //   <Menu>
+  //     <Menu.Item>
+  //       <i className="far fa-bookmark"></i>
+  //       Save Post
+  //     </Menu.Item>
+  //     {controlButtons()}
+  //   </Menu>
+  // );
 
-  const cardDropdown = () => {
-    return (
-      <Dropdown overlay={menu}>
-        <Button
-          className="settings-button"
-          type="default"
-          onClick={(e) => e.preventDefault()}
-        >
-          <EllipsisOutlined key="ellipsis" />
-        </Button>
-      </Dropdown>
-    );
-  };
+  // const cardDropdown = () => {
+  //   return (
+  //     <Dropdown overlay={menu}>
+  //       <Button
+  //         className="settings-button"
+  //         type="default"
+  //         onClick={(e) => e.preventDefault()}
+  //       >
+  //         <EllipsisOutlined key="ellipsis" />
+  //       </Button>
+  //     </Dropdown>
+  //   );
+  // };
 
-  const iconType = () => {
-    if (post?.codeType === "React") {
-      return <i className="fab fa-react"></i>;
-    } else if (post?.codeType === "JavaScript") {
-      return <i className="fab fa-js-square"></i>;
-    } else if (post?.codeType === "HTML") {
-      return <i className="fab fa-html5"></i>;
-    } else if (post?.codeType === "CSS") {
-      return <i className="fab fa-css3-alt"></i>;
-    } else if (post?.codeType === "Github") {
-      return <i class="fab fa-github"></i>;
-    } else {
-      return <i className="far fa-question-circle"></i>;
-    }
-  };
+  // const iconType = () => {
+  //   if (post?.codeType === "React") {
+  //     return <i className="fab fa-react"></i>;
+  //   } else if (post?.codeType === "JavaScript") {
+  //     return <i className="fab fa-js-square"></i>;
+  //   } else if (post?.codeType === "HTML") {
+  //     return <i className="fab fa-html5"></i>;
+  //   } else if (post?.codeType === "CSS") {
+  //     return <i className="fab fa-css3-alt"></i>;
+  //   } else if (post?.codeType === "Github") {
+  //     return <i class="fab fa-github"></i>;
+  //   } else {
+  //     return <i className="far fa-question-circle"></i>;
+  //   }
+  // };
 
-  const icon = unSaved ? (
-    <i key={unSaved} className="fas fa-bookmark"></i>
-  ) : (
-    <i key={unSaved} className="far fa-bookmark"></i>
-  );
+  // const icon = unSaved ? (
+  //   <i key={unSaved} className="fas fa-bookmark"></i>
+  // ) : (
+  //   <i key={unSaved} className="far fa-bookmark"></i>
+  // );
 
-  const toggleIcon = () => {
-    setUnSaved(!unSaved);
-  };
+  // const toggleIcon = () => {
+  //   setUnSaved(!unSaved);
+  // };
 
-  const openDeleteNotification = (post) => {
-    const args = {
-      message: "Success!",
-      description: "Your post has been deleted!",
-      duration: 2,
-    };
-    notification.open(args);
-  };
+  // const openDeleteNotification = (post) => {
+  //   const args = {
+  //     message: "Success!",
+  //     description: "Your post has been deleted!",
+  //     duration: 2,
+  //   };
+  //   notification.open(args);
+  // };
 
-  const upVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes + 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        replyMessage: reply.replyMessage,
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvoteCount(newUpvotes);
-        getPosts();
-      });
-  };
+  // const upVoteReply = (reply) => {
+  //   let newUpvotes = reply.upVotes + 1;
+  //   fetch(`http://localhost:3000/replies/${reply.id}`, {
+  //     method: "PUT",
+  //     body: JSON.stringify({
+  //       replyMessage: reply.replyMessage,
+  //       upVotes: newUpvotes,
+  //     }),
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUpvoteCount(newUpvotes);
+  //       getPosts();
+  //     });
+  // };
 
-  const upVotePost = (post) => {
-    let newUpvotes = post.upVotes + 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvotePostCount(newUpvotes);
-        getPosts();
-      });
-  };
+  // const upVotePost = (post) => {
+  //   let newUpvotes = singlePost?.upVotes + 1;
+  //   fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+  //     method: "PUT",
+  //     body: JSON.stringify({
+  //       upVotes: newUpvotes,
+  //     }),
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUpvotePostCount(newUpvotes);
+  //       getPosts();
+  //     });
+  // };
 
-  const downVotePost = (post) => {
-    let newUpvotes = post.upVotes - 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvotePostCount(newUpvotes);
-        getPosts();
-      });
-  };
+  // const downVotePost = (post) => {
+  //   let newUpvotes = singlePost?.upVotes - 1;
+  //   fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+  //     method: "PUT",
+  //     body: JSON.stringify({
+  //       upVotes: newUpvotes,
+  //     }),
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUpvotePostCount(newUpvotes);
+  //       getPosts();
+  //     });
+  // };
 
-  const downVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes - 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        replyMessage: reply.replyMessage,
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvoteCount(newUpvotes);
-        getPosts();
-      });
-  };
+  // const downVoteReply = (reply) => {
+  //   let newUpvotes = reply.upVotes - 1;
+  //   fetch(`http://localhost:3000/replies/${reply.id}`, {
+  //     method: "PUT",
+  //     body: JSON.stringify({
+  //       replyMessage: reply.replyMessage,
+  //       upVotes: newUpvotes,
+  //     }),
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       console.log(data);
+  //       setUpvoteCount(newUpvotes);
+  //       getPosts();
+  //     });
+  // };
 
-  const DeletePost = (post) => {
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        openDeleteNotification(post);
-        getPosts();
-        return data;
-      });
-  };
+  // const DeletePost = (post) => {
+  //   fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+  //     method: "DELETE",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => {
+  //       openDeleteNotification(post);
+  //       getPosts();
+  //       return data;
+  //     });
+  // };
 
   return (
-    <div key={post.id}>
-      <Badge.Ribbon
+    <div>
+      <p>new component</p>
+      <button onClick={() => console.log(singlePost)}>Single Post</button>
+      {/* <Badge.Ribbon
         text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
         color="#f50"
         placement="start"
@@ -316,7 +319,7 @@ const ViewPost = () => {
                     </div>
                   </Col>
                   <Col span={22}>
-                    {post.codeType === "Github" ? (
+                    {singlePost?.codeType === "Github" ? (
                       <Badge.Ribbon
                         text={reply.upVotes === null || 0 ? 0 : reply.upVotes}
                         color="#f50"
@@ -348,7 +351,7 @@ const ViewPost = () => {
                             useInlineStyles={true}
                             wrapLines={true}
                             key={reply.id}
-                            language={post.codeType}
+                            language={singlePost?.codeType}
                             language="Javascript"
                             style={rainbow}
                           >
@@ -384,7 +387,7 @@ const ViewPost = () => {
                   onClick={() => {
                     replyOn();
                     addReply(post);
-                    console.log(post.id);
+                    console.log(singlePost?.id);
                   }}
                 >
                   Add Reply
@@ -404,10 +407,7 @@ const ViewPost = () => {
             </Panel>
           </Collapse>
         </Card>
-      </Badge.Ribbon>
-      <Switch>
-        <Route exact path="/post" />
-      </Switch>
+      </Badge.Ribbon> */}
     </div>
   );
 };

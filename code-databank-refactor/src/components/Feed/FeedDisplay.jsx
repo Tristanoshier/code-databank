@@ -4,13 +4,14 @@ import { Row, Col, Button } from "antd";
 import CreatePost from "../Posts/CreatePost";
 import DashboardIndex from "../Dashboard/DashboardIndex";
 import { TokenContext } from "../../App";
-import { PostsContext, PostActiveContext } from "./FeedIndex";
+import { PostsContext, PostActiveContext, PostOnContext } from "./FeedIndex";
 export const PostContext = React.createContext();
 
 const FeedDisplay = () => {
   const token = useContext(TokenContext);
   const posts = useContext(PostsContext);
   const postActive = useContext(PostActiveContext);
+  const postOn = useContext(PostOnContext);
   return (
     <TokenContext.Provider value={token}>
       <div>
@@ -36,7 +37,7 @@ const FeedDisplay = () => {
               </PostContext.Provider>
             </div>
           ))}
-        {postActive ? <CreatePost postOff={postOff} /> : <></>}
+        {postActive ? <CreatePost /> : <></>}
       </div>
     </TokenContext.Provider>
   );

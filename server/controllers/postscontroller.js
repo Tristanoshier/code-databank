@@ -14,6 +14,21 @@ router.get("/", (req, res) => {
     );
 });
 
+router.get("/:id", (req, res) => {
+  Posts.findOne({
+    where: {
+      id: req.params.id,
+    },
+    include: Replies,
+  })
+    .then((posts) => res.status(200).json(posts))
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
 router.post("/", (req, res) => {
   try {
     Posts.create({
