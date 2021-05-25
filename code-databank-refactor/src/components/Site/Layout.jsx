@@ -4,14 +4,13 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FeedIndex from "../Feed/FeedIndex";
 import Nav from "./Nav";
 import ViewPost from "../Feed/ViewPost";
-import { TokenContext } from "../../App";
 import FeedIndexProvider from "../Feed/FeedIndex";
 import FeedDisplayProvider from "../Feed/FeedDisplay";
 import FeedCardProvider from "../Feed/FeedCard";
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ clickLogout }) => {
+const MainLayout = ({ clickLogout, firstName }) => {
   return (
     <Router>
       <Layout className="mainLayout">
@@ -28,7 +27,7 @@ const MainLayout = ({ clickLogout }) => {
                     <ViewPost>
                       <Switch>
                         <Route exact path="/">
-                          <FeedIndex />
+                          <FeedIndex firstName={firstName} />
                         </Route>
                         {/* <Route exact path="/post" component={ViewPost} /> */}
                         <Route exact path="/">

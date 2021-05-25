@@ -44,8 +44,8 @@ const { Panel } = Collapse;
 
 const FeedCard = (props) => {
   // contexts
-  const token = useContext(TokenContext);
   const post = useContext(PostContext);
+  const token = useContext(TokenContext);
   const getPosts = useContext(GetPostsContext);
   const createReply = useContext(CreateReplyContext);
   const replyActive = useContext(ReplyActiveContext);
@@ -66,6 +66,12 @@ const FeedCard = (props) => {
     ) : (
       <>
         <Menu.Item>
+          <a onClick={() => openSavedPostNotifiction()}>
+            <i className="far fa-bookmark"></i>
+            Save Post
+          </a>
+        </Menu.Item>
+        <Menu.Item>
           <EditOutlined />
           Edit Post
         </Menu.Item>
@@ -79,15 +85,7 @@ const FeedCard = (props) => {
     );
   };
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <i className="far fa-bookmark"></i>
-        Save Post
-      </Menu.Item>
-      {controlButtons()}
-    </Menu>
-  );
+  const menu = <Menu>{controlButtons()}</Menu>;
 
   const cardDropdown = () => {
     return (
@@ -113,7 +111,7 @@ const FeedCard = (props) => {
     } else if (post?.codeType === "CSS") {
       return <i className="fab fa-css3-alt"></i>;
     } else if (post?.codeType === "Github") {
-      return <i class="fab fa-github"></i>;
+      return <i className="fab fa-github"></i>;
     } else {
       return <i className="far fa-question-circle"></i>;
     }
@@ -122,7 +120,9 @@ const FeedCard = (props) => {
   const icon = unSaved ? (
     <i key={unSaved} className="fas fa-bookmark"></i>
   ) : (
-    <i key={unSaved} className="far fa-bookmark"></i>
+    <a onClick={() => openSavedPostNotifiction()}>
+      <i key={unSaved} className="far fa-bookmark"></i>
+    </a>
   );
 
   const toggleIcon = () => {
@@ -134,6 +134,14 @@ const FeedCard = (props) => {
       message: "Success!",
       description: "Your post has been deleted!",
       duration: 2,
+    };
+    notification.open(args);
+  };
+
+  const openSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Saved!",
+      duration: 1,
     };
     notification.open(args);
   };
@@ -252,7 +260,7 @@ const FeedCard = (props) => {
 
   return (
     <SinglePostContext.Provider value={singlePost}>
-      <div>
+      <div key={post?.id}>
         {/* <Router> */}
         <Badge.Ribbon
           text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
@@ -289,7 +297,7 @@ const FeedCard = (props) => {
                 </div>
               </div>,
             ]}
-            style={{ width: 600 }}
+            // style={{ width: 575 }}
             extra={[
               <>
                 <Button type="link" onClick={toggleIcon}>
@@ -305,7 +313,7 @@ const FeedCard = (props) => {
             <hr id="postTitle-hr" />
 
             <h4>{post?.postType}</h4>
-            <div className="reply-container">
+            <div className="post-container">
               <p>{post?.postMessage}</p>
             </div>
 
@@ -318,7 +326,7 @@ const FeedCard = (props) => {
               })
               .slice(0, 4)
               .map((reply) => (
-                <div key={reply.id}>
+                <div className="reply-container" key={reply.id}>
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -343,7 +351,7 @@ const FeedCard = (props) => {
                           color="#f50"
                           placement="start"
                         >
-                          <div className="reply-container">
+                          <div className="reply-sub-container">
                             <p>{reply?.replyMessage}</p>
                           </div>
                         </Badge.Ribbon>

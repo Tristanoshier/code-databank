@@ -1,46 +1,36 @@
 import React, { useContext } from "react";
-import FeedCard from "./FeedCard";
-import { Row, Col, Button } from "antd";
-import CreatePost from "../Posts/CreatePost";
 import DashboardIndex from "../Dashboard/DashboardIndex";
-import { TokenContext } from "../../App";
-import { PostsContext, PostActiveContext, PostOnContext } from "./FeedIndex";
+import EmotionIndex from "../EmotionResponse/EmotionIndex";
+import { Row, Col } from "antd";
+import { PostsContext } from "./FeedIndex";
 export const PostContext = React.createContext();
 
 const FeedDisplay = (props) => {
-  const token = useContext(TokenContext);
   const posts = useContext(PostsContext);
-  const postActive = useContext(PostActiveContext);
-  const postOn = useContext(PostOnContext);
+
   return (
-    <TokenContext.Provider value={token}>
-      <div>
-        <Row justify="center">
-          <Col span={1}>
-            <Button type="default" onClick={() => postOn()}>
-              Create a post
-            </Button>
-          </Col>
-        </Row>
-        {posts
-          ?.sort((a, b) => {
-            return b.id - a.id;
-          })
-          .map((post) => (
-            <div key={post.id}>
-              <PostContext.Provider value={post}>
-                <Row justify="center">
-                  <Col span={13}>
-                    {/* <FeedCard /> */}
-                    {props.children}
-                  </Col>
-                </Row>
-              </PostContext.Provider>
-            </div>
-          ))}
-        {postActive ? <CreatePost /> : <></>}
-      </div>
-    </TokenContext.Provider>
+    <div>
+      <Row justify="end" gutter={[16, 16]}>
+        {/* <Col xs={24} sm={20} md={6} lg={6} xl={6}></Col> */}
+        <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+          {posts
+            ?.sort((a, b) => {
+              return b.id - a.id;
+            })
+            .map((post) => (
+              <div key={post.id}>
+                <PostContext.Provider value={post}>
+                  {props.children}
+                </PostContext.Provider>
+              </div>
+            ))}
+        </Col>
+        <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
+          <DashboardIndex />
+          <EmotionIndex />
+        </Col>
+      </Row>
+    </div>
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import { TokenContext } from "../../App";
+import { Spin } from "antd";
 import axios from "axios";
-import FeedDisplay from "./FeedDisplay";
+import { TokenContext } from "../../App";
 
 export const PostsContext = React.createContext();
 export const GetPostsContext = React.createContext();
@@ -24,6 +24,7 @@ const FeedIndex = (props) => {
   const [replyActive, setReplyActive] = useState(false);
   const [postActive, setPostActive] = useState(false);
   const [createPost, setCreatePost] = useState({});
+  const [loading, setLoading] = useState(false);
 
   // main GET fetch
   const getPosts = async () => {
@@ -38,6 +39,7 @@ const FeedIndex = (props) => {
           setPosts(res.data);
           console.log(res.data);
         });
+      setLoading(true);
       return data;
     } catch (error) {
       console.log("error", error);
@@ -87,8 +89,7 @@ const FeedIndex = (props) => {
                       <AddReplyContext.Provider value={addReply}>
                         <ReplyOnContext.Provider value={replyOn}>
                           <ReplyOffContext.Provider value={replyOff}>
-                            {/* <FeedDisplay /> */}
-                            {props.children}
+                            {loading ? props.children : <Spin />}
                           </ReplyOffContext.Provider>
                         </ReplyOnContext.Provider>
                       </AddReplyContext.Provider>

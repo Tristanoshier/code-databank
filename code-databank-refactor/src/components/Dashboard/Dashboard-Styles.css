@@ -1,0 +1,15 @@
+.dashboard-post-button {
+  display: flex;
+  justify-content: center;
+}
+
+.dashboard-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 0 20px 15px 20px;
+}
+
+.dashboard-footer h5:hover {
+  color: #1890ff;
+}
