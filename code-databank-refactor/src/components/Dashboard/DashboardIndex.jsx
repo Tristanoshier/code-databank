@@ -1,15 +1,22 @@
 import React, { useContext, useState, useEffect } from "react";
 import { TokenContext } from "../../App";
 import axios from "axios";
-import { Card, Button } from "antd";
+import { Card, Button, Divider } from "antd";
 import "./Dashboard-Styles.css";
+import { PostActiveContext, PostOnContext } from "../Feed/FeedIndex";
+import CreatePost from "../Posts/CreatePost";
 export const UserContext = React.createContext();
 
 const DashboardIndex = (props) => {
+  // state
   const [user, setUser] = useState([]);
   const [userIncludes, setUserIncludes] = useState({});
   const [upvotes, setUpvotes] = useState(0);
+
+  // context
   const token = useContext(TokenContext);
+  const postActive = useContext(PostActiveContext);
+  const postOn = useContext(PostOnContext);
 
   const getUser = async () => {
     try {
@@ -60,19 +67,23 @@ const DashboardIndex = (props) => {
   };
 
   return (
-    <Card title={[<i className="fas fa-user"></i>, "Welcome User"]}>
+    <Card title={[<i className="fas fa-user"></i>, "Welcome Hustin"]}>
       <div className="dashboard-content">
-        <p>Posts: </p>
+        <p>Posts: 7</p>
         <p>Votes: 246</p>
         {test()}
       </div>
+      <Divider />
       <div className="dashboard-footer">
-        <p>Activity</p>
-        <p>Placeholder</p>
+        <h5>Activity</h5>
+        <h5>Placeholder</h5>
       </div>
       <div className="dashboard-post-button">
-        <Button type="default">Create a post</Button>
+        <Button type="default" onClick={() => postOn()}>
+          Create a post
+        </Button>
       </div>
+      {postActive ? <CreatePost /> : <></>}
     </Card>
   );
 };

@@ -1,30 +1,18 @@
 import React, { useContext } from "react";
 import DashboardIndex from "../Dashboard/DashboardIndex";
 import EmotionIndex from "../EmotionResponse/EmotionIndex";
-import { Row, Col, Button } from "antd";
-import CreatePost from "../Posts/CreatePost";
-import { TokenContext } from "../../App";
-import { PostsContext, PostActiveContext, PostOnContext } from "./FeedIndex";
+import { Row, Col } from "antd";
+import { PostsContext } from "./FeedIndex";
 export const PostContext = React.createContext();
 
 const FeedDisplay = (props) => {
-  const token = useContext(TokenContext);
   const posts = useContext(PostsContext);
-  const postActive = useContext(PostActiveContext);
-  const postOn = useContext(PostOnContext);
 
   return (
     <div>
-      <Row justify="center">
-        <Col span={1}>
-          <Button type="default" onClick={() => postOn()}>
-            Create a post
-          </Button>
-        </Col>
-      </Row>
-      <Row justify="center">
-        <Col span={6}></Col>
-        <Col span={12}>
+      <Row justify="end" gutter={[16, 16]}>
+        {/* <Col xs={24} sm={20} md={6} lg={6} xl={6}></Col> */}
+        <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
           {posts
             ?.sort((a, b) => {
               return b.id - a.id;
@@ -32,15 +20,12 @@ const FeedDisplay = (props) => {
             .map((post) => (
               <div key={post.id}>
                 <PostContext.Provider value={post}>
-                  {/* <Col span={12}> */}
                   {props.children}
-                  {/* </Col> */}
                 </PostContext.Provider>
               </div>
             ))}
         </Col>
-        {postActive ? <CreatePost /> : <></>}
-        <Col span={6}>
+        <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
           <DashboardIndex />
           <EmotionIndex />
         </Col>

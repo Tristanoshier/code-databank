@@ -297,7 +297,7 @@ const FeedCard = (props) => {
                 </div>
               </div>,
             ]}
-            style={{ width: 575 }}
+            // style={{ width: 575 }}
             extra={[
               <>
                 <Button type="link" onClick={toggleIcon}>
@@ -313,7 +313,7 @@ const FeedCard = (props) => {
             <hr id="postTitle-hr" />
 
             <h4>{post?.postType}</h4>
-            <div className="reply-container">
+            <div className="post-container">
               <p>{post?.postMessage}</p>
             </div>
 
@@ -326,7 +326,7 @@ const FeedCard = (props) => {
               })
               .slice(0, 4)
               .map((reply) => (
-                <div key={reply.id}>
+                <div className="reply-container" key={reply.id}>
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -351,7 +351,7 @@ const FeedCard = (props) => {
                           color="#f50"
                           placement="start"
                         >
-                          <div className="reply-container">
+                          <div className="reply-sub-container">
                             <p>{reply?.replyMessage}</p>
                           </div>
                         </Badge.Ribbon>
