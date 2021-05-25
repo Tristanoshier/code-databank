@@ -133,7 +133,7 @@ const FeedCard = (props) => {
     const args = {
       message: "Success!",
       description: "Your post has been deleted!",
-      duration: 2,
+      duration: 1,
     };
     notification.open(args);
   };
