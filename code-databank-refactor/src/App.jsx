@@ -57,7 +57,7 @@ function App() {
     return (token === localStorage.getItem("token")) |
       (localStorage.getItem("token") === !undefined) ? (
       <TokenContext.Provider value={token}>
-        <MainLayout clickLogout={clearToken} />
+        <MainLayout clickLogout={clearToken} firstName={firstName} />
       </TokenContext.Provider>
     ) : (
       <Auth
