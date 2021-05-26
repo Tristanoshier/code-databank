@@ -11,7 +11,6 @@ const FeedDisplay = (props) => {
   return (
     <div>
       <Row justify="end" gutter={[16, 16]}>
-        {/* <Col xs={24} sm={20} md={6} lg={6} xl={6}></Col> */}
         <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
           {posts
             ?.sort((a, b) => {

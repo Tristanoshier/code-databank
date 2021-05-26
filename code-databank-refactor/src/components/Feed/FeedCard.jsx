@@ -118,7 +118,11 @@ const FeedCard = (props) => {
   };
 
   const icon = unSaved ? (
-    <i key={unSaved} className="fas fa-bookmark"></i>
+    <i
+      key={unSaved}
+      onClick={() => openUnSavedPostNotifiction()}
+      className="fas fa-bookmark"
+    ></i>
   ) : (
     <a onClick={() => openSavedPostNotifiction()}>
       <i key={unSaved} className="far fa-bookmark"></i>
@@ -141,6 +145,14 @@ const FeedCard = (props) => {
   const openSavedPostNotifiction = () => {
     const args = {
       message: "Post Saved!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
+  const openUnSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Unsaved!",
       duration: 1,
     };
     notification.open(args);
