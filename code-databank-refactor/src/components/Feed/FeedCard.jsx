@@ -133,7 +133,7 @@ const FeedCard = (props) => {
     const args = {
       message: "Success!",
       description: "Your post has been deleted!",
-      duration: 2,
+      duration: 1,
     };
     notification.open(args);
   };
@@ -368,8 +368,8 @@ const FeedCard = (props) => {
                               lineProps={{
                                 style: {
                                   // wordBreak: "break-all",
-                                  whiteSpace: "pre-line",
-                                  // whiteSpace: "pre-wrap"
+                                  // whiteSpace: "pre-line",
+                                  whiteSpace: "pre-wrap",
                                 },
                               }}
                               customStyle={{
