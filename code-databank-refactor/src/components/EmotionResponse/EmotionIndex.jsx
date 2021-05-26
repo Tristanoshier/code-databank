@@ -17,8 +17,8 @@ const EmotionIndex = () => {
         <p>Student is inappropriate with you</p>
         <Divider />
         <div className="emotion-footer">
-          <h5>Check out all tips</h5>
-          <h5>Placeholder</h5>
+          <h5 className="emotion-footer-links">Check out all tips</h5>
+          <h5 className="emotion-footer-links">Placeholder</h5>
         </div>
       </div>
     </Card>
