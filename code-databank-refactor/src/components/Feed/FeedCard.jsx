@@ -407,34 +407,36 @@ const FeedCard = (props) => {
               <h5>Placeholder</h5>
               <h5>Placeholder</h5>
             </div>
-            <Collapse ghost>
-              <Panel
-                showArrow={false}
-                key="1"
-                extra={
-                  <Button
-                    type="ghost"
-                    onClick={() => {
-                      replyOn();
-                      addReply(post);
-                      console.log(post.id);
-                    }}
-                  >
-                    Add Reply
-                  </Button>
-                }
-              >
-                {replyActive ? (
-                  <CreateReply
-                    token={token}
-                    createReply={createReply}
-                    replyOff={replyOff}
-                  />
-                ) : (
-                  <></>
-                )}
-              </Panel>
-            </Collapse>
+            <div className="add-reply-container">
+              <Collapse ghost>
+                <Panel
+                  showArrow={false}
+                  key="1"
+                  extra={
+                    <Button
+                      type="ghost"
+                      onClick={() => {
+                        replyOn();
+                        addReply(post);
+                        console.log(post.id);
+                      }}
+                    >
+                      Add Reply
+                    </Button>
+                  }
+                >
+                  {replyActive ? (
+                    <CreateReply
+                      token={token}
+                      createReply={createReply}
+                      replyOff={replyOff}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </Panel>
+              </Collapse>
+            </div>
           </Card>
         </Badge.Ribbon>
         {/* <Switch>

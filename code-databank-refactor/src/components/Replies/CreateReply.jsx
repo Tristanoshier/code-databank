@@ -34,13 +34,13 @@ const CreateReply = ({ createReply, replyOff }) => {
   return (
     <Form
       labelCol={{ span: 4 }}
-      wrapperCol={{ span: 14 }}
+      wrapperCol={{ span: 24 }}
       layout="horizontal"
       onFinish={handleSubmit}
     >
       <Form.Item>
         <TextArea
-          style={{ width: 550, maxWidth: 550 }}
+          style={{ width: "100%" }}
           row={8}
           name="reply"
           value={replyMessage}
