@@ -12,3 +12,7 @@
 .emotion-card {
   margin-top: 20px;
 }
+
+#popular-topics {
+  text-decoration: underline;
+}

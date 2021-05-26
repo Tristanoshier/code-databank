@@ -9,9 +9,7 @@ const EmotionIndex = () => {
       className="emotion-card"
     >
       <div className="emotion-container">
-        <h4 id="popular-topics">
-          <u>Popular Topics</u>
-        </h4>
+        <h4 id="popular-topics">Popular Topics</h4>
         <p>Student gets upset with you</p>
         <p>Student threatens bad review</p>
         <p>Student has personal problems</p>

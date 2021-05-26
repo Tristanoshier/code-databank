@@ -368,8 +368,8 @@ const FeedCard = (props) => {
                               lineProps={{
                                 style: {
                                   // wordBreak: "break-all",
-                                  whiteSpace: "pre-line",
-                                  // whiteSpace: "pre-wrap"
+                                  // whiteSpace: "pre-line",
+                                  whiteSpace: "pre-wrap",
                                 },
                               }}
                               customStyle={{
