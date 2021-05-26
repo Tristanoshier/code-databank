@@ -1,10 +1,30 @@
 const router = require("express").Router();
-const { User } = require("../models");
+const { User, Posts, Replies } = require("../models");
+const validateSession = require("../middleware/validate-session");
 
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const { UniqueConstraintError } = require("sequelize/lib/errors");
+
+router.get("/loggedInUser", validateSession, (req, res) => {
+  User.findAll({
+    include: [{ model: Posts, include: Replies }],
+    where: {
+      id: req.user.id,
+    },
+  })
+    .then((user) =>
+      res.status(200).json({
+        user: user,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
 
 router.post("/register", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;

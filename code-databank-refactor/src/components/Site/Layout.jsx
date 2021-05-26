@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Layout } from "antd";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FeedIndex from "../Feed/FeedIndex";
 import Nav from "./Nav";
+import ViewPost from "../Feed/ViewPost";
+import FeedIndexProvider from "../Feed/FeedIndex";
+import FeedDisplayProvider from "../Feed/FeedDisplay";
+import FeedCardProvider from "../Feed/FeedCard";
 
 const { Header, Content } = Layout;
 
-const MainLayout = ({ clickLogout, token, firstName, userId }) => {
+const MainLayout = ({ clickLogout, firstName }) => {
   return (
     <Router>
       <Layout className="mainLayout">
@@ -17,18 +21,23 @@ const MainLayout = ({ clickLogout, token, firstName, userId }) => {
         <Content>
           <div className="container-fluid">
             <div className="content">
-              <Switch>
-                <Route exact path="/">
-                  <FeedIndex
-                    token={token}
-                    firstName={firstName}
-                    userId={userId}
-                  />
-                </Route>
-                <Route exact path="/hours">
-                  {/* <GetHours token={props.token} /> */}
-                </Route>
-              </Switch>
+              <FeedIndexProvider>
+                <FeedDisplayProvider>
+                  <FeedCardProvider>
+                    <ViewPost>
+                      <Switch>
+                        <Route exact path="/">
+                          <FeedIndex firstName={firstName} />
+                        </Route>
+                        {/* <Route exact path="/post" component={ViewPost} /> */}
+                        <Route exact path="/">
+                          <ViewPost />
+                        </Route>
+                      </Switch>
+                    </ViewPost>
+                  </FeedCardProvider>
+                </FeedDisplayProvider>
+              </FeedIndexProvider>
             </div>
           </div>
         </Content>

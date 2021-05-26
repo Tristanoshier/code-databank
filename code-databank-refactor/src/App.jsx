@@ -1,10 +1,12 @@
-// Hustin branch
-
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "antd/dist/antd.css";
 import Auth from "./components/Auth/Auth";
 import MainLayout from "./components/Site/Layout";
+import FeedIndexProvider from "./components/Feed/FeedIndex";
+import FeedDisplayProvider from "./components/Feed/FeedDisplay";
+import FeedCardProvider from "./components/Feed/FeedCard";
+export const TokenContext = React.createContext();
 
 function App() {
   const [token, setToken] = useState("");
@@ -52,12 +54,9 @@ function App() {
   const protectedViews = () => {
     return (token === localStorage.getItem("token")) |
       (localStorage.getItem("token") === !undefined) ? (
-      <MainLayout
-        clickLogout={clearToken}
-        token={token}
-        firstName={firstName}
-        userId={userId}
-      />
+      <TokenContext.Provider value={token}>
+        <MainLayout clickLogout={clearToken} firstName={firstName} />
+      </TokenContext.Provider>
     ) : (
       <Auth
         updateToken={updateToken}
