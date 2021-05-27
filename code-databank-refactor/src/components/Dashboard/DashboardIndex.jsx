@@ -28,7 +28,6 @@ const DashboardIndex = (props) => {
         })
         .then((res) => {
           setUser(res.data.user);
-          console.log(res.data.user);
         });
       return data;
     } catch (error) {
@@ -57,7 +56,6 @@ const DashboardIndex = (props) => {
         return response.reduce(function (a, b) {
           let total = 0;
           total = a + Number(b.upVotes);
-          console.log(total);
           // setUpvotes((prevState) => [...prevState, total]);
           return total;
         }, 0);

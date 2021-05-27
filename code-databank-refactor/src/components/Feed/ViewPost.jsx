@@ -58,8 +58,6 @@ const ViewPost = () => {
   const replyOn = useContext(ReplyOnContext);
   const replyOff = useContext(ReplyOffContext);
 
-  console.log(token);
-
   // const controlButtons = () => {
   //   return localStorage.getItem("id") != post?.ownerId ? (
   //     ""

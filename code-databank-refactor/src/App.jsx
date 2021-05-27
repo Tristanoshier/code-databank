@@ -39,7 +39,6 @@ function App() {
   const updatedFirstName = (newFirstName) => {
     localStorage.setItem("firstName", newFirstName);
     setFirstName(newFirstName);
-    console.log(firstName);
   };
 
   const updatedUserId = (newId) => {

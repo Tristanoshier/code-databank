@@ -171,7 +171,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUpvoteCount(newUpvotes);
         getPosts();
       });
@@ -191,7 +190,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUpvotePostCount(newUpvotes);
         getPosts();
       });
@@ -211,7 +209,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUpvotePostCount(newUpvotes);
         getPosts();
       });
@@ -232,7 +229,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setUpvoteCount(newUpvotes);
         getPosts();
       });
@@ -263,7 +259,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setSinglePost(data);
       });
   };
@@ -430,7 +425,6 @@ const FeedCard = (props) => {
                       onClick={() => {
                         replyOn();
                         addReply(post);
-                        console.log(post.id);
                       }}
                     >
                       Add Reply
