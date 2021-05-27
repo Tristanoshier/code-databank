@@ -1,5 +1,11 @@
 import React, { useContext, useState } from "react";
-import { Route, Link, Switch, BrowserRouter as Router, withRouter } from "react-router-dom";
+import {
+  Route,
+  Link,
+  Switch,
+  BrowserRouter as Router,
+  withRouter,
+} from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
@@ -264,8 +270,8 @@ const FeedCard = (props) => {
   };
 
   const savePostInLocalStorage = (post) => {
-    localStorage.setItem('post', JSON.stringify(post))
-  }
+    localStorage.setItem("post", JSON.stringify(post));
+  };
 
   return (
     <SinglePostContext.Provider value={singlePost}>
@@ -405,8 +411,14 @@ const FeedCard = (props) => {
             <div className="post-footer">
               <div className="view-replies-container">
                 <i className="fas fa-comment-alt"></i>
-                <Link onClick={() => savePostInLocalStorage(post)} to={{ pathname: `/focusedPost/${post?.postTitle}`, post: post }}>
-                <h5 id="view-replies">
+                <Link
+                  onClick={() => savePostInLocalStorage(post)}
+                  to={{
+                    pathname: `/focusedPost/${post?.postTitle}`,
+                    post: post,
+                  }}
+                >
+                  <h5 id="view-replies">
                     View Replies ({post?.replies.length})
                   </h5>
                 </Link>
@@ -445,6 +457,7 @@ const FeedCard = (props) => {
             </div>
           </Card>
         </Badge.Ribbon>
+        {props.children}
       </div>
     </SinglePostContext.Provider>
   );
