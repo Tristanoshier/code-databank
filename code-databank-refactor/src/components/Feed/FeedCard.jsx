@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Route, Link, Switch, BrowserRouter as Router, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
@@ -268,10 +268,13 @@ const FeedCard = (props) => {
       });
   };
 
+  const savePostInLocalStorage = (post) => {
+    localStorage.setItem('post', JSON.stringify(post))
+  }
+
   return (
     <SinglePostContext.Provider value={singlePost}>
       <div key={post?.id}>
-        {/* <Router> */}
         <Badge.Ribbon
           text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
           color="#f50"
@@ -335,8 +338,8 @@ const FeedCard = (props) => {
                 return b.upVotes - a.upVotes;
               })
               .slice(0, 4)
-              .map((reply) => (
-                <div className="reply-container" key={reply.id}>
+              .map((reply, index) => (
+                <div key={index} className="reply-container" key={reply.id}>
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -407,9 +410,8 @@ const FeedCard = (props) => {
             <div className="post-footer">
               <div className="view-replies-container">
                 <i className="fas fa-comment-alt"></i>
-
-                <Link to="/focusedPost">
-                  <h5 id="view-replies">
+                <Link onClick={() => savePostInLocalStorage(post)} to={{ pathname: `/focusedPost/${post?.postTitle}`, post: post }}>
+                <h5 id="view-replies">
                     View Replies ({post?.replies.length})
                   </h5>
                 </Link>
@@ -449,21 +451,9 @@ const FeedCard = (props) => {
             </div>
           </Card>
         </Badge.Ribbon>
-        {/* <Switch>
-            <Route exact path="/post">
-              <ViewPost />
-              {props.children}
-            </Route>
-          </Switch> */}
-        {/* <Switch>
-            <Route exact path="/post">
-              {props.children}
-            </Route>
-          </Switch> */}
-        {/* </Router> */}
       </div>
     </SinglePostContext.Provider>
   );
 };
 
-export default FeedCard;
+export default withRouter(FeedCard);
