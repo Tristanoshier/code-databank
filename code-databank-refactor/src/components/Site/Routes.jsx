@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from "react-router-dom";
-import { FocusedPost } from "../Feed/FocusedPost";
+import FocusedPost from "../Feed/FocusedPost";
 import { Home } from "./Home";
 
 export const Routes = () => {
@@ -9,7 +9,7 @@ export const Routes = () => {
             <Route exact path="/">
                 <Home />
             </Route>
-            <Route exact path="/focusedPost">
+            <Route exact path="/focusedPost/:post">
                 <FocusedPost />
             </Route>
         </Switch>

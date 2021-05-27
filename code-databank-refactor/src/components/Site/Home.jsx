@@ -3,6 +3,7 @@ import ViewPost from "../Feed/ViewPost";
 import FeedIndexProvider from "../Feed/FeedIndex";
 import FeedDisplayProvider from "../Feed/FeedDisplay";
 import FeedCardProvider from "../Feed/FeedCard";
+import FocusedPost from '../Feed/FocusedPost';
 
 export const Home = () => {
     return (
@@ -12,8 +13,8 @@ export const Home = () => {
               <FeedIndexProvider>
                 <FeedDisplayProvider>
                   <FeedCardProvider>
-                    <ViewPost>
-                    </ViewPost>
+                    <FocusedPost>
+                    </FocusedPost>
                   </FeedCardProvider>
                 </FeedDisplayProvider>
               </FeedIndexProvider>
