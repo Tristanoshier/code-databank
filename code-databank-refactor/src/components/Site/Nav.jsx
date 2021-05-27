@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink, BrowserRouter as Router } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Anchor, Drawer, Button } from "antd";
 import mobileShield from "./assets/mobile-shield.png";
 
@@ -29,7 +29,9 @@ const Nav = ({ clickLogout }) => {
           </div>
           <div className="mobileHidden">
             <Anchor targetOffset="65">
-              <Link href="/" title="Home" />
+              <RouterLink to="/">
+                <Link href="/" title="Home" />
+              </RouterLink>
               <RouterLink to="/">
                 <a onClick={clickLogout}>
                   <Link href="/" title="Logout" />
@@ -48,8 +50,9 @@ const Nav = ({ clickLogout }) => {
               visible={visible}
             >
               <Anchor targetOffset="65">
-                <Link href="/" title="Home" />
-
+                <RouterLink to="/">
+                  <Link href="/" title="Home" />
+                </RouterLink>
                 <RouterLink to="/">
                   <a onClick={clickLogout}>
                     <Link href="#" title="Logout" />
