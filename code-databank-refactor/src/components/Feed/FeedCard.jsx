@@ -118,11 +118,9 @@ const FeedCard = (props) => {
   };
 
   const icon = unSaved ? (
-    <i
-      key={unSaved}
-      onClick={() => openUnSavedPostNotifiction()}
-      className="fas fa-bookmark"
-    ></i>
+    <a onClick={() => openUnSavedPostNotifiction()}>
+      <i key={unSaved} className="fas fa-bookmark"></i>
+    </a>
   ) : (
     <a onClick={() => openSavedPostNotifiction()}>
       <i key={unSaved} className="far fa-bookmark"></i>

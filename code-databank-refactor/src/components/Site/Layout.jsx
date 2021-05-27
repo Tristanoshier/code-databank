@@ -30,7 +30,7 @@ const MainLayout = ({ clickLogout, firstName }) => {
                           <FeedIndex firstName={firstName} />
                         </Route>
                         {/* <Route exact path="/post" component={ViewPost} /> */}
-                        <Route exact path="/">
+                        <Route exact path="/post">
                           <ViewPost />
                         </Route>
                       </Switch>
