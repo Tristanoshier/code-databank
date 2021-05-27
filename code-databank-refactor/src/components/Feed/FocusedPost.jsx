@@ -1,5 +1,6 @@
-import React, { useState, useContext } from 'react'
-import { withRouter, useHistory } from 'react-router-dom'
+import React, { useState, useContext } from 'react';
+import axios from 'axios';
+import { withRouter, useHistory } from 'react-router-dom';
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import {
@@ -47,6 +48,7 @@ const FocusedPost = (props) => {
     const [upvoteCount, setUpvoteCount] = useState();
     const [upvotePostCount, setUpvotePostCount] = useState();
     const [unSaved, setUnSaved] = useState(false);
+    const [posts, setPosts] = useState([])
 
     // context
     const singlePost = useContext(SinglePostContext);
@@ -161,7 +163,7 @@ const FocusedPost = (props) => {
 
     const upVotePost = (post) => {
         let newUpvotes = singlePost?.upVotes + 1;
-        fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+        fetch(`http://localhost:3000/posts/${post.id}`, {
             method: "PUT",
             body: JSON.stringify({
                 upVotes: newUpvotes,
@@ -181,7 +183,7 @@ const FocusedPost = (props) => {
 
     const downVotePost = (post) => {
         let newUpvotes = singlePost?.upVotes - 1;
-        fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+        fetch(`http://localhost:3000/posts/${post.id}`, {
             method: "PUT",
             body: JSON.stringify({
                 upVotes: newUpvotes,
@@ -221,7 +223,7 @@ const FocusedPost = (props) => {
     };
 
     const DeletePost = (post) => {
-        fetch(`http://localhost:3000/posts/${singlePost?.id}`, {
+        fetch(`http://localhost:3000/posts/${post.id}`, {
             method: "DELETE",
             headers: new Headers({
                 "Content-Type": "application/json",
@@ -240,9 +242,7 @@ const FocusedPost = (props) => {
     const displayPost = () => {
         let storedPost = JSON.parse(localStorage.getItem('post'));
         let focusedPost = post === undefined ? storedPost : post;
-        // we are successfully getting data back
-        console.log(focusedPost)
-
+ 
         return (
             <div>
                 <Badge.Ribbon
@@ -378,7 +378,7 @@ const FocusedPost = (props) => {
                                         type="ghost"
                                         onClick={() => {
                                             replyOn();
-                                            addReply(post);
+                                            addReply(focusedPost);
                                             console.log(singlePost?.id);
                                         }}
                                     >

@@ -1,5 +1,4 @@
 import React from 'react';
-import ViewPost from "../Feed/ViewPost";
 import FeedIndexProvider from "../Feed/FeedIndex";
 import FeedDisplayProvider from "../Feed/FeedDisplay";
 import FeedCardProvider from "../Feed/FeedCard";

@@ -24,7 +24,6 @@ const CreateReply = ({ createReply, replyOff }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setReplyMessage("");
         getPosts();
         replyOff();

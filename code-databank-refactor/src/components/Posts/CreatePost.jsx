@@ -21,7 +21,6 @@ const CreatePost = () => {
     postOff();
   };
   const handleSubmit = async () => {
-    console.log(token);
     try {
       fetch("http://localhost:3000/posts", {
         method: "POST",
@@ -38,7 +37,6 @@ const CreatePost = () => {
       })
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           postOff();
           getPosts();
           setPostTitle("");

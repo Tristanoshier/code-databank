@@ -37,7 +37,6 @@ const FeedIndex = (props) => {
         })
         .then((res) => {
           setPosts(res.data);
-          console.log(res.data);
         });
       setLoading(true);
       return data;
