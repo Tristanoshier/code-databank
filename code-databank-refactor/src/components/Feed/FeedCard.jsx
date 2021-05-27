@@ -408,7 +408,7 @@ const FeedCard = (props) => {
               <div className="view-replies-container">
                 <i className="fas fa-comment-alt"></i>
 
-                <Link to="/post">
+                <Link to="/focusedPost">
                   <h5 id="view-replies">
                     View Replies ({post?.replies.length})
                   </h5>
