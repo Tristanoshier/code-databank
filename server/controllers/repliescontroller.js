@@ -18,6 +18,7 @@ router.post("/:pId", (req, res) => {
   try {
     Replies.create({
       replyMessage: req.body.replyMessage,
+      replyCode: req.body.replyCode,
       codeType: req.body.codeType,
       upVotes: req.body.upVotes,
       replyName: req.user.firstName,
@@ -39,6 +40,7 @@ router.put("/:id", (req, res) => {
   const query = { where: { id: req.params.id } };
   const updateReply = {
     replyMessage: req.body.replyMessage,
+    replyCode: req.body.replyCode,
     codeType: req.body.codeType,
     upVotes: req.body.upVotes,
   };

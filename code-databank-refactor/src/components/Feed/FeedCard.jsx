@@ -357,51 +357,43 @@ const FeedCard = (props) => {
                       </div>
                     </Col>
                     <Col span={22}>
-                      {post?.codeType === "Github" ? (
-                        <Badge.Ribbon
-                          text={
-                            reply?.upVotes === null || 0 ? 0 : reply?.upVotes
-                          }
-                          color="#f50"
-                          placement="start"
-                        >
-                          <div className="reply-sub-container">
-                            <p>{reply?.replyMessage}</p>
-                          </div>
-                        </Badge.Ribbon>
-                      ) : (
-                        <div className="code-container">
-                          <Badge.Ribbon
-                            text={
-                              reply?.upVotes === null || 0 ? 0 : reply.upVotes
-                            }
-                            color="#f50"
-                            placement="start"
-                          >
-                            <SyntaxHighlighter
-                              lineProps={{
-                                style: {
-                                  // wordBreak: "break-all",
-                                  // whiteSpace: "pre-line",
-                                  whiteSpace: "pre-wrap",
-                                },
-                              }}
-                              customStyle={{
-                                paddingLeft: "2em",
-                                borderRadius: "5px",
-                              }}
-                              useInlineStyles={true}
-                              wrapLines={true}
-                              key={reply.id}
-                              language={post.codeType}
-                              language="Javascript"
-                              style={rainbow}
-                            >
-                              {reply?.replyMessage}
-                            </SyntaxHighlighter>
-                          </Badge.Ribbon>
+                      <Badge.Ribbon
+                        text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
+                        color="#f50"
+                        placement="start"
+                      >
+                        <div className="reply-message-container">
+                          <p id="reply-message">{reply?.replyMessage}</p>
+                          {reply.replyCode != "" || null ? (
+                            <div className="code-container">
+                              <SyntaxHighlighter
+                                lineProps={{
+                                  style: {
+                                    // wordBreak: "break-all",
+                                    // whiteSpace: "pre-line",
+                                    whiteSpace: "pre-wrap",
+                                  },
+                                }}
+                                customStyle={{
+                                  paddingLeft: "2em",
+                                  borderRadius: "5px",
+                                }}
+                                useInlineStyles={true}
+                                wrapLines={true}
+                                key={reply.id}
+                                language={post.codeType}
+                                language="Javascript"
+                                style={rainbow}
+                              >
+                                {reply?.replyCode}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                      )}
+                      </Badge.Ribbon>
+
                       <h5 id="replyName">Posted by: {reply?.replyName}</h5>
                     </Col>
                   </Row>

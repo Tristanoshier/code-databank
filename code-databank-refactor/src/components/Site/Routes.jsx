@@ -11,20 +11,14 @@ export const Routes = () => {
     <FeedIndexProvider>
       <FeedDisplayProvider>
         <FeedCardProvider>
-          <div>
-            <div className="container-fluid">
-              <div className="content">
-                <Switch>
-                  <Route exact path="/">
-                    {/* <Home /> */}
-                  </Route>
-                  <Route exact path="/focusedPost/:post">
-                    <FocusedPost />
-                  </Route>
-                </Switch>
-              </div>
-            </div>
-          </div>
+          <Switch>
+            <Route exact path="/">
+              {/* <Home /> */}
+            </Route>
+            <Route exact path="/focusedPost/:post">
+              <FocusedPost />
+            </Route>
+          </Switch>
         </FeedCardProvider>
       </FeedDisplayProvider>
     </FeedIndexProvider>
