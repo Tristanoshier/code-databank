@@ -30,7 +30,6 @@
 - Fixed saved post not showing up for users who didn't post it
 - Edit/Delete reply buttons only show for that users reply
 - Add Code Snippet for Reply turns off and set's replyCode to empty string
-- Added window alert and set login button loading to false if login fails
 - Changed updateToken function so it won't set token as undefined to localStorage. Otherwise it sets it as undefined and if you refresh the page it goes to MainLayout (but shows not data of course). So refresh stays on Auth now.
 - Updated Auth so now if login information is incorrect it gives an error message to user, stops loading icon and sets state back to empty.
 - Added confirm message for deleting post
