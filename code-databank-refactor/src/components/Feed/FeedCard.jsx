@@ -21,6 +21,7 @@ import {
   Menu,
   Dropdown,
   notification,
+  Popconfirm,
 } from "antd";
 import {
   ArrowUpOutlined,
@@ -72,26 +73,51 @@ const FeedCard = (props) => {
     ) : (
       <>
         <Menu.Item>
-          <a onClick={() => openSavedPostNotifiction()}>
-            <i className="far fa-bookmark"></i>
-            Save Post
-          </a>
-        </Menu.Item>
-        <Menu.Item>
           <EditOutlined />
           Edit Post
         </Menu.Item>
         <Menu.Item danger>
-          <a onClick={() => DeletePost(post)}>
+          <Popconfirm
+            title="Are you sure？"
+            placement="topRight"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => DeletePost(post)}
+          >
             <DeleteOutlined />
             Delete Post
-          </a>
+          </Popconfirm>
         </Menu.Item>
       </>
     );
   };
 
-  const menu = <Menu>{controlButtons()}</Menu>;
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a onClick={() => openSavedPostNotifiction()}>
+          <i className="far fa-bookmark"></i>
+          Save Post
+        </a>
+      </Menu.Item>
+      {controlButtons()}
+    </Menu>
+  );
+
+  const replyControlButtons = (reply) => {
+    return localStorage.getItem("id") != reply?.ownerId ? (
+      ""
+    ) : (
+      <div className="reply-footer-actions">
+        <h5>Edit</h5>
+        <h5>
+          <a id="delete-reply" onClick={() => deleteReply(reply)}>
+            Delete
+          </a>
+        </h5>
+      </div>
+    );
+  };
 
   const cardDropdown = () => {
     return (
@@ -256,6 +282,21 @@ const FeedCard = (props) => {
       });
   };
 
+  const deleteReply = (reply) => {
+    fetch(`http://localhost:3000/replies/${reply.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        getPosts();
+        return data;
+      });
+  };
+
   const viewPostReplies = (post) => {
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "GET",
@@ -357,52 +398,46 @@ const FeedCard = (props) => {
                       </div>
                     </Col>
                     <Col span={22}>
-                      {post?.codeType === "Github" ? (
-                        <Badge.Ribbon
-                          text={
-                            reply?.upVotes === null || 0 ? 0 : reply?.upVotes
-                          }
-                          color="#f50"
-                          placement="start"
-                        >
-                          <div className="reply-sub-container">
-                            <p>{reply?.replyMessage}</p>
-                          </div>
-                        </Badge.Ribbon>
-                      ) : (
-                        <div className="code-container">
-                          <Badge.Ribbon
-                            text={
-                              reply?.upVotes === null || 0 ? 0 : reply.upVotes
-                            }
-                            color="#f50"
-                            placement="start"
-                          >
-                            <SyntaxHighlighter
-                              lineProps={{
-                                style: {
-                                  // wordBreak: "break-all",
-                                  // whiteSpace: "pre-line",
-                                  whiteSpace: "pre-wrap",
-                                },
-                              }}
-                              customStyle={{
-                                paddingLeft: "2em",
-                                borderRadius: "5px",
-                              }}
-                              useInlineStyles={true}
-                              wrapLines={true}
-                              key={reply.id}
-                              language={post.codeType}
-                              language="Javascript"
-                              style={rainbow}
-                            >
-                              {reply?.replyMessage}
-                            </SyntaxHighlighter>
-                          </Badge.Ribbon>
+                      <Badge.Ribbon
+                        text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
+                        color="#f50"
+                        placement="start"
+                      >
+                        <div className="reply-message-container">
+                          <p id="reply-message">{reply?.replyMessage}</p>
+                          {reply.replyCode != "" || null ? (
+                            <div className="code-container">
+                              <SyntaxHighlighter
+                                lineProps={{
+                                  style: {
+                                    // wordBreak: "break-all",
+                                    // whiteSpace: "pre-line",
+                                    whiteSpace: "pre-wrap",
+                                  },
+                                }}
+                                customStyle={{
+                                  paddingLeft: "2em",
+                                  borderRadius: "5px",
+                                }}
+                                useInlineStyles={true}
+                                wrapLines={true}
+                                key={reply.id}
+                                language={post.codeType}
+                                language="Javascript"
+                                style={rainbow}
+                              >
+                                {reply?.replyCode}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                      )}
-                      <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                      </Badge.Ribbon>
+                      <div className="reply-footer">
+                        <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                        {replyControlButtons(reply)}
+                      </div>
                     </Col>
                   </Row>
                 </div>

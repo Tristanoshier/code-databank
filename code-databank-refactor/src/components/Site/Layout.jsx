@@ -13,7 +13,13 @@ const MainLayout = ({ clickLogout }) => {
       </Header>
       <div className="spacer"></div>
       <Content>
-        <Routes />
+        <div>
+          <div className="container-fluid">
+            <div className="content">
+              <Routes />
+            </div>
+          </div>
+        </div>
       </Content>
     </Layout>
   );

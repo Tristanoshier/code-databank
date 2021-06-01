@@ -7,7 +7,7 @@ const { Link } = Anchor;
 
 const Nav = ({ clickLogout }) => {
   const [visible, setVisible] = useState(false);
-  
+
   const showDrawer = () => {
     setVisible(true);
   };

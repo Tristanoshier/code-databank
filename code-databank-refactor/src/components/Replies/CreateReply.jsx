@@ -7,6 +7,8 @@ const { TextArea } = Input;
 
 const CreateReply = ({ createReply, replyOff }) => {
   const [replyMessage, setReplyMessage] = useState("");
+  const [replyCode, setReplyCode] = useState("");
+  const [codeActive, setCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
   const getPosts = useContext(GetPostsContext);
@@ -16,6 +18,7 @@ const CreateReply = ({ createReply, replyOff }) => {
       method: "POST",
       body: JSON.stringify({
         replyMessage: replyMessage,
+        replyCode: replyCode,
       }),
       headers: new Headers({
         "Content-Type": "application/json",
@@ -24,10 +27,17 @@ const CreateReply = ({ createReply, replyOff }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setReplyMessage("");
+        setReplyCode("");
         getPosts();
         replyOff();
       });
+  };
+
+  const codeOn = () => {
+    setCodeActive(!codeActive);
+    setReplyCode("");
   };
 
   return (
@@ -40,12 +50,35 @@ const CreateReply = ({ createReply, replyOff }) => {
       <Form.Item>
         <TextArea
           style={{ width: "100%" }}
-          row={8}
+          autoSize={{ minRows: 4 }}
           name="reply"
           value={replyMessage}
           required
           onChange={(e) => setReplyMessage(e.target.value)}
         />
+      </Form.Item>
+      <Form.Item>
+        <Button
+          type="ghost"
+          onClick={() => {
+            codeOn();
+          }}
+        >
+          Add Code Snippet?
+        </Button>
+
+        {codeActive ? (
+          <TextArea
+            style={{ width: "100%" }}
+            autoSize={{ minRows: 4 }}
+            name="reply"
+            value={replyCode}
+            required
+            onChange={(e) => setReplyCode(e.target.value)}
+          />
+        ) : (
+          <></>
+        )}
       </Form.Item>
       <Form.Item>
         <Button type="ghost" htmlType="submit">
