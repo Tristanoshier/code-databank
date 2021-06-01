@@ -21,6 +21,7 @@ import {
   Menu,
   Dropdown,
   notification,
+  Popconfirm,
 } from "antd";
 import {
   ArrowUpOutlined,
@@ -76,10 +77,16 @@ const FeedCard = (props) => {
           Edit Post
         </Menu.Item>
         <Menu.Item danger>
-          <a onClick={() => DeletePost(post)}>
+          <Popconfirm
+            title="Are you sure？"
+            placement="topRight"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => DeletePost(post)}
+          >
             <DeleteOutlined />
             Delete Post
-          </a>
+          </Popconfirm>
         </Menu.Item>
       </>
     );
@@ -429,17 +436,6 @@ const FeedCard = (props) => {
                       </Badge.Ribbon>
                       <div className="reply-footer">
                         <h5 id="replyName">Posted by: {reply?.replyName}</h5>
-                        {/* <div className="reply-footer-actions">
-                          <h5>Edit</h5>
-                          <h5>
-                            <a
-                              id="delete-reply"
-                              onClick={() => deleteReply(reply)}
-                            >
-                              Delete
-                            </a>
-                          </h5>
-                        </div> */}
                         {replyControlButtons(reply)}
                       </div>
                     </Col>
