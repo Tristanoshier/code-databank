@@ -1,3 +1,7 @@
+a {
+  color: rgba(0, 0, 0, 0.85);
+}
+
 /* ellipsis */
 .settings-button {
   border: none;
@@ -103,6 +107,21 @@ i {
 
 .code-container {
   padding: 0 15px 5px 15px;
+}
+
+.reply-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.reply-footer h5 {
+  padding: 0 5px 0 5px;
+}
+
+.reply-footer-actions {
+  display: flex;
+  flex-direction: row;
 }
 
 .post-footer {

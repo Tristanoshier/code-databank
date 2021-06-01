@@ -49,7 +49,7 @@ const CreateReply = ({ createReply, replyOff }) => {
       <Form.Item>
         <TextArea
           style={{ width: "100%" }}
-          row={8}
+          autoSize={{ minRows: 4 }}
           name="reply"
           value={replyMessage}
           required
@@ -69,7 +69,7 @@ const CreateReply = ({ createReply, replyOff }) => {
         {codeActive ? (
           <TextArea
             style={{ width: "100%" }}
-            row={8}
+            autoSize={{ minRows: 4 }}
             name="reply"
             value={replyCode}
             required

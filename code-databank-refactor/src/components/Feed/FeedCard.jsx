@@ -72,12 +72,6 @@ const FeedCard = (props) => {
     ) : (
       <>
         <Menu.Item>
-          <a onClick={() => openSavedPostNotifiction()}>
-            <i className="far fa-bookmark"></i>
-            Save Post
-          </a>
-        </Menu.Item>
-        <Menu.Item>
           <EditOutlined />
           Edit Post
         </Menu.Item>
@@ -91,7 +85,32 @@ const FeedCard = (props) => {
     );
   };
 
-  const menu = <Menu>{controlButtons()}</Menu>;
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a onClick={() => openSavedPostNotifiction()}>
+          <i className="far fa-bookmark"></i>
+          Save Post
+        </a>
+      </Menu.Item>
+      {controlButtons()}
+    </Menu>
+  );
+
+  const replyControlButtons = (reply) => {
+    return localStorage.getItem("id") != reply?.ownerId ? (
+      ""
+    ) : (
+      <div className="reply-footer-actions">
+        <h5>Edit</h5>
+        <h5>
+          <a id="delete-reply" onClick={() => deleteReply(reply)}>
+            Delete
+          </a>
+        </h5>
+      </div>
+    );
+  };
 
   const cardDropdown = () => {
     return (
@@ -256,6 +275,21 @@ const FeedCard = (props) => {
       });
   };
 
+  const deleteReply = (reply) => {
+    fetch(`http://localhost:3000/replies/${reply.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        getPosts();
+        return data;
+      });
+  };
+
   const viewPostReplies = (post) => {
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "GET",
@@ -393,8 +427,21 @@ const FeedCard = (props) => {
                           )}
                         </div>
                       </Badge.Ribbon>
-
-                      <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                      <div className="reply-footer">
+                        <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                        {/* <div className="reply-footer-actions">
+                          <h5>Edit</h5>
+                          <h5>
+                            <a
+                              id="delete-reply"
+                              onClick={() => deleteReply(reply)}
+                            >
+                              Delete
+                            </a>
+                          </h5>
+                        </div> */}
+                        {replyControlButtons(reply)}
+                      </div>
                     </Col>
                   </Row>
                 </div>

@@ -57,4 +57,23 @@ router.put("/:id", (req, res) => {
     );
 });
 
+router.delete("/:id", (req, res) => {
+  Replies.destroy({
+    where: {
+      id: req.params.id,
+      ownerId: req.user.id,
+    },
+  })
+    .then((reply) =>
+      res.status(200).json({
+        reply: reply,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
 module.exports = router;
