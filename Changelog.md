@@ -9,6 +9,7 @@
 - Adjusted TextArea inputs for reply to have minRow of 4 and autosize
 - Fixed saved post not showing up for users who didn't post it
 - Edit/Delete reply buttons only show for that users reply
+- Add Code Snippet for Reply turns off and set's replyCode to empty string
 
 5/31/2021 - Hustin
 
