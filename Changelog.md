@@ -35,3 +35,8 @@
 - Added confirm message for deleting post
 
 !!!!!! I saved original Auth file just in case this causes some issues. Works fine for now.
+
+6/2/2021 - Hustin
+
+- Edit post client side working, in modal
+- Create post postMessage input autosizes now, minRow 6

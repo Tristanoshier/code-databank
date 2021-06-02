@@ -9,6 +9,7 @@ import {
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
+import EditPost from "../Posts/EditPost";
 import ViewPost from "./ViewPost";
 import {
   Row,
@@ -66,6 +67,20 @@ const FeedCard = (props) => {
   const [upvotePostCount, setUpvotePostCount] = useState();
   const [unSaved, setUnSaved] = useState(false);
   const [singlePost, setSinglePost] = useState({});
+  const [editPostActive, setEditPostActive] = useState(false);
+  const [editPost, setEditPost] = useState({});
+
+  const editPostOn = () => {
+    setEditPostActive(true);
+  };
+
+  const editPostOff = () => {
+    setEditPostActive(false);
+  };
+
+  const updatePost = (post) => {
+    setEditPost(post);
+  };
 
   const controlButtons = () => {
     return localStorage.getItem("id") != post?.ownerId ? (
@@ -73,8 +88,15 @@ const FeedCard = (props) => {
     ) : (
       <>
         <Menu.Item>
-          <EditOutlined />
-          Edit Post
+          <a
+            onClick={() => {
+              editPostOn();
+              updatePost(post);
+            }}
+          >
+            <EditOutlined />
+            Edit Post
+          </a>
         </Menu.Item>
         <Menu.Item danger>
           <Popconfirm
@@ -493,6 +515,11 @@ const FeedCard = (props) => {
           </Card>
         </Badge.Ribbon>
         {props.children}
+        {editPostActive ? (
+          <EditPost post={post} editPost={editPost} editPostOff={editPostOff} />
+        ) : (
+          <></>
+        )}
       </div>
     </SinglePostContext.Provider>
   );
