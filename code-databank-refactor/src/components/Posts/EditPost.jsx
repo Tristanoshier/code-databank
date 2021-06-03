@@ -42,10 +42,10 @@ const EditPost = (props) => {
         }),
       })
         .then((res) => res.json())
-        .then((data) => {
+        .then(() => {
           props.editPostOff();
           openUpdateNotification();
-          // getPosts();
+          props.getPosts();
           setPostTitle("");
           setPostMessage("");
           setPostType("");

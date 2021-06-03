@@ -36,6 +36,7 @@ const FeedCard = ({
   replyOff,
   addReply,
   createReply,
+  getPosts
 }) => {
   const token = useContext(TokenContext);
 
@@ -201,6 +202,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then(() => {
+        getPosts();
         setUpvoteCount(newUpvotes);
       });
   };
@@ -219,6 +221,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then(() => {
+        getPosts();
         setUpvotePostCount(newUpvotes);
       });
   };
@@ -237,6 +240,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then(() => {
+        getPosts();
         setUpvotePostCount(newUpvotes);
       });
   };
@@ -256,6 +260,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then(() => {
+        getPosts();
         setUpvoteCount(newUpvotes);
       });
   };
@@ -270,6 +275,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        getPosts();
         openDeleteNotification(post);
         return data;
       });
@@ -285,6 +291,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        getPosts();
         return data;
       });
   };
@@ -298,6 +305,7 @@ const FeedCard = ({
     })
       .then((res) => res.json())
       .then((data) => {
+        getPosts();
         setSinglePost(data);
       });
   };
@@ -476,6 +484,7 @@ const FeedCard = ({
                     <CreateReply
                       createReply={createReply}
                       replyOff={replyOff}
+                      getPosts={getPosts}
                     />
                   ) : (
                     <></>
@@ -487,7 +496,7 @@ const FeedCard = ({
         </Badge.Ribbon>
       </div>
       {editPostActive ? (
-        <EditPost editPost={editPost} editPostOff={editPostOff} post={post} />
+        <EditPost editPost={editPost} editPostOff={editPostOff} post={post} getPosts={getPosts} />
       ) : (
         <></>
       )}

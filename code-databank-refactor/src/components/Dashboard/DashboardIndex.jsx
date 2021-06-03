@@ -5,7 +5,7 @@ import { Card, Button, Divider } from "antd";
 import "./Dashboard-Styles.css";
 import CreatePost from "../Posts/CreatePost";
 
-const DashboardIndex = ({ postActive, postOn, postOff }) => {
+const DashboardIndex = ({ postActive, postOn, postOff, getPosts }) => {
   const [user, setUser] = useState([]);
   const [userIncludes, setUserIncludes] = useState({});
   const [upvotes, setUpvotes] = useState(0);
@@ -78,7 +78,7 @@ const DashboardIndex = ({ postActive, postOn, postOff }) => {
           Create a post
         </Button>
       </div>
-      {postActive ? <CreatePost postOff={postOff} /> : <></>}
+      {postActive ? <CreatePost postOff={postOff} getPosts={getPosts} /> : <></>}
     </Card>
   );
 };

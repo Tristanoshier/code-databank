@@ -12,15 +12,14 @@ const FeedIndex = () => {
   const [replyActive, setReplyActive] = useState(false);
   const [postActive, setPostActive] = useState(false);
   const [createPost, setCreatePost] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getPosts();
-  }, [posts]);
+  }, []);
 
   const getPosts = () => {
     try {
-      setLoading(true);
       const data = axios
         .get("http://localhost:3000/posts", {
           headers: {
@@ -29,13 +28,12 @@ const FeedIndex = () => {
         })
         .then((res) => {
           setPosts(res.data);
-          setLoading(false);
         });
-      
       return data;
     } catch (error) {
       console.log("error", error);
     }
+    setLoading(false);
   };
 
   // post actives
