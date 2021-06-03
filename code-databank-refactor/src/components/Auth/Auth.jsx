@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Avatar, Input, Button, Spin, Alert, Space, message } from "antd";
+import { Card, Avatar, Input, Button, Spin, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Auth.css";
 
