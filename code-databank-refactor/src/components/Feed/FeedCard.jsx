@@ -1,67 +1,18 @@
 import React, { useContext, useState } from "react";
-import {
-  Route,
-  Link,
-  Switch,
-  BrowserRouter as Router,
-  withRouter,
-} from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
-import ViewPost from "./ViewPost";
-import {
-  Row,
-  Col,
-  Card,
-  Collapse,
-  Badge,
-  Divider,
-  Button,
-  Menu,
-  Dropdown,
-  notification,
-  Popconfirm,
-} from "antd";
-import {
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  EllipsisOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification, Popconfirm } from "antd";
+import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "./FeedCard-Styles.css";
-
-import {
-  GetPostsContext,
-  PostsContext,
-  CreateReplyContext,
-  ReplyActiveContext,
-  PostActiveContext,
-  AddReplyContext,
-  ReplyOnContext,
-  ReplyOffContext,
-} from "./FeedIndex";
-
-import { TokenContext } from "../../App";
-import { PostContext } from "./FeedDisplay";
-export const SinglePostContext = React.createContext();
-
 const { Panel } = Collapse;
 
-const FeedCard = (props) => {
-  // contexts
-  const post = useContext(PostContext);
-  const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
-  const createReply = useContext(CreateReplyContext);
-  const replyActive = useContext(ReplyActiveContext);
-  const postActive = useContext(PostActiveContext);
-  const addReply = useContext(AddReplyContext);
-  const replyOn = useContext(ReplyOnContext);
-  const replyOff = useContext(ReplyOffContext);
+import { TokenContext } from "../../App";
 
-  // state
+const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply }) => {
+  const token = useContext(TokenContext);
+
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
   const [unSaved, setUnSaved] = useState(false);
@@ -202,9 +153,8 @@ const FeedCard = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setUpvoteCount(newUpvotes);
-        getPosts();
       });
   };
 
@@ -221,9 +171,8 @@ const FeedCard = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setUpvotePostCount(newUpvotes);
-        getPosts();
       });
   };
 
@@ -240,9 +189,8 @@ const FeedCard = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setUpvotePostCount(newUpvotes);
-        getPosts();
       });
   };
 
@@ -260,9 +208,8 @@ const FeedCard = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
+      .then(() => {
         setUpvoteCount(newUpvotes);
-        getPosts();
       });
   };
 
@@ -277,7 +224,6 @@ const FeedCard = (props) => {
       .then((res) => res.json())
       .then((data) => {
         openDeleteNotification(post);
-        getPosts();
         return data;
       });
   };
@@ -292,7 +238,6 @@ const FeedCard = (props) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        getPosts();
         return data;
       });
   };
@@ -315,7 +260,7 @@ const FeedCard = (props) => {
   };
 
   return (
-    <SinglePostContext.Provider value={singlePost}>
+    <div>
       <div key={post?.id}>
         <Badge.Ribbon
           text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
@@ -352,7 +297,6 @@ const FeedCard = (props) => {
                 </div>
               </div>,
             ]}
-            // style={{ width: 575 }}
             extra={[
               <>
                 <Button type="link" onClick={toggleIcon}>
@@ -480,7 +424,6 @@ const FeedCard = (props) => {
                 >
                   {replyActive ? (
                     <CreateReply
-                      token={token}
                       createReply={createReply}
                       replyOff={replyOff}
                     />
@@ -492,9 +435,8 @@ const FeedCard = (props) => {
             </div>
           </Card>
         </Badge.Ribbon>
-        {props.children}
       </div>
-    </SinglePostContext.Provider>
+    </div>
   );
 };
 

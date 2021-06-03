@@ -3,65 +3,23 @@ import axios from "axios";
 import { withRouter, useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import {
-  Row,
-  Col,
-  Card,
-  Collapse,
-  Badge,
-  Divider,
-  Button,
-  Menu,
-  Dropdown,
-  notification,
-  Layout,
-} from "antd";
-import {
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  EllipsisOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
-import "./FeedCard-Styles.css";
+import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification } from "antd";
+import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import CreateReply from "../Replies/CreateReply";
-
-import {
-  GetPostsContext,
-  PostsContext,
-  CreateReplyContext,
-  ReplyActiveContext,
-  PostActiveContext,
-  AddReplyContext,
-  ReplyOnContext,
-  ReplyOffContext,
-} from "./FeedIndex";
 import { TokenContext } from "../../App";
-import { SinglePostContext } from "./FeedCard";
+import "./FeedCard-Styles.css";
 
 const { Panel } = Collapse;
 
 const FocusedPost = (props) => {
-  const post = props.location.post;
-
-  // state
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
+  const [createReply, setCreateReply] = useState({});
+  const [replyActive, setReplyActive] = useState(false);
   const [unSaved, setUnSaved] = useState(false);
-  const [posts, setPosts] = useState([]);
 
-  // context
-  const singlePost = useContext(SinglePostContext);
-
+  const post = props.location.post;
   const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
-  const createReply = useContext(CreateReplyContext);
-  const replyActive = useContext(ReplyActiveContext);
-  const postActive = useContext(PostActiveContext);
-  const addReply = useContext(AddReplyContext);
-  const replyOn = useContext(ReplyOnContext);
-  const replyOff = useContext(ReplyOffContext);
-  console.log(getPosts);
 
   const controlButtons = () => {
     return localStorage.getItem("id") != post?.ownerId ? (
@@ -106,7 +64,7 @@ const FocusedPost = (props) => {
     );
   };
 
-  const iconType = () => {
+  const iconType = (post) => {
     if (post?.codeType === "React") {
       return <i className="fab fa-react"></i>;
     } else if (post?.codeType === "JavaScript") {
@@ -116,7 +74,7 @@ const FocusedPost = (props) => {
     } else if (post?.codeType === "CSS") {
       return <i className="fab fa-css3-alt"></i>;
     } else if (post?.codeType === "Github") {
-      return <i class="fab fa-github"></i>;
+      return <i className="fab fa-github"></i>;
     } else {
       return <i className="far fa-question-circle"></i>;
     }
@@ -132,6 +90,34 @@ const FocusedPost = (props) => {
     setUnSaved(!unSaved);
   };
 
+  const replyControlButtons = (reply) => {
+    return localStorage.getItem("id") != reply?.ownerId ? (
+      ""
+    ) : (
+      <div className="reply-footer-actions">
+        <h5>Edit</h5>
+        <h5>
+          <a id="delete-reply" onClick={() => deleteReply(reply)}>
+            Delete
+          </a>
+        </h5>
+      </div>
+    );
+  };
+
+  const addReply = (reply) => {
+    setCreateReply(reply);
+  };
+
+  const replyOn = () => {
+    setReplyActive(true);
+  };
+
+  const replyOff = () => {
+    setReplyActive(!replyActive);
+  };
+
+
   const openDeleteNotification = (post) => {
     const args = {
       message: "Success!",
@@ -141,8 +127,8 @@ const FocusedPost = (props) => {
     notification.open(args);
   };
 
-  const upVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes + 1;
+  const upVoteReply = reply => {
+    let newUpvotes = reply.upVotes++;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -158,12 +144,11 @@ const FocusedPost = (props) => {
       .then((data) => {
         console.log(data);
         setUpvoteCount(newUpvotes);
-        getPosts();
       });
   };
 
-  const upVotePost = (post) => {
-    let newUpvotes = singlePost?.upVotes + 1;
+  const upVotePost = post => {
+    let newUpvotes = post.upVotes++;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -175,15 +160,13 @@ const FocusedPost = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setUpvotePostCount(newUpvotes);
-        getPosts();
       });
   };
 
-  const downVotePost = (post) => {
-    let newUpvotes = singlePost?.upVotes - 1;
+  const downVotePost = post => {
+    let newUpvotes = post.upVotes--;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -195,15 +178,13 @@ const FocusedPost = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setUpvotePostCount(newUpvotes);
-        getPosts();
       });
   };
 
-  const downVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes - 1;
+  const downVoteReply = reply => {
+    let newUpvotes = reply.upVotes--;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -216,10 +197,8 @@ const FocusedPost = (props) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setUpvoteCount(newUpvotes);
-        getPosts();
       });
   };
 
@@ -234,7 +213,6 @@ const FocusedPost = (props) => {
       .then((res) => res.json())
       .then((data) => {
         openDeleteNotification(post);
-        getPosts();
         return data;
       });
   };
@@ -275,7 +253,7 @@ const FocusedPost = (props) => {
                 </div>
 
                 <div className="container-sub">
-                  {iconType()}
+                  {iconType(focusedPost)}
                   {focusedPost?.codeType}
                 </div>
               </div>,
@@ -296,7 +274,7 @@ const FocusedPost = (props) => {
             <hr id="postTitle-hr" />
 
             <h4>{focusedPost?.postType}</h4>
-            <div className="reply-container">
+            <div className="post-container">
               <p>{focusedPost?.postMessage}</p>
             </div>
 
@@ -308,7 +286,7 @@ const FocusedPost = (props) => {
                 return b.upVotes - a.upVotes;
               })
               .map((reply, index) => (
-                <div key={index}>
+                <div key={index} className="reply-container" key={reply.id}>
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -325,50 +303,46 @@ const FocusedPost = (props) => {
                       </div>
                     </Col>
                     <Col span={22}>
-                      {singlePost?.codeType === "Github" ? (
-                        <Badge.Ribbon
-                          text={reply.upVotes === null || 0 ? 0 : reply.upVotes}
-                          color="#f50"
-                          placement="start"
-                        >
-                          <div className="reply-container">
-                            <p>{reply.replyMessage}</p>
-                          </div>
-                        </Badge.Ribbon>
-                      ) : (
-                        <div className="code-container">
-                          <Badge.Ribbon
-                            text={
-                              reply.upVotes === null || 0 ? 0 : reply.upVotes
-                            }
-                            color="#f50"
-                            placement="start"
-                          >
-                            <SyntaxHighlighter
-                              lineProps={{
-                                style: {
-                                  // wordBreak: "break-all",
-                                  whiteSpace: "pre-line",
-                                  // whiteSpace: "pre-wrap"
-                                },
-                              }}
-                              customStyle={{
-                                paddingLeft: "2em",
-                                borderRadius: "5px",
-                              }}
-                              useInlineStyles={true}
-                              wrapLines={true}
-                              key={reply.id}
-                              language={singlePost?.codeType}
-                              language="Javascript"
-                              style={rainbow}
-                            >
-                              {reply.replyMessage}
-                            </SyntaxHighlighter>
-                          </Badge.Ribbon>
+                      <Badge.Ribbon
+                        text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
+                        color="#f50"
+                        placement="start"
+                      >
+                        <div className="reply-message-container">
+                          <p id="reply-message">{reply?.replyMessage}</p>
+                          {reply.replyCode != "" || null ? (
+                            <div className="code-container">
+                              <SyntaxHighlighter
+                                lineProps={{
+                                  style: {
+                                    // wordBreak: "break-all",
+                                    // whiteSpace: "pre-line",
+                                    whiteSpace: "pre-wrap",
+                                  },
+                                }}
+                                customStyle={{
+                                  paddingLeft: "2em",
+                                  borderRadius: "5px",
+                                }}
+                                useInlineStyles={true}
+                                wrapLines={true}
+                                key={reply.id}
+                                language={post?.codeType}
+                                language="Javascript"
+                                style={rainbow}
+                              >
+                                {reply?.replyCode}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                      )}
-                      <h5 id="replyName">Posted by: {reply.replyName}</h5>
+                      </Badge.Ribbon>
+                      <div className="reply-footer">
+                        <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                        {replyControlButtons(reply)}
+                      </div>
                     </Col>
                   </Row>
                 </div>
@@ -384,7 +358,6 @@ const FocusedPost = (props) => {
                     onClick={() => {
                       replyOn();
                       addReply(focusedPost);
-                      console.log(singlePost?.id);
                     }}
                   >
                     Add Reply
@@ -396,7 +369,6 @@ const FocusedPost = (props) => {
                     token={token}
                     createReply={createReply}
                     replyOff={replyOff}
-                    getPosts={getPosts}
                   />
                 ) : (
                   <></>
