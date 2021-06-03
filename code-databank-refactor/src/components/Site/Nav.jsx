@@ -26,7 +26,7 @@ const Nav = ({ clickLogout }) => {
               height="25px"
               style={{ borderRadius: "50%", marginRight: "5px" }}
             />
-            <a href="https://google.com">EFA</a>
+            <RouterLink to="/">EFA</RouterLink>
           </div>
           <div className="mobileHidden">
             <Anchor targetOffset="65">
