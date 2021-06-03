@@ -40,3 +40,4 @@
 
 - Edit post client side working, in modal
 - Create post postMessage input autosizes now, minRow 6
+- Changed reply-message padding left to 2.5em in FeedCard-Styles. When upvotes are in double digits the Badge and message were too close together.

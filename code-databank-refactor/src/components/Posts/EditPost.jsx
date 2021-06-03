@@ -27,6 +27,7 @@ const EditPost = (props) => {
   const handleCancel = () => {
     props.editPostOff();
   };
+
   const handleSubmit = async () => {
     try {
       fetch(`http://localhost:3000/posts/${props.editPost.id}`, {

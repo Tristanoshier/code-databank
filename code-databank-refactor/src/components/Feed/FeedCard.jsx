@@ -391,7 +391,10 @@ const FeedCard = (props) => {
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              <p>{post?.postMessage}</p>
+              {/* <p>{post?.postMessage}</p> */}
+              {post?.postMessage.split("\n").map((message) => (
+                <p>{message}</p>
+              ))}
             </div>
 
             <div className="postedBy">
