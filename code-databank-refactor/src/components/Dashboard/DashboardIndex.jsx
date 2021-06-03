@@ -3,20 +3,19 @@ import { TokenContext } from "../../App";
 import axios from "axios";
 import { Card, Button, Divider } from "antd";
 import "./Dashboard-Styles.css";
-import { PostActiveContext, PostOnContext } from "../Feed/FeedIndex";
 import CreatePost from "../Posts/CreatePost";
-export const UserContext = React.createContext();
 
-const DashboardIndex = (props) => {
-  // state
+const DashboardIndex = ({ postActive, postOn, postOff }) => {
   const [user, setUser] = useState([]);
   const [userIncludes, setUserIncludes] = useState({});
   const [upvotes, setUpvotes] = useState(0);
+  const firstName = localStorage.getItem('firstName');
 
-  // context
   const token = useContext(TokenContext);
-  const postActive = useContext(PostActiveContext);
-  const postOn = useContext(PostOnContext);
+
+  useEffect(() => {
+    getUser();
+  }, []);
 
   const getUser = async () => {
     try {
@@ -35,22 +34,7 @@ const DashboardIndex = (props) => {
     }
   };
 
-  useEffect(() => {
-    getUser();
-  }, []);
-
-  // const ifPopular = () => {
-  //   user.map((loggedInUser) => {
-  //     let totalAmountReduce = function (response) {
-  //       return response.reduce(function (a, b) {
-  //         return a + Number(b.upVotes);
-  //       }, 0);
-  //     };
-  //     console.log(totalAmountReduce(loggedInUser.posts));
-  //   });
-  // };
-
-  const test = () => {
+  const mapUserData = () => {
     user.map((loggedInUser) => {
       function totalAmount(response) {
         return response.reduce(function (a, b) {
@@ -64,12 +48,25 @@ const DashboardIndex = (props) => {
     });
   };
 
+
+
+  // const ifPopular = () => {
+  //   user.map((loggedInUser) => {
+  //     let totalAmountReduce = function (response) {
+  //       return response.reduce(function (a, b) {
+  //         return a + Number(b.upVotes);
+  //       }, 0);
+  //     };
+  //     console.log(totalAmountReduce(loggedInUser.posts));
+  //   });
+  // };
+
   return (
-    <Card title={[<i className="fas fa-user"></i>, "Welcome Hustin"]}>
+    <Card title={[<i className="fas fa-user"></i>, `Welcome ${firstName}`]}>
       <div className="dashboard-content">
         <p>Posts: 7</p>
         <p>Votes: 246</p>
-        {test()}
+        {mapUserData()}
       </div>
       <Divider />
       <div className="dashboard-footer">
@@ -81,7 +78,7 @@ const DashboardIndex = (props) => {
           Create a post
         </Button>
       </div>
-      {postActive ? <CreatePost /> : <></>}
+      {postActive ? <CreatePost postOff={postOff} /> : <></>}
     </Card>
   );
 };

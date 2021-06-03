@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "antd/dist/antd.css";
 import Auth from "./components/Auth/Auth";
-import MainLayout from "./components/Site/Layout";
+import MainLayout from "./components/Site/MainLayout";
 export const TokenContext = React.createContext();
 
 function App() {

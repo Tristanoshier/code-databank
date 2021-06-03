@@ -2,21 +2,9 @@ import React, { useState, useEffect, useContext } from "react";
 import { Spin } from "antd";
 import axios from "axios";
 import { TokenContext } from "../../App";
+import FeedDisplay from "./FeedDisplay";
 
-export const PostsContext = React.createContext();
-export const GetPostsContext = React.createContext();
-export const CreateReplyContext = React.createContext();
-export const ReplyActiveContext = React.createContext();
-export const PostActiveContext = React.createContext();
-export const CreatePostContext = React.createContext();
-export const AddPostContext = React.createContext();
-export const PostOnContext = React.createContext();
-export const PostOffContext = React.createContext();
-export const AddReplyContext = React.createContext();
-export const ReplyOnContext = React.createContext();
-export const ReplyOffContext = React.createContext();
-
-const FeedIndex = (props) => {
+const FeedIndex = () => {
   const token = useContext(TokenContext);
 
   const [posts, setPosts] = useState([]);
@@ -26,10 +14,14 @@ const FeedIndex = (props) => {
   const [createPost, setCreatePost] = useState({});
   const [loading, setLoading] = useState(false);
 
-  // main GET fetch
-  const getPosts = async () => {
+  useEffect(() => {
+    getPosts();
+  }, [posts]);
+
+  const getPosts = () => {
     try {
-      const data = await axios
+      setLoading(true);
+      const data = axios
         .get("http://localhost:3000/posts", {
           headers: {
             Authorization: token,
@@ -37,8 +29,9 @@ const FeedIndex = (props) => {
         })
         .then((res) => {
           setPosts(res.data);
+          setLoading(false);
         });
-      setLoading(true);
+      
       return data;
     } catch (error) {
       console.log("error", error);
@@ -71,36 +64,23 @@ const FeedIndex = (props) => {
     setReplyActive(!replyActive);
   };
 
-  useEffect(() => {
-    getPosts();
-  }, []);
-
   return (
-    <GetPostsContext.Provider value={getPosts}>
-      <PostsContext.Provider value={posts}>
-        <CreateReplyContext.Provider value={createReply}>
-          <ReplyActiveContext.Provider value={replyActive}>
-            <PostActiveContext.Provider value={postActive}>
-              <CreatePostContext.Provider value={createPost}>
-                <AddPostContext.Provider value={addPost}>
-                  <PostOnContext.Provider value={postOn}>
-                    <PostOffContext.Provider value={postOff}>
-                      <AddReplyContext.Provider value={addReply}>
-                        <ReplyOnContext.Provider value={replyOn}>
-                          <ReplyOffContext.Provider value={replyOff}>
-                            {loading ? props.children : <Spin />}
-                          </ReplyOffContext.Provider>
-                        </ReplyOnContext.Provider>
-                      </AddReplyContext.Provider>
-                    </PostOffContext.Provider>
-                  </PostOnContext.Provider>
-                </AddPostContext.Provider>
-              </CreatePostContext.Provider>
-            </PostActiveContext.Provider>
-          </ReplyActiveContext.Provider>
-        </CreateReplyContext.Provider>
-      </PostsContext.Provider>
-    </GetPostsContext.Provider>
+    <div>
+      {loading ? 
+        <FeedDisplay 
+          posts={posts}
+          replyActive={replyActive}
+          postActive={postActive}
+          addPost={addPost}
+          postOn={postOn}
+          postOff={postOff}
+          createReply={createReply}
+          addReply={addReply}
+          replyOn={replyOn}
+          replyOff={replyOff}
+          getPosts={getPosts}
+        /> : <Spin />}
+    </div>
   );
 };
 

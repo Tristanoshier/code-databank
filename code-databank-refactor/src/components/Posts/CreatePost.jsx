@@ -1,25 +1,22 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
-import { Form, Input, Button, Card, Select, Modal } from "antd";
+import { Form, Input, Card, Select, Modal } from "antd";
 import { TokenContext } from "../../App";
-import { GetPostsContext, PostOffContext } from "../Feed/FeedIndex";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const CreatePost = () => {
+const CreatePost = ({ postOff }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
   const [postType, setPostType] = useState("Question");
   const [codeType, setCodeType] = useState("JavaScript");
 
   const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
-  const postOff = useContext(PostOffContext);
 
   const handleCancel = () => {
     postOff();
   };
+
   const handleSubmit = async () => {
     try {
       fetch("http://localhost:3000/posts", {
@@ -34,17 +31,15 @@ const CreatePost = () => {
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
+      }).then(res => res.json())
+        .then(() => {
           postOff();
-          getPosts();
           setPostTitle("");
           setPostMessage("");
           setPostType("");
           setCodeType("");
         });
-    } catch (error) {
+    } catch(error) {
       console.log(error);
     }
   };

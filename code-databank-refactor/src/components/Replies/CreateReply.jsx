@@ -1,8 +1,11 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Button } from "antd";
 import { TokenContext } from "../../App";
+<<<<<<< HEAD
 import { GetPostsContext } from "../Feed/FeedIndex";
 import "./CreateReply.css";
+=======
+>>>>>>> 46202fc795cea8c725b96e89317b98b60fe905de
 
 const { TextArea } = Input;
 
@@ -12,7 +15,6 @@ const CreateReply = ({ createReply, replyOff }) => {
   const [codeActive, setCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
 
   const handleSubmit = () => {
     fetch(`http://localhost:3000/replies/${createReply.id}`, {
@@ -27,11 +29,9 @@ const CreateReply = ({ createReply, replyOff }) => {
       }),
     })
       .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
+      .then(() => {
         setReplyMessage("");
         setReplyCode("");
-        getPosts();
         replyOff();
       });
   };
