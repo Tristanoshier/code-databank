@@ -29,9 +29,15 @@
 - Adjusted TextArea inputs for reply to have minRow of 4 and autosize
 - Fixed saved post not showing up for users who didn't post it
 - Edit/Delete reply buttons only show for that users reply
-- Add Code Snippet for Reply turns off and set's replyCode to empty string
-- Changed updateToken function so it won't set token as undefined to localStorage. Otherwise it sets it as undefined and if you refresh the page it goes to MainLayout (but shows not data of course). So refresh stays on Auth now.
+- Add Code Snippet for Reply turns off and set's replyCode state to empty string
+- Changed updateToken function so it won't set token as undefined to localStorage. Otherwise it sets it as undefined when login fails and if you refresh the page it goes to MainLayout (but shows not data of course). So refresh stays on Auth now.
 - Updated Auth so now if login information is incorrect it gives an error message to user, stops loading icon and sets state back to empty.
 - Added confirm message for deleting post
 
 !!!!!! I saved original Auth file just in case this causes some issues. Works fine for now.
+
+6/2/2021 - Hustin
+
+- Edit post client side working, in modal
+- Create post postMessage input autosizes now, minRow 6
+- Changed reply-message padding left to 2.5em in FeedCard-Styles. When upvotes are in double digits the Badge and message were too close together.

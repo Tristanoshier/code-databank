@@ -1,26 +1,35 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal } from "antd";
+import axios from "axios";
+import { Form, Input, Button, Card, Select, Modal, notification } from "antd";
 import { TokenContext } from "../../App";
 
 const { TextArea } = Input;
 const { Option } = Select;
 
-const CreatePost = ({ postOff }) => {
-  const [postTitle, setPostTitle] = useState("");
-  const [postMessage, setPostMessage] = useState("");
-  const [postType, setPostType] = useState("Question");
-  const [codeType, setCodeType] = useState("JavaScript");
+const EditPost = (props) => {
+  const [postTitle, setPostTitle] = useState(props.post?.postTitle);
+  const [postMessage, setPostMessage] = useState(props.post?.postMessage);
+  const [postType, setPostType] = useState(props.post?.postType);
+  const [codeType, setCodeType] = useState(props.post?.codeType);
 
   const token = useContext(TokenContext);
 
+  const openUpdateNotification = () => {
+    const args = {
+      message: "Post Updated!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
   const handleCancel = () => {
-    postOff();
+    props.editPostOff();
   };
 
   const handleSubmit = async () => {
     try {
-      fetch("http://localhost:3000/posts", {
-        method: "POST",
+      fetch(`http://localhost:3000/posts/${props.editPost.id}`, {
+        method: "PUT",
         body: JSON.stringify({
           postTitle: postTitle,
           postMessage: postMessage,
@@ -31,27 +40,30 @@ const CreatePost = ({ postOff }) => {
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
-        .then(() => {
-          postOff();
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          props.editPostOff();
+          openUpdateNotification();
+          // getPosts();
           setPostTitle("");
           setPostMessage("");
           setPostType("");
           setCodeType("");
         });
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   };
   return (
     <Modal
-      title="Create a post!"
+      title={props.editPost.postTitle}
       visible={true}
       onOk={handleSubmit}
       onCancel={handleCancel}
       okText="Submit"
     >
-      <Card style={{ width: 500 }} bordered={false}>
+      <Card style={{ width: "100%" }} bordered={false} className="edit-card">
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
@@ -67,8 +79,8 @@ const CreatePost = ({ postOff }) => {
           </Form.Item>
           <Form.Item label="Message">
             <TextArea
-              autoSize={{ minRows: 6 }}
               name="postMessage"
+              autoSize={{ minRows: 8 }}
               value={postMessage}
               required
               onChange={(e) => setPostMessage(e.target.value)}
@@ -107,4 +119,4 @@ const CreatePost = ({ postOff }) => {
   );
 };
 
-export default CreatePost;
+export default EditPost;

@@ -60,22 +60,25 @@ const CreateReply = ({ createReply, replyOff }) => {
             codeOn();
           }}
         >
-          Add Code Snippet?
+          Add Code Snippet?{" "}
+          <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
         </Button>
+      </Form.Item>
 
-        {codeActive ? (
+      {codeActive ? (
+        <Form.Item>
+          <h5>Add Code Here</h5>
           <TextArea
-            style={{ width: "100%" }}
+            style={{ width: "100%", marginTop: "5px" }}
             autoSize={{ minRows: 4 }}
-            name="reply"
+            name="replyCode"
             value={replyCode}
-            required
             onChange={(e) => setReplyCode(e.target.value)}
           />
-        ) : (
-          <></>
-        )}
-      </Form.Item>
+        </Form.Item>
+      ) : (
+        <></>
+      )}
       <Form.Item>
         <Button type="ghost" htmlType="submit">
           Submit

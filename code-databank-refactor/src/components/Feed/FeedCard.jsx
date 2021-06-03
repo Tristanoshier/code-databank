@@ -3,20 +3,60 @@ import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
-import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification, Popconfirm } from "antd";
-import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import EditPost from "../Posts/EditPost";
+import {
+  Row,
+  Col,
+  Card,
+  Collapse,
+  Badge,
+  Divider,
+  Button,
+  Menu,
+  Dropdown,
+  notification,
+  Popconfirm,
+} from "antd";
+import {
+  ArrowUpOutlined,
+  ArrowDownOutlined,
+  EllipsisOutlined,
+  EditOutlined,
+  DeleteOutlined,
+} from "@ant-design/icons";
 import "./FeedCard-Styles.css";
 const { Panel } = Collapse;
 
 import { TokenContext } from "../../App";
 
-const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply }) => {
+const FeedCard = ({
+  post,
+  replyActive,
+  replyOn,
+  replyOff,
+  addReply,
+  createReply,
+}) => {
   const token = useContext(TokenContext);
 
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
   const [unSaved, setUnSaved] = useState(false);
   const [singlePost, setSinglePost] = useState({});
+  const [editPostActive, setEditPostActive] = useState(false);
+  const [editPost, setEditPost] = useState({});
+
+  const editPostOn = () => {
+    setEditPostActive(true);
+  };
+
+  const editPostOff = () => {
+    setEditPostActive(false);
+  };
+
+  const updatePost = (post) => {
+    setEditPost(post);
+  };
 
   const controlButtons = () => {
     return localStorage.getItem("id") != post?.ownerId ? (
@@ -24,8 +64,15 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply 
     ) : (
       <>
         <Menu.Item>
-          <EditOutlined />
-          Edit Post
+          <a
+            onClick={() => {
+              editPostOn();
+              updatePost(post);
+            }}
+          >
+            <EditOutlined />
+            Edit Post
+          </a>
         </Menu.Item>
         <Menu.Item danger>
           <Popconfirm
@@ -313,7 +360,10 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply 
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              <p>{post?.postMessage}</p>
+              {/* <p>{post?.postMessage}</p> */}
+              {post?.postMessage.split("\n").map((message) => (
+                <p>{message}</p>
+              ))}
             </div>
 
             <div className="postedBy">
@@ -436,6 +486,11 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply 
           </Card>
         </Badge.Ribbon>
       </div>
+      {editPostActive ? (
+        <EditPost editPost={editPost} editPostOff={editPostOff} post={post} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };
