@@ -21,6 +21,7 @@ const FeedDisplay = (props) => {
                   addReply={props.addReply}
                   createReply={props.createReply}
                   replyActive={props.replyActive}
+                  getPosts={props.getPosts}
                 />
               </div>
             ))}

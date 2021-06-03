@@ -5,7 +5,7 @@ import { TokenContext } from "../../App";
 const { TextArea } = Input;
 const { Option } = Select;
 
-const CreatePost = ({ postOff }) => {
+const CreatePost = ({ postOff, getPosts }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
   const [postType, setPostType] = useState("Question");
@@ -33,6 +33,7 @@ const CreatePost = ({ postOff }) => {
         }),
       }).then(res => res.json())
         .then(() => {
+          getPosts()
           postOff();
           setPostTitle("");
           setPostMessage("");
