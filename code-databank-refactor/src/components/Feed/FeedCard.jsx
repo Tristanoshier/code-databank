@@ -3,6 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
+import EditPost from "../Posts/EditPost";
 import {
   Row,
   Col,
@@ -485,6 +486,11 @@ const FeedCard = ({
           </Card>
         </Badge.Ribbon>
       </div>
+      {editPostActive ? (
+        <EditPost editPost={editPost} editPostOff={editPostOff} post={post} />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

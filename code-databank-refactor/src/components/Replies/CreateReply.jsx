@@ -1,11 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Button } from "antd";
 import { TokenContext } from "../../App";
-<<<<<<< HEAD
-import { GetPostsContext } from "../Feed/FeedIndex";
-import "./CreateReply.css";
-=======
->>>>>>> 46202fc795cea8c725b96e89317b98b60fe905de
 
 const { TextArea } = Input;
 

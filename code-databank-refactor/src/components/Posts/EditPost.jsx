@@ -2,7 +2,6 @@ import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Form, Input, Button, Card, Select, Modal, notification } from "antd";
 import { TokenContext } from "../../App";
-import { GetPostsContext } from "../Feed/FeedIndex";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,7 +13,6 @@ const EditPost = (props) => {
   const [codeType, setCodeType] = useState(props.post?.codeType);
 
   const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
 
   const openUpdateNotification = () => {
     const args = {
@@ -47,7 +45,7 @@ const EditPost = (props) => {
         .then((data) => {
           props.editPostOff();
           openUpdateNotification();
-          getPosts();
+          // getPosts();
           setPostTitle("");
           setPostMessage("");
           setPostType("");
