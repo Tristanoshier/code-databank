@@ -41,3 +41,9 @@
 - Edit post client side working, in modal
 - Create post postMessage input autosizes now, minRow 6
 - Changed reply-message padding left to 2.5em in FeedCard-Styles. When upvotes are in double digits the Badge and message were too close together.
+
+
+6/2/2021 - Tristan
+- updated codebase to use mostly props, left context on token
+- fixed memory leak issue with useEffect and getPosts() 
+
