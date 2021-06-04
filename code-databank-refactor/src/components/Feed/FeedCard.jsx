@@ -6,6 +6,7 @@ import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../Replies/CreateReply";
 import EditPost from "../Posts/EditPost";
 import { upVotePostService, downVotePostService, upVoteReplyService, downVoteReplyService } from "../Services/PostService";
+import { deletePostService, deleteReplyService } from "../Services/PostService";
 
 import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification, Popconfirm } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
@@ -19,7 +20,6 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply,
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
   const [unSaved, setUnSaved] = useState(false);
-  const [singlePost, setSinglePost] = useState({});
   const [editPostActive, setEditPostActive] = useState(false);
   const [editPost, setEditPost] = useState({});
 
@@ -36,6 +36,108 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply,
   const updatePost = post => {
     setEditPost(post);
   }
+
+  // notifications -------------------------------------------
+
+  const openDeletePostNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your post has been deleted!",
+      duration: 1,
+    }
+    notification.open(args);
+  }
+
+  const openDeleteReplyNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your reply has been deleted!",
+      duration: 1,
+    }
+    notification.open(args);
+  }
+
+  const openSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Saved!",
+      duration: 1,
+    }
+    notification.open(args);
+  }
+
+  const openUnSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Unsaved!",
+      duration: 1,
+    }
+    notification.open(args);
+  }
+
+  // service requests -------------------------------------------
+
+  const upVotePost = post => {
+    let newUpVotes = post.upVotes + 1;
+    if (upVotePostService(post, newUpVotes, token) === true) {
+      setUpvotePostCount(newUpVotes);
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const downVotePost = post => {
+    let newUpVotes = post.upVotes - 1;
+    if (downVotePostService(post, newUpVotes, token) === true) {
+      setUpvotePostCount(newUpVotes);
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const upVoteReply = reply => {
+    let newUpVotes = reply.upVotes + 1;
+    if (upVoteReplyService(reply, newUpVotes, token) === true) {
+      setUpvoteCount(newUpVotes);
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const downVoteReply = reply => {
+    let newUpVotes = reply.upVotes - 1;
+    if (downVoteReplyService(reply, newUpVotes, token) === true) {
+      setUpvoteCount(newUpVotes);
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const DeletePost = post => {
+    if (deletePostService(post, token) === true) {
+      openDeletePostNotification();
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const deleteReply = reply => {
+    if (deleteReplyService(reply, token) === true) {
+      openDeleteReplyNotification();
+    } else {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
+  const savePostInLocalStorage = post => {
+    localStorage.setItem("post", JSON.stringify(post));
+  };
+
+  // styling functions ---------------------------------------------
 
   const controlButtons = () => {
     return localStorage.getItem("id") != post?.ownerId ? (
@@ -88,8 +190,16 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply,
       <div className="reply-footer-actions">
         <h5>Edit</h5>
         <h5>
-          <a id="delete-reply" onClick={() => deleteReply(reply)}>
-            Delete
+          <a id="delete-reply">
+            <Popconfirm
+              title="Are you sure？"
+              placement="topRight"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => deleteReply(reply)}
+            >
+              Delete
+          </Popconfirm>
           </a>
         </h5>
       </div>
@@ -139,120 +249,6 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply,
   const toggleIcon = () => {
     setUnSaved(!unSaved);
   }
-
-  const openDeleteNotification = () => {
-    const args = {
-      message: "Success!",
-      description: "Your post has been deleted!",
-      duration: 1,
-    }
-    notification.open(args);
-  }
-
-  const openSavedPostNotifiction = () => {
-    const args = {
-      message: "Post Saved!",
-      duration: 1,
-    }
-    notification.open(args);
-  }
-
-  const openUnSavedPostNotifiction = () => {
-    const args = {
-      message: "Post Unsaved!",
-      duration: 1,
-    }
-    notification.open(args);
-  }
-
-  const upVotePost = post => {
-    let newUpVotes = post.upVotes + 1;
-    if (upVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-      getPosts();
-    } else {
-      console.log('throw error');
-    }
-  }
-
-  const downVotePost = post => {
-    let newUpVotes = post.upVotes - 1;
-    if (downVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-      getPosts();
-    } else {
-      console.log('throw error');
-    }
-  }
-
-  const upVoteReply = reply => {
-    let newUpVotes = reply.upVotes + 1;
-    if (upVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-      getPosts();
-    } else {
-      console.log('throw error');
-    }
-  }
-
-  const downVoteReply = reply => {
-    let newUpVotes = reply.upVotes - 1;
-    if (downVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-      getPosts();
-    } else {
-      console.log('throw error');
-    }
-  };
-
-  const DeletePost = post => {
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        getPosts();
-        openDeleteNotification(post);
-        return data;
-      });
-  };
-
-  const deleteReply = (reply) => {
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        getPosts();
-        return data;
-      });
-  };
-
-  const viewPostReplies = (post) => {
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        getPosts();
-        setSinglePost(data);
-      });
-  };
-
-  const savePostInLocalStorage = (post) => {
-    localStorage.setItem("post", JSON.stringify(post));
-  };
 
   return (
     <div>
@@ -308,7 +304,6 @@ const FeedCard = ({ post, replyActive, replyOn, replyOff, addReply, createReply,
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              {/* <p>{post?.postMessage}</p> */}
               {post?.postMessage.split("\n").map((message) => (
                 <p>{message}</p>
               ))}

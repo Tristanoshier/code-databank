@@ -1,3 +1,6 @@
+
+
+// post up and down votes
 const upVotePostService = (post, newUpVotes, token) => {
   try {
     fetch(`http://localhost:3000/posts/${post.id}`, {
@@ -34,6 +37,7 @@ const downVotePostService = (post, newUpVotes, token) => {
   }
 }
 
+// reply up and down votes
 const upVoteReplyService = (reply, newUpVotes, token) => {
   try {
     fetch(`http://localhost:3000/replies/${reply.id}`, {
@@ -72,10 +76,41 @@ const downVoteReplyService = (reply, newUpVotes, token) => {
   }
 }
 
+const deletePostService = (post, token) => {
+  try {
+    fetch(`http://localhost:3000/posts/${post.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    }).then(res => res.json())
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+const deleteReplyService = (reply, token) => {
+  try {
+    fetch(`http://localhost:3000/replies/${reply.id}`, {
+      method: "DELETE",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    }).then(res => res.json())
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 export {
   upVotePostService,
   downVotePostService,
   upVoteReplyService,
-  downVoteReplyService
+  downVoteReplyService,
+  deletePostService,
+  deleteReplyService
 }
