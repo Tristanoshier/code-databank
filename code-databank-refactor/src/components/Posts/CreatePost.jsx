@@ -1,5 +1,7 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal } from "antd";
+import { Form, Input, Card, Select, Modal, notification } from "antd";
+
+import { createPostService } from "../Services/PostService";
 import { TokenContext } from "../../App";
 
 const { TextArea } = Input;
@@ -15,35 +17,31 @@ const CreatePost = ({ postOff, getPosts }) => {
 
   const handleCancel = () => {
     postOff();
-  };
+  }
 
-  const handleSubmit = async () => {
-    try {
-      fetch("http://localhost:3000/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          postTitle: postTitle,
-          postMessage: postMessage,
-          postType: postType,
-          codeType: codeType,
-        }),
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      }).then(res => res.json())
-        .then(() => {
-          getPosts()
-          postOff();
-          setPostTitle("");
-          setPostMessage("");
-          setPostType("");
-          setCodeType("");
-        });
-    } catch(error) {
-      console.log(error);
+  const openCreatedPostNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your post has been created!",
+      duration: 1,
     }
-  };
+    notification.open(args);
+  }
+
+  const handleSubmit = () => {
+    if (createPostService(postTitle, postMessage, postType, codeType, token) === true) {
+      postOff();
+      setPostTitle("");
+      setPostMessage("");
+      setPostType("");
+      setCodeType("");
+      openCreatedPostNotification();
+    } else  {
+      console.log('throw error');
+    }
+    getPosts();
+  }
+
   return (
     <Modal
       title="Create a post!"

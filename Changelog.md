@@ -47,3 +47,7 @@
 - updated codebase to use mostly props, left context on token
 - fixed memory leak issue with useEffect and getPosts() 
 
+6/3/2021 - Tristan 
+- Abtract fetch requests in FeedCard Component 
+- add notification for deleted post 
+- Cleaned up code in FeedCard

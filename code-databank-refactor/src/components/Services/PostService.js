@@ -76,6 +76,29 @@ const downVoteReplyService = (reply, newUpVotes, token) => {
   }
 }
 
+// post CRUD
+
+const createPostService = (title, message, pt, ct, token) => {
+    try {
+      fetch("http://localhost:3000/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          postTitle: title,
+          postMessage: message,
+          postType: pt,
+          codeType: ct
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        })
+      }).then(res => res.json())
+      return true;
+    } catch {
+      return false;
+    }
+}
+
 const deletePostService = (post, token) => {
   try {
     fetch(`http://localhost:3000/posts/${post.id}`, {
@@ -111,6 +134,7 @@ export {
   downVotePostService,
   upVoteReplyService,
   downVoteReplyService,
+  deleteReplyService,
+  createPostService,
   deletePostService,
-  deleteReplyService
 }
