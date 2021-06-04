@@ -4,7 +4,7 @@ import { TokenContext } from "../../App";
 
 const { TextArea } = Input;
 
-const CreateReply = ({ createReply, replyOff }) => {
+const CreateReply = ({ createReply, replyOff, getPosts }) => {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyCode, setReplyCode] = useState("");
   const [codeActive, setCodeActive] = useState(false);
@@ -25,6 +25,7 @@ const CreateReply = ({ createReply, replyOff }) => {
     })
       .then((res) => res.json())
       .then(() => {
+        getPosts();
         setReplyMessage("");
         setReplyCode("");
         replyOff();
