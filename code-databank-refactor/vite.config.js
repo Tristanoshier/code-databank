@@ -17,6 +17,7 @@ export default ({ mode }) => {
 
     server: {
       port: process.env.VITE_PORT,
+      open: "/",
     },
   });
 };

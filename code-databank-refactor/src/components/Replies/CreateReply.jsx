@@ -1,7 +1,8 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, Collapse } from "antd";
 import { TokenContext } from "../../App";
 
+const { Panel } = Collapse;
 const { TextArea } = Input;
 
 const CreateReply = ({ createReply, replyOff, getPosts }) => {
@@ -55,18 +56,42 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
         />
       </Form.Item>
       <Form.Item>
-        <Button
-          type="ghost"
-          onClick={() => {
-            codeOn();
-          }}
-        >
-          Add Code Snippet?{" "}
-          <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
-        </Button>
+        <Collapse ghost>
+          <Panel
+            showArrow={false}
+            key="1"
+            extra={
+              <Button
+                type="ghost"
+                onClick={() => {
+                  codeOn();
+                }}
+              >
+                Add Code Snippet?{" "}
+                <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
+              </Button>
+            }
+          >
+            {codeActive ? (
+              <Form.Item>
+                <h5>Add Code Here</h5>
+                <TextArea
+                  style={{ width: "100%", marginTop: "5px" }}
+                  autoSize={{ minRows: 4 }}
+                  name="replyCode"
+                  value={replyCode}
+                  onChange={(e) => setReplyCode(e.target.value)}
+                />
+              </Form.Item>
+            ) : (
+              <></>
+            )}
+          </Panel>
+        </Collapse>
       </Form.Item>
 
-      {codeActive ? (
+      {/* OLD */}
+      {/* {codeActive ? (
         <Form.Item>
           <h5>Add Code Here</h5>
           <TextArea
@@ -79,7 +104,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
         </Form.Item>
       ) : (
         <></>
-      )}
+      )} */}
       <Form.Item>
         <Button type="ghost" htmlType="submit">
           Submit
