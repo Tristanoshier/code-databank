@@ -34,7 +34,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
   };
 
   const codeOn = () => {
-    setCodeActive(!codeActive);
+    setCodeActive(true);
     setReplyCode("");
   };
 
@@ -73,7 +73,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
             }
           >
             {codeActive ? (
-              <Form.Item>
+              <div>
                 <h5>Add Code Here</h5>
                 <TextArea
                   style={{ width: "100%", marginTop: "5px" }}
@@ -82,7 +82,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
                   value={replyCode}
                   onChange={(e) => setReplyCode(e.target.value)}
                 />
-              </Form.Item>
+              </div>
             ) : (
               <></>
             )}
