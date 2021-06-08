@@ -127,8 +127,21 @@ const FocusedPost = (props) => {
     notification.open(args);
   };
 
+  const getSpecificPost = post => {
+    fetch(`${post.id}`,  {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token
+      })
+    }).then(res => res.json())
+    .then(() => {
+      console.log(data)
+    })
+  }
+
   const upVoteReply = reply => {
-    let newUpvotes = reply.upVotes++;
+    let newUpvotes = reply.upVotes + 1;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -148,7 +161,7 @@ const FocusedPost = (props) => {
   };
 
   const upVotePost = post => {
-    let newUpvotes = post.upVotes++;
+    let newUpvotes = post.upVotes + 1;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -166,7 +179,7 @@ const FocusedPost = (props) => {
   };
 
   const downVotePost = post => {
-    let newUpvotes = post.upVotes--;
+    let newUpvotes = post.upVotes - 1;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -184,7 +197,7 @@ const FocusedPost = (props) => {
   };
 
   const downVoteReply = reply => {
-    let newUpvotes = reply.upVotes--;
+    let newUpvotes = reply.upVotes - 1;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({

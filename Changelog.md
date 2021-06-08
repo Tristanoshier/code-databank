@@ -48,6 +48,6 @@
 - fixed memory leak issue with useEffect and getPosts() 
 
 6/3/2021 - Tristan 
-- Abtract fetch requests in FeedCard Component 
-- add notification for deleted post 
+- Abtract fetch requests in FeedCard and CreatePost Component 
+- add notification for deleted reply and created post 
 - Cleaned up code in FeedCard
