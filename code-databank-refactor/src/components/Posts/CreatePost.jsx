@@ -1,20 +1,27 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal } from "antd";
+import { Form, Input, Card, Select, Modal, Collapse, Button } from "antd";
 import { TokenContext } from "../../App";
 
 const { TextArea } = Input;
 const { Option } = Select;
+const { Panel } = Collapse;
 
 const CreatePost = ({ postOff, getPosts }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
+  const [postCode, setPostCode] = useState("");
   const [postType, setPostType] = useState("Question");
   const [codeType, setCodeType] = useState("JavaScript");
+  const [postCodeActive, setPostCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
 
   const handleCancel = () => {
     postOff();
+  };
+
+  const codeOn = () => {
+    setPostCodeActive(true);
   };
 
   const handleSubmit = async () => {
@@ -24,6 +31,7 @@ const CreatePost = ({ postOff, getPosts }) => {
         body: JSON.stringify({
           postTitle: postTitle,
           postMessage: postMessage,
+          postCode: postCode,
           postType: postType,
           codeType: codeType,
         }),
@@ -31,16 +39,18 @@ const CreatePost = ({ postOff, getPosts }) => {
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
+      })
+        .then((res) => res.json())
         .then(() => {
-          getPosts()
+          getPosts();
           postOff();
           setPostTitle("");
           setPostMessage("");
+          setPostCode("");
           setPostType("");
           setCodeType("");
         });
-    } catch(error) {
+    } catch (error) {
       console.log(error);
     }
   };
@@ -75,6 +85,37 @@ const CreatePost = ({ postOff, getPosts }) => {
               onChange={(e) => setPostMessage(e.target.value)}
             />
           </Form.Item>
+
+          <Collapse ghost>
+            <Panel
+              showArrow={false}
+              key="1"
+              extra={
+                <Button
+                  type="ghost"
+                  onClick={() => {
+                    codeOn();
+                  }}
+                >
+                  Add Code Snippet?{" "}
+                  <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
+                </Button>
+              }
+            >
+              {postCodeActive ? (
+                <Form.Item label="Code">
+                  <TextArea
+                    autoSize={{ minRows: 6 }}
+                    name="postCode"
+                    value={postCode}
+                    onChange={(e) => setPostCode(e.target.value)}
+                  />
+                </Form.Item>
+              ) : (
+                <></>
+              )}
+            </Panel>
+          </Collapse>
           <Form.Item label="Post Type">
             <Select
               value={postType}

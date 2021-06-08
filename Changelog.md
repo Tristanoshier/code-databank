@@ -61,3 +61,4 @@
 - Added Skeleton to Dashboard - can't tell if it's working due to data coming in to fast
 - Added a Get Started component if there are no posts found (for people cloning)
 - In App.css for .ant-layout-content I changed height from 100% to 100vh, can change if causes issues
+- Added an option to add code when creating a post. Updated post model.

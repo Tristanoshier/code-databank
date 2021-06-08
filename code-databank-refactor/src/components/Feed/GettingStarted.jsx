@@ -73,6 +73,7 @@ const GettingStarted = () => {
           <li>Any coding question</li>
         </ul>
       </Card>
+      <Divider>Example Post</Divider>
       <div>
         <Badge.Ribbon text="8" color="#f50" placement="start">
           <Card
@@ -105,7 +106,7 @@ const GettingStarted = () => {
             ]}
           >
             <div className="postTitle-container">
-              <h4 id="postTitle">Example Post!</h4>
+              <h4 id="postTitle">My Title!</h4>
             </div>
             <hr id="postTitle-hr" />
 
