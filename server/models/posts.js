@@ -10,6 +10,9 @@ const Post = db.define("post", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  postCode: {
+    type: DataTypes.TEXT,
+  },
   postType: {
     type: DataTypes.STRING,
   },
