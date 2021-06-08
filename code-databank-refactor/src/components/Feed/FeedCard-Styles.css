@@ -1,3 +1,7 @@
+a {
+  color: rgba(0, 0, 0, 0.85);
+}
+
 /* ellipsis */
 .settings-button {
   border: none;
@@ -81,25 +85,43 @@ i {
 }
 
 /* .reply-container {
-  background-color: black;
-  color: lightgray;
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    bottom,
-    top,
-    from(rgba(0, 0, 0, 1)),
-    to(rgba(0, 0, 0, 0))
-  );
-  opacity: 0.3;
-  padding: 20px;
-} */
-
-.reply-sub-container {
   background-color: #f8f8f8;
   border-radius: 5px;
   padding: 10px;
   padding-left: 2em;
   margin-bottom: 10px;
+} */
+
+.reply-message-container {
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  /* padding: 10px 10px 5px 10px; */
+  /* padding-left: 2em; */
+  margin-bottom: 10px;
+}
+
+#reply-message {
+  /* padding: 10px; */
+  padding: 10px 10px 10px 2.5em;
+}
+
+.code-container {
+  padding: 0 15px 5px 15px;
+}
+
+.reply-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.reply-footer h5 {
+  padding: 0 5px 0 5px;
+}
+
+.reply-footer-actions {
+  display: flex;
+  flex-direction: row;
 }
 
 .post-footer {

@@ -6,6 +6,9 @@ const Reply = db.define("reply", {
     type: DataTypes.TEXT,
     allowNull: false,
   },
+  replyCode: {
+    type: DataTypes.TEXT,
+  },
   codeType: {
     type: DataTypes.STRING,
   },

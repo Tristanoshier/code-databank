@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Avatar, Input, Button, Spin } from "antd";
+import { Card, Avatar, Input, Button, Spin, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import "./Auth.css";
 
@@ -10,6 +10,7 @@ const Auth = (props) => {
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [loginAlert, setLoginAlert] = useState(false);
 
   const { Meta } = Card;
 
@@ -38,13 +39,31 @@ const Auth = (props) => {
       },
       body: JSON.stringify(authBodyObj),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          loginFailed();
+          setEmail("");
+          setPassword("");
+          setLoading(false);
+        }
+        return res.json();
+      })
       .then((data) => {
         props.updateToken(data.token);
         props.updatedFirstName(data.user.firstName);
         props.updatedUserId(data.user.id);
       });
+    // .catch((err) => {
+    //   console.log(err);
+    //   setEmail("");
+    //   setPassword("");
+    //   setLoading(false);
+    // });
     setLoading(true);
+  };
+
+  const loginFailed = () => {
+    message.error("Login failed");
   };
 
   const loginToggle = (e) => {

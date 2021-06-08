@@ -1,9 +1,19 @@
 import React, { useContext, useState } from "react";
-import { Route, Link, Switch, BrowserRouter as Router } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
 import CreateReply from "../Replies/CreateReply";
-import ViewPost from "./ViewPost";
+import EditPost from "../Posts/EditPost";
+import EditReply from "../Replies/EditReply";
+import {
+  upVotePostService,
+  downVotePostService,
+  upVoteReplyService,
+  downVoteReplyService,
+} from "../Services/PostService";
+import { deletePostService, deleteReplyService } from "../Services/PostService";
+
 import {
   Row,
   Col,
@@ -15,6 +25,7 @@ import {
   Menu,
   Dropdown,
   notification,
+  Popconfirm,
 } from "antd";
 import {
   ArrowUpOutlined,
@@ -23,42 +34,160 @@ import {
   EditOutlined,
   DeleteOutlined,
 } from "@ant-design/icons";
-import "./FeedCard-Styles.css";
-
-import {
-  GetPostsContext,
-  PostsContext,
-  CreateReplyContext,
-  ReplyActiveContext,
-  PostActiveContext,
-  AddReplyContext,
-  ReplyOnContext,
-  ReplyOffContext,
-} from "./FeedIndex";
-
-import { TokenContext } from "../../App";
-import { PostContext } from "./FeedDisplay";
-export const SinglePostContext = React.createContext();
-
 const { Panel } = Collapse;
 
-const FeedCard = (props) => {
-  // contexts
-  const post = useContext(PostContext);
-  const token = useContext(TokenContext);
-  const getPosts = useContext(GetPostsContext);
-  const createReply = useContext(CreateReplyContext);
-  const replyActive = useContext(ReplyActiveContext);
-  const postActive = useContext(PostActiveContext);
-  const addReply = useContext(AddReplyContext);
-  const replyOn = useContext(ReplyOnContext);
-  const replyOff = useContext(ReplyOffContext);
+import "./FeedCard-Styles.css";
 
-  // state
+import { TokenContext } from "../../App";
+
+const FeedCard = ({
+  post,
+  replyActive,
+  replyOn,
+  replyOff,
+  addReply,
+  createReply,
+  getPosts,
+}) => {
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
   const [unSaved, setUnSaved] = useState(false);
-  const [singlePost, setSinglePost] = useState({});
+  const [editPostActive, setEditPostActive] = useState(false);
+  const [editPost, setEditPost] = useState({});
+  const [editReply, setEditReply] = useState({});
+  const [editReplyActive, setEditReplyActive] = useState(false);
+
+  const token = useContext(TokenContext);
+
+  // edit post -------------------------------------------
+
+  const editPostOn = () => {
+    setEditPostActive(true);
+  };
+
+  const editPostOff = () => {
+    setEditPostActive(false);
+  };
+
+  const updatePost = (post) => {
+    setEditPost(post);
+  };
+
+  // edit reply -------------------------------------------
+
+  const editReplyOn = () => {
+    setEditReplyActive(true);
+  };
+
+  const editReplyOff = () => {
+    setEditReplyActive(false);
+  };
+
+  const updateReply = (reply) => {
+    setEditReply(reply);
+  };
+
+  // notifications -------------------------------------------
+
+  const openDeletePostNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your post has been deleted!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
+  const openDeleteReplyNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your reply has been deleted!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
+  const openSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Saved!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
+  const openUnSavedPostNotifiction = () => {
+    const args = {
+      message: "Post Unsaved!",
+      duration: 1,
+    };
+    notification.open(args);
+  };
+
+  // service requests -------------------------------------------
+
+  const upVotePost = (post) => {
+    let newUpVotes = post.upVotes + 1;
+    if (upVotePostService(post, newUpVotes, token) === true) {
+      setUpvotePostCount(newUpVotes);
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const downVotePost = (post) => {
+    let newUpVotes = post.upVotes - 1;
+    if (downVotePostService(post, newUpVotes, token) === true) {
+      setUpvotePostCount(newUpVotes);
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const upVoteReply = (reply) => {
+    let newUpVotes = reply.upVotes + 1;
+    if (upVoteReplyService(reply, newUpVotes, token) === true) {
+      setUpvoteCount(newUpVotes);
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const downVoteReply = (reply) => {
+    let newUpVotes = reply.upVotes - 1;
+    if (downVoteReplyService(reply, newUpVotes, token) === true) {
+      setUpvoteCount(newUpVotes);
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const DeletePost = (post) => {
+    if (deletePostService(post, token) === true) {
+      openDeletePostNotification();
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const deleteReply = (reply) => {
+    if (deleteReplyService(reply, token) === true) {
+      openDeleteReplyNotification();
+    } else {
+      console.log("throw error");
+    }
+    getPosts();
+  };
+
+  const savePostInLocalStorage = (post) => {
+    localStorage.setItem("post", JSON.stringify(post));
+  };
+
+  // styling functions ---------------------------------------------
 
   const controlButtons = () => {
     return localStorage.getItem("id") != post?.ownerId ? (
@@ -66,26 +195,76 @@ const FeedCard = (props) => {
     ) : (
       <>
         <Menu.Item>
-          <a onClick={() => openSavedPostNotifiction()}>
-            <i className="far fa-bookmark"></i>
-            Save Post
+          <a
+            onClick={() => {
+              editPostOn();
+              updatePost(post);
+            }}
+          >
+            <EditOutlined />
+            Edit Post
           </a>
-        </Menu.Item>
-        <Menu.Item>
-          <EditOutlined />
-          Edit Post
         </Menu.Item>
         <Menu.Item danger>
-          <a onClick={() => DeletePost(post)}>
+          <Popconfirm
+            title="Are you sure？"
+            placement="topRight"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => DeletePost(post)}
+          >
             <DeleteOutlined />
             Delete Post
-          </a>
+          </Popconfirm>
         </Menu.Item>
       </>
     );
   };
 
-  const menu = <Menu>{controlButtons()}</Menu>;
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <a onClick={() => openSavedPostNotifiction()}>
+          <i className="far fa-bookmark"></i>
+          Save Post
+        </a>
+      </Menu.Item>
+      {controlButtons()}
+    </Menu>
+  );
+
+  const replyControlButtons = (reply) => {
+    return localStorage.getItem("id") != reply?.ownerId ? (
+      ""
+    ) : (
+      <div className="reply-footer-actions">
+        <h5>
+          <a
+            id="edit-reply"
+            onClick={() => {
+              editReplyOn();
+              updateReply(reply);
+            }}
+          >
+            Edit
+          </a>
+        </h5>
+        <h5>
+          <a id="delete-reply">
+            <Popconfirm
+              title="Are you sure？"
+              placement="topRight"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => deleteReply(reply)}
+            >
+              Delete
+            </Popconfirm>
+          </a>
+        </h5>
+      </div>
+    );
+  };
 
   const cardDropdown = () => {
     return (
@@ -118,7 +297,9 @@ const FeedCard = (props) => {
   };
 
   const icon = unSaved ? (
-    <i key={unSaved} className="fas fa-bookmark"></i>
+    <a onClick={() => openUnSavedPostNotifiction()}>
+      <i key={unSaved} className="fas fa-bookmark"></i>
+    </a>
   ) : (
     <a onClick={() => openSavedPostNotifiction()}>
       <i key={unSaved} className="far fa-bookmark"></i>
@@ -129,139 +310,9 @@ const FeedCard = (props) => {
     setUnSaved(!unSaved);
   };
 
-  const openDeleteNotification = (post) => {
-    const args = {
-      message: "Success!",
-      description: "Your post has been deleted!",
-      duration: 1,
-    };
-    notification.open(args);
-  };
-
-  const openSavedPostNotifiction = () => {
-    const args = {
-      message: "Post Saved!",
-      duration: 1,
-    };
-    notification.open(args);
-  };
-
-  const upVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes + 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        replyMessage: reply.replyMessage,
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvoteCount(newUpvotes);
-        getPosts();
-      });
-  };
-
-  const upVotePost = (post) => {
-    let newUpvotes = post.upVotes + 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvotePostCount(newUpvotes);
-        getPosts();
-      });
-  };
-
-  const downVotePost = (post) => {
-    let newUpvotes = post.upVotes - 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvotePostCount(newUpvotes);
-        getPosts();
-      });
-  };
-
-  const downVoteReply = (reply) => {
-    let newUpvotes = reply.upVotes - 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        replyMessage: reply.replyMessage,
-        upVotes: newUpvotes,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setUpvoteCount(newUpvotes);
-        getPosts();
-      });
-  };
-
-  const DeletePost = (post) => {
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "DELETE",
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        openDeleteNotification(post);
-        getPosts();
-        return data;
-      });
-  };
-
-  const viewPostReplies = (post) => {
-    fetch(`http://localhost:3000/posts/${post.id}`, {
-      method: "GET",
-      headers: {
-        Authorization: token,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        setSinglePost(data);
-      });
-  };
-
   return (
-    <SinglePostContext.Provider value={singlePost}>
+    <div>
       <div key={post?.id}>
-        {/* <Router> */}
         <Badge.Ribbon
           text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
           color="#f50"
@@ -297,7 +348,6 @@ const FeedCard = (props) => {
                 </div>
               </div>,
             ]}
-            // style={{ width: 575 }}
             extra={[
               <>
                 <Button type="link" onClick={toggleIcon}>
@@ -314,7 +364,9 @@ const FeedCard = (props) => {
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              <p>{post?.postMessage}</p>
+              {post?.postMessage.split("\n").map((message) => (
+                <p>{message}</p>
+              ))}
             </div>
 
             <div className="postedBy">
@@ -325,8 +377,8 @@ const FeedCard = (props) => {
                 return b.upVotes - a.upVotes;
               })
               .slice(0, 4)
-              .map((reply) => (
-                <div className="reply-container" key={reply.id}>
+              .map((reply, index) => (
+                <div key={index} className="reply-container" key={reply.id}>
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -343,62 +395,71 @@ const FeedCard = (props) => {
                       </div>
                     </Col>
                     <Col span={22}>
-                      {post?.codeType === "Github" ? (
-                        <Badge.Ribbon
-                          text={
-                            reply?.upVotes === null || 0 ? 0 : reply?.upVotes
-                          }
-                          color="#f50"
-                          placement="start"
-                        >
-                          <div className="reply-sub-container">
-                            <p>{reply?.replyMessage}</p>
-                          </div>
-                        </Badge.Ribbon>
-                      ) : (
-                        <div className="code-container">
-                          <Badge.Ribbon
-                            text={
-                              reply?.upVotes === null || 0 ? 0 : reply.upVotes
-                            }
-                            color="#f50"
-                            placement="start"
-                          >
-                            <SyntaxHighlighter
-                              lineProps={{
-                                style: {
-                                  // wordBreak: "break-all",
-                                  // whiteSpace: "pre-line",
-                                  whiteSpace: "pre-wrap",
-                                },
-                              }}
-                              customStyle={{
-                                paddingLeft: "2em",
-                                borderRadius: "5px",
-                              }}
-                              useInlineStyles={true}
-                              wrapLines={true}
-                              key={reply.id}
-                              language={post.codeType}
-                              language="Javascript"
-                              style={rainbow}
-                            >
-                              {reply?.replyMessage}
-                            </SyntaxHighlighter>
-                          </Badge.Ribbon>
+                      <Badge.Ribbon
+                        text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
+                        color="#f50"
+                        placement="start"
+                      >
+                        <div className="reply-message-container">
+                          <p id="reply-message">{reply?.replyMessage}</p>
+                          {reply.replyCode != "" || null ? (
+                            <div className="code-container">
+                              <SyntaxHighlighter
+                                lineProps={{
+                                  style: {
+                                    // wordBreak: "break-all",
+                                    // whiteSpace: "pre-line",
+                                    whiteSpace: "pre-wrap",
+                                  },
+                                }}
+                                customStyle={{
+                                  paddingLeft: "2em",
+                                  borderRadius: "5px",
+                                }}
+                                useInlineStyles={true}
+                                wrapLines={true}
+                                key={reply.id}
+                                language={post.codeType}
+                                language="Javascript"
+                                style={rainbow}
+                              >
+                                {reply?.replyCode}
+                              </SyntaxHighlighter>
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                      )}
-                      <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                      </Badge.Ribbon>
+                      <div className="reply-footer">
+                        <h5 id="replyName">Posted by: {reply?.replyName}</h5>
+                        {replyControlButtons(reply)}
+                      </div>
                     </Col>
                   </Row>
+                  {editReplyActive ? (
+                    <EditReply
+                      editReply={editReply}
+                      editReplyOff={editReplyOff}
+                      reply={reply}
+                      getPosts={getPosts}
+                    />
+                  ) : (
+                    <></>
+                  )}
                 </div>
               ))}
             <Divider />
             <div className="post-footer">
               <div className="view-replies-container">
                 <i className="fas fa-comment-alt"></i>
-
-                <Link to="/post">
+                <Link
+                  onClick={() => savePostInLocalStorage(post)}
+                  to={{
+                    pathname: `/focusedPost/${post?.postTitle}`,
+                    post: post,
+                  }}
+                >
                   <h5 id="view-replies">
                     View Replies ({post?.replies.length})
                   </h5>
@@ -418,7 +479,6 @@ const FeedCard = (props) => {
                       onClick={() => {
                         replyOn();
                         addReply(post);
-                        console.log(post.id);
                       }}
                     >
                       Add Reply
@@ -427,9 +487,9 @@ const FeedCard = (props) => {
                 >
                   {replyActive ? (
                     <CreateReply
-                      token={token}
                       createReply={createReply}
                       replyOff={replyOff}
+                      getPosts={getPosts}
                     />
                   ) : (
                     <></>
@@ -439,21 +499,19 @@ const FeedCard = (props) => {
             </div>
           </Card>
         </Badge.Ribbon>
-        {/* <Switch>
-            <Route exact path="/post">
-              <ViewPost />
-              {props.children}
-            </Route>
-          </Switch> */}
-        {/* <Switch>
-            <Route exact path="/post">
-              {props.children}
-            </Route>
-          </Switch> */}
-        {/* </Router> */}
       </div>
-    </SinglePostContext.Provider>
+      {editPostActive ? (
+        <EditPost
+          editPost={editPost}
+          editPostOff={editPostOff}
+          post={post}
+          getPosts={getPosts}
+        />
+      ) : (
+        <></>
+      )}
+    </div>
   );
 };
 
-export default FeedCard;
+export default withRouter(FeedCard);

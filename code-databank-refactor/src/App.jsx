@@ -2,10 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import "antd/dist/antd.css";
 import Auth from "./components/Auth/Auth";
-import MainLayout from "./components/Site/Layout";
-import FeedIndexProvider from "./components/Feed/FeedIndex";
-import FeedDisplayProvider from "./components/Feed/FeedDisplay";
-import FeedCardProvider from "./components/Feed/FeedCard";
+import MainLayout from "./components/Site/MainLayout";
 export const TokenContext = React.createContext();
 
 function App() {
@@ -31,15 +28,24 @@ function App() {
     }
   });
 
+  // ******* OLD UPDATETOKEN FUNC IF NEW ONE CAUSES ISSUES *******
+  // const updateToken = (newToken) => {
+  //   localStorage.setItem("token", newToken);
+  //   setToken(newToken);
+  // };
+
   const updateToken = (newToken) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
+    if (newToken === undefined) {
+      return;
+    } else {
+      localStorage.setItem("token", newToken);
+      setToken(newToken);
+    }
   };
 
   const updatedFirstName = (newFirstName) => {
     localStorage.setItem("firstName", newFirstName);
     setFirstName(newFirstName);
-    console.log(firstName);
   };
 
   const updatedUserId = (newId) => {

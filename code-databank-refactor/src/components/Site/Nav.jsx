@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link as RouterLink, BrowserRouter as Router } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import { Anchor, Drawer, Button } from "antd";
 import mobileShield from "./assets/mobile-shield.png";
 
@@ -7,6 +7,7 @@ const { Link } = Anchor;
 
 const Nav = ({ clickLogout }) => {
   const [visible, setVisible] = useState(false);
+
   const showDrawer = () => {
     setVisible(true);
   };
@@ -25,11 +26,13 @@ const Nav = ({ clickLogout }) => {
               height="25px"
               style={{ borderRadius: "50%", marginRight: "5px" }}
             />
-            <a href="https://google.com">EFA</a>
+            <RouterLink to="/">EFA</RouterLink>
           </div>
           <div className="mobileHidden">
             <Anchor targetOffset="65">
-              <Link href="/" title="Home" />
+              <RouterLink to="/">
+                <Link href="/" title="Home" />
+              </RouterLink>
               <RouterLink to="/">
                 <a onClick={clickLogout}>
                   <Link href="/" title="Logout" />
@@ -48,8 +51,9 @@ const Nav = ({ clickLogout }) => {
               visible={visible}
             >
               <Anchor targetOffset="65">
-                <Link href="/" title="Home" />
-
+                <RouterLink to="/">
+                  <Link href="/" title="Home" />
+                </RouterLink>
                 <RouterLink to="/">
                   <a onClick={clickLogout}>
                     <Link href="#" title="Logout" />

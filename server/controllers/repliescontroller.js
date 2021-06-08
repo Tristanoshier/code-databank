@@ -18,6 +18,7 @@ router.post("/:pId", (req, res) => {
   try {
     Replies.create({
       replyMessage: req.body.replyMessage,
+      replyCode: req.body.replyCode,
       codeType: req.body.codeType,
       upVotes: req.body.upVotes,
       replyName: req.user.firstName,
@@ -36,9 +37,10 @@ router.post("/:pId", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const query = { where: { id: req.params.id } };
+  const query = { where: { id: req.params.id, ownerId: req.user.id } };
   const updateReply = {
     replyMessage: req.body.replyMessage,
+    replyCode: req.body.replyCode,
     codeType: req.body.codeType,
     upVotes: req.body.upVotes,
   };
@@ -51,6 +53,25 @@ router.put("/:id", (req, res) => {
     .catch((err) =>
       res.status(500).json({
         message: "Failed to update",
+      })
+    );
+});
+
+router.delete("/:id", (req, res) => {
+  Replies.destroy({
+    where: {
+      id: req.params.id,
+      ownerId: req.user.id,
+    },
+  })
+    .then((reply) =>
+      res.status(200).json({
+        reply: reply,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
       })
     );
 });
