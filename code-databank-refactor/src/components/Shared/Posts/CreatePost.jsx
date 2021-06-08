@@ -1,38 +1,46 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
-import { Form, Input, Button, Card, Select, Modal, notification } from "antd";
-import { TokenContext } from "../../App";
+import { Form, Input, Card, Select, Modal, Collapse, Button } from "antd";
+import { TokenContext } from "../../../App";
 
 const { TextArea } = Input;
 const { Option } = Select;
+const { Panel } = Collapse;
 
-const EditPost = (props) => {
-  const [postTitle, setPostTitle] = useState(props.post?.postTitle);
-  const [postMessage, setPostMessage] = useState(props.post?.postMessage);
-  const [postType, setPostType] = useState(props.post?.postType);
-  const [codeType, setCodeType] = useState(props.post?.codeType);
+const CreatePost = ({ postOff, getPosts }) => {
+  const [postTitle, setPostTitle] = useState("");
+  const [postMessage, setPostMessage] = useState("");
+  const [postCode, setPostCode] = useState("");
+  const [postType, setPostType] = useState("Question");
+  const [codeType, setCodeType] = useState("JavaScript");
+  const [postCodeActive, setPostCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
 
-  const openUpdateNotification = () => {
-    const args = {
-      message: "Post Updated!",
-      duration: 1,
-    };
-    notification.open(args);
-  };
-
   const handleCancel = () => {
-    props.editPostOff();
+    postOff();
+  }
+
+  const openCreatedPostNotification = () => {
+    const args = {
+      message: "Success!",
+      description: "Your post has been created!",
+      duration: 1,
+    }
+    notification.open(args);
+  }
+
+  const codeOn = () => {
+    setPostCodeActive(true);
   };
 
   const handleSubmit = async () => {
     try {
-      fetch(`http://localhost:3000/posts/${props.editPost.id}`, {
-        method: "PUT",
+      fetch("http://localhost:3000/posts", {
+        method: "POST",
         body: JSON.stringify({
           postTitle: postTitle,
           postMessage: postMessage,
+          postCode: postCode,
           postType: postType,
           codeType: codeType,
         }),
@@ -43,27 +51,29 @@ const EditPost = (props) => {
       })
         .then((res) => res.json())
         .then(() => {
-          props.editPostOff();
-          openUpdateNotification();
-          props.getPosts();
+          getPosts();
+          postOff();
           setPostTitle("");
           setPostMessage("");
+          setPostCode("");
           setPostType("");
           setCodeType("");
         });
     } catch (error) {
       console.log(error);
     }
-  };
+    getPosts();
+  }
+
   return (
     <Modal
-      title={props.editPost.postTitle}
+      title="Create a post!"
       visible={true}
       onOk={handleSubmit}
       onCancel={handleCancel}
       okText="Submit"
     >
-      <Card style={{ width: "100%" }} bordered={false} className="edit-card">
+      <Card style={{ width: 500 }} bordered={false}>
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
@@ -79,13 +89,44 @@ const EditPost = (props) => {
           </Form.Item>
           <Form.Item label="Message">
             <TextArea
+              autoSize={{ minRows: 6 }}
               name="postMessage"
-              autoSize={{ minRows: 8 }}
               value={postMessage}
               required
               onChange={(e) => setPostMessage(e.target.value)}
             />
           </Form.Item>
+
+          <Collapse ghost>
+            <Panel
+              showArrow={false}
+              key="1"
+              extra={
+                <Button
+                  type="ghost"
+                  onClick={() => {
+                    codeOn();
+                  }}
+                >
+                  Add Code Snippet?{" "}
+                  <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
+                </Button>
+              }
+            >
+              {postCodeActive ? (
+                <Form.Item label="Code">
+                  <TextArea
+                    autoSize={{ minRows: 6 }}
+                    name="postCode"
+                    value={postCode}
+                    onChange={(e) => setPostCode(e.target.value)}
+                  />
+                </Form.Item>
+              ) : (
+                <></>
+              )}
+            </Panel>
+          </Collapse>
           <Form.Item label="Post Type">
             <Select
               value={postType}
@@ -119,4 +160,4 @@ const EditPost = (props) => {
   );
 };
 
-export default EditPost;
+export default CreatePost;

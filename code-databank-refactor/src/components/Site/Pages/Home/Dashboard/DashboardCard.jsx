@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import CreatePost from "../Posts/CreatePost";
+import React from "react";
+import CreatePost from "../../../../Shared/Posts/CreatePost";
 import { Card, Divider, Button, Skeleton } from "antd";
 
 const DashboardCard = ({

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Spin } from "antd";
 import axios from "axios";
-import { TokenContext } from "../../App";
+import { TokenContext } from "../../../../../App";
 import FeedDisplay from "./FeedDisplay";
 
 const FeedIndex = () => {

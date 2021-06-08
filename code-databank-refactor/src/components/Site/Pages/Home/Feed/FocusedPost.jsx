@@ -1,12 +1,11 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { withRouter, useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CreateReply from "../Replies/CreateReply";
-import { TokenContext } from "../../App";
+import CreateReply from "../../../../Shared/Replies/CreateReply";
+import { TokenContext } from "../../../../../App";
 import "./FeedCard-Styles.css";
 
 const { Panel } = Collapse;

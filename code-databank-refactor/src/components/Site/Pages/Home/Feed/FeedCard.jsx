@@ -3,16 +3,17 @@ import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import CreateReply from "../Replies/CreateReply";
-import EditPost from "../Posts/EditPost";
-import EditReply from "../Replies/EditReply";
+import CreateReply from "../../../../Shared/Replies/CreateReply";
+import EditPost from "../../../../Shared/Posts/EditPost";
+import EditReply from "../../../../Shared/Replies/EditReply";
 import {
   upVotePostService,
   downVotePostService,
   upVoteReplyService,
   downVoteReplyService,
-} from "../Services/PostService";
-import { deletePostService, deleteReplyService } from "../Services/PostService";
+  deletePostService,
+  deleteReplyService
+} from "../../../../Shared/Services/PostService";
 
 import {
   Row,
@@ -38,7 +39,7 @@ const { Panel } = Collapse;
 
 import "./FeedCard-Styles.css";
 
-import { TokenContext } from "../../App";
+import { TokenContext } from "../../../../../App";
 
 const FeedCard = ({
   post,

@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import mobileShield from "../Site/assets/mobile-shield.png";
+import mobileShield from "../../../assets/mobile-shield.png";
 
 const GettingStarted = () => {
   const { Panel } = Collapse;
