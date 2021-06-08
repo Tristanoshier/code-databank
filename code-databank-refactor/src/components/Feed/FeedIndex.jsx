@@ -64,8 +64,8 @@ const FeedIndex = () => {
 
   return (
     <div>
-      {loading ? 
-        <FeedDisplay 
+      {loading ? (
+        <FeedDisplay
           posts={posts}
           replyActive={replyActive}
           postActive={postActive}
@@ -77,7 +77,10 @@ const FeedIndex = () => {
           replyOn={replyOn}
           replyOff={replyOff}
           getPosts={getPosts}
-        /> : <Spin />}
+        />
+      ) : (
+        <Spin />
+      )}
     </div>
   );
 };

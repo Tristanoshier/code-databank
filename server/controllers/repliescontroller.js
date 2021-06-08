@@ -37,7 +37,7 @@ router.post("/:pId", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const query = { where: { id: req.params.id } };
+  const query = { where: { id: req.params.id, ownerId: req.user.id } };
   const updateReply = {
     replyMessage: req.body.replyMessage,
     replyCode: req.body.replyCode,
