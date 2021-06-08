@@ -6,6 +6,7 @@
 - CD into /server and install node modules
 
 ```
+cd server/
 npm install
 
 ```
@@ -13,6 +14,7 @@ npm install
 - CD into /code-databank-refactor and install node modules
 
 ```
+cd code-databank-refactor/
 npm install
 ```
 
