@@ -26,9 +26,9 @@ JWT_SECRET =
 DB_CONNECTION_STRING =
 ```
 
-- In postgres, created a database for the app and update .env with database name
+- In postgres, create a database for the app and update .env with database name
 
-- Using postgres the default DB_CONNECTION STRING is
+- Using postgres the default DB_CONNECTION STRING is:
 
 ```
 postgres://USERNAME:PASSWORD@localhost:5432/YOUR-DATABASE-NAME
