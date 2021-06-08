@@ -28,7 +28,7 @@ function App() {
     }
   });
 
-  // ******* OLD UPDATETOKEN FUNC IS NEW ONE CAUSES ISSUES *******
+  // ******* OLD UPDATETOKEN FUNC IF NEW ONE CAUSES ISSUES *******
   // const updateToken = (newToken) => {
   //   localStorage.setItem("token", newToken);
   //   setToken(newToken);
