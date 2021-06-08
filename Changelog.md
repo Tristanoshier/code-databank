@@ -42,12 +42,30 @@
 - Create post postMessage input autosizes now, minRow 6
 - Changed reply-message padding left to 2.5em in FeedCard-Styles. When upvotes are in double digits the Badge and message were too close together.
 
-
 6/2/2021 - Tristan
-- updated codebase to use mostly props, left context on token
-- fixed memory leak issue with useEffect and getPosts() 
 
+- updated codebase to use mostly props, left context on token
+- fixed memory leak issue with useEffect and getPosts()
+
+6/5/2021 - Hustin
+
+- Separated Dashboard into index/display/card, total post votes shown
+- Add code snippet is a collapse/panel
+
+6/7/2021 - Hustin
+
+- Only owner can edit and delete their posts or replies - server controllers
+
+6/8/2021 - Hustin
+
+<<<<<<< HEAD
 6/3/2021 - Tristan 
 - Abtract fetch requests in FeedCard and CreatePost Component 
 - add notification for deleted reply and created post 
 - Cleaned up code in FeedCard
+=======
+- Added Skeleton to Dashboard - can't tell if it's working due to data coming in to fast
+- Added a Get Started component if there are no posts found (for people cloning)
+- In App.css for .ant-layout-content I changed height from 100% to 100vh, can change if causes issues
+- Added an option to add code when creating a post. Updated post model.
+>>>>>>> 4946b97f8622a1d9bab3ee9538dbc9dab61036aa

@@ -34,6 +34,7 @@ router.post("/", (req, res) => {
     Posts.create({
       postTitle: req.body.postTitle,
       postMessage: req.body.postMessage,
+      postCode: req.body.postCode,
       postType: req.body.postType,
       codeType: req.body.codeType,
       posterName: req.user.firstName,
@@ -53,10 +54,11 @@ router.post("/", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  const query = { where: { id: req.params.id } };
+  const query = { where: { id: req.params.id, ownerId: req.user.id } };
   const updatePost = {
     postTitle: req.body.postTitle,
     postMessage: req.body.postMessage,
+    postCode: req.body.postCode,
     postType: req.body.postType,
     codeType: req.body.codeType,
     posterName: req.user.firstName,

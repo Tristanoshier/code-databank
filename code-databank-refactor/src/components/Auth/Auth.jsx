@@ -169,16 +169,6 @@ const Auth = (props) => {
 
   return (
     <div className="auth">
-      {/* {loginAlert ? (
-        <Alert
-          message="Login Failed!"
-          description="The login information you entered was not found"
-          type="error"
-          closable
-        />
-      ) : (
-        <></>
-      )} */}
       <Card
         style={{ width: 500 }}
         cover={

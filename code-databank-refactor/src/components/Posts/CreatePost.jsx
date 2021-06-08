@@ -1,17 +1,24 @@
 import React, { useState, useContext } from "react";
+<<<<<<< HEAD
 import { Form, Input, Card, Select, Modal, notification } from "antd";
 
 import { createPostService } from "../Services/PostService";
+=======
+import { Form, Input, Card, Select, Modal, Collapse, Button } from "antd";
+>>>>>>> 4946b97f8622a1d9bab3ee9538dbc9dab61036aa
 import { TokenContext } from "../../App";
 
 const { TextArea } = Input;
 const { Option } = Select;
+const { Panel } = Collapse;
 
 const CreatePost = ({ postOff, getPosts }) => {
   const [postTitle, setPostTitle] = useState("");
   const [postMessage, setPostMessage] = useState("");
+  const [postCode, setPostCode] = useState("");
   const [postType, setPostType] = useState("Question");
   const [codeType, setCodeType] = useState("JavaScript");
+  const [postCodeActive, setPostCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
 
@@ -28,6 +35,7 @@ const CreatePost = ({ postOff, getPosts }) => {
     notification.open(args);
   }
 
+<<<<<<< HEAD
   const handleSubmit = () => {
     if (createPostService(postTitle, postMessage, postType, codeType, token) === true) {
       postOff();
@@ -38,6 +46,40 @@ const CreatePost = ({ postOff, getPosts }) => {
       openCreatedPostNotification();
     } else  {
       console.log('throw error');
+=======
+  const codeOn = () => {
+    setPostCodeActive(true);
+  };
+
+  const handleSubmit = async () => {
+    try {
+      fetch("http://localhost:3000/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          postTitle: postTitle,
+          postMessage: postMessage,
+          postCode: postCode,
+          postType: postType,
+          codeType: codeType,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          getPosts();
+          postOff();
+          setPostTitle("");
+          setPostMessage("");
+          setPostCode("");
+          setPostType("");
+          setCodeType("");
+        });
+    } catch (error) {
+      console.log(error);
+>>>>>>> 4946b97f8622a1d9bab3ee9538dbc9dab61036aa
     }
     getPosts();
   }
@@ -73,6 +115,37 @@ const CreatePost = ({ postOff, getPosts }) => {
               onChange={(e) => setPostMessage(e.target.value)}
             />
           </Form.Item>
+
+          <Collapse ghost>
+            <Panel
+              showArrow={false}
+              key="1"
+              extra={
+                <Button
+                  type="ghost"
+                  onClick={() => {
+                    codeOn();
+                  }}
+                >
+                  Add Code Snippet?{" "}
+                  <i style={{ marginLeft: "5px" }} className="fas fa-code"></i>
+                </Button>
+              }
+            >
+              {postCodeActive ? (
+                <Form.Item label="Code">
+                  <TextArea
+                    autoSize={{ minRows: 6 }}
+                    name="postCode"
+                    value={postCode}
+                    onChange={(e) => setPostCode(e.target.value)}
+                  />
+                </Form.Item>
+              ) : (
+                <></>
+              )}
+            </Panel>
+          </Collapse>
           <Form.Item label="Post Type">
             <Select
               value={postType}
