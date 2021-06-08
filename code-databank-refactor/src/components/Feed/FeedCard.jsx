@@ -367,6 +367,30 @@ const FeedCard = ({
               {post?.postMessage.split("\n").map((message) => (
                 <p>{message}</p>
               ))}
+
+              <div className="post-code">
+                <SyntaxHighlighter
+                  lineProps={{
+                    style: {
+                      // wordBreak: "break-all",
+                      // whiteSpace: "pre-line",
+                      whiteSpace: "pre-wrap",
+                    },
+                  }}
+                  customStyle={{
+                    paddingLeft: "2em",
+                    borderRadius: "5px",
+                  }}
+                  useInlineStyles={true}
+                  wrapLines={true}
+                  key={post.id}
+                  language={post.codeType}
+                  language="Javascript"
+                  style={rainbow}
+                >
+                  {post?.postCode}
+                </SyntaxHighlighter>
+              </div>
             </div>
 
             <div className="postedBy">

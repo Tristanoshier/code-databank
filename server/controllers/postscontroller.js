@@ -34,6 +34,7 @@ router.post("/", (req, res) => {
     Posts.create({
       postTitle: req.body.postTitle,
       postMessage: req.body.postMessage,
+      postCode: req.body.postCode,
       postType: req.body.postType,
       codeType: req.body.codeType,
       posterName: req.user.firstName,
@@ -57,6 +58,7 @@ router.put("/:id", (req, res) => {
   const updatePost = {
     postTitle: req.body.postTitle,
     postMessage: req.body.postMessage,
+    postCode: req.body.postCode,
     postType: req.body.postType,
     codeType: req.body.codeType,
     posterName: req.user.firstName,
