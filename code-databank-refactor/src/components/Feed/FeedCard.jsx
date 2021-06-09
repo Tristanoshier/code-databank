@@ -314,7 +314,14 @@ const FeedCard = ({
     <div>
       <div key={post?.id}>
         <Badge.Ribbon
-          text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
+          className="badge"
+          text={
+            post?.upVotes === null || 0
+              ? 0
+              : post?.upVotes >= 999
+              ? "1k+"
+              : post?.upVotes
+          }
           color="#f50"
           placement="start"
         >
@@ -378,14 +385,13 @@ const FeedCard = ({
                       },
                     }}
                     customStyle={{
-                      paddingLeft: "2em",
+                      paddingLeft: "1em",
                       borderRadius: "5px",
                     }}
                     useInlineStyles={true}
                     wrapLines={true}
                     key={post.id}
                     language={post.codeType}
-                    language="Javascript"
                     style={rainbow}
                   >
                     {post?.postCode}
@@ -423,6 +429,7 @@ const FeedCard = ({
                     </Col>
                     <Col span={22}>
                       <Badge.Ribbon
+                        className="badge"
                         text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
                         color="#f50"
                         placement="start"
@@ -440,8 +447,7 @@ const FeedCard = ({
                                   },
                                 }}
                                 customStyle={{
-                                  // test
-                                  // paddingLeft: "1em",
+                                  paddingLeft: "1em",
                                   // paddingRight: "1em",
                                   borderRadius: "5px",
                                   overflow: "hidden",

@@ -65,3 +65,8 @@
 - Popular topics go to Focused Post
 - Added edit postCode for edit post
 - Updated Emotional response
+
+6/9/2021 - Hustin
+
+- Updated font family, opinions?
+- Upvote badge shows 1k+ if over 999, so it doesn't butt up against the upvote arrows
