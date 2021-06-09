@@ -440,8 +440,9 @@ const FeedCard = ({
                                   },
                                 }}
                                 customStyle={{
-                                  paddingLeft: "1em",
-                                  paddingRight: "1em",
+                                  // test
+                                  // paddingLeft: "1em",
+                                  // paddingRight: "1em",
                                   borderRadius: "5px",
                                   overflow: "hidden",
                                 }}
