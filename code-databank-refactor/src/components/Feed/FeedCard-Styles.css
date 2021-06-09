@@ -11,6 +11,11 @@ i {
   padding-right: 5px;
 }
 
+.badge {
+  /* font-size: 14px; */
+  font-weight: 400;
+}
+
 .fa-bookmark {
   color: #1890ff;
 }
@@ -31,6 +36,7 @@ i {
   flex-direction: column;
   flex-wrap: wrap;
   max-height: 40px;
+  padding-left: 8px;
 }
 
 .arrow {
