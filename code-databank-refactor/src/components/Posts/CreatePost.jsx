@@ -24,6 +24,10 @@ const CreatePost = ({ postOff, getPosts }) => {
     setPostCodeActive(true);
   };
 
+  const codeOff = () => {
+    setPostCodeActive(false);
+  };
+
   const handleSubmit = async () => {
     try {
       fetch("http://localhost:3000/posts", {
@@ -44,6 +48,7 @@ const CreatePost = ({ postOff, getPosts }) => {
         .then(() => {
           getPosts();
           postOff();
+          codeOff();
           setPostTitle("");
           setPostMessage("");
           setPostCode("");

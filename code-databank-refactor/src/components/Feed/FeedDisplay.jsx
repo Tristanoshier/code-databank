@@ -38,6 +38,7 @@ const FeedDisplay = (props) => {
             postOn={props.postOn}
             postOff={props.postOff}
             getPosts={props.getPosts}
+            posts={props.posts}
           />
           <EmotionIndex />
         </Col>

@@ -9,6 +9,7 @@ const { Option } = Select;
 const EditPost = (props) => {
   const [postTitle, setPostTitle] = useState(props.post?.postTitle);
   const [postMessage, setPostMessage] = useState(props.post?.postMessage);
+  const [postCode, setPostCode] = useState(props.post?.postCode);
   const [postType, setPostType] = useState(props.post?.postType);
   const [codeType, setCodeType] = useState(props.post?.codeType);
 
@@ -33,6 +34,7 @@ const EditPost = (props) => {
         body: JSON.stringify({
           postTitle: postTitle,
           postMessage: postMessage,
+          postCode: postCode,
           postType: postType,
           codeType: codeType,
         }),
@@ -48,6 +50,7 @@ const EditPost = (props) => {
           props.getPosts();
           setPostTitle("");
           setPostMessage("");
+          setPostCode("");
           setPostType("");
           setCodeType("");
         });
@@ -86,6 +89,18 @@ const EditPost = (props) => {
               onChange={(e) => setPostMessage(e.target.value)}
             />
           </Form.Item>
+          {props.editPost?.codeType === "" ? (
+            <></>
+          ) : (
+            <Form.Item label="Code">
+              <TextArea
+                name="postCode"
+                autoSize={{ minRows: 8 }}
+                value={postCode}
+                onChange={(e) => setPostCode(e.target.value)}
+              />
+            </Form.Item>
+          )}
           <Form.Item label="Post Type">
             <Select
               value={postType}
