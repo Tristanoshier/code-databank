@@ -56,16 +56,13 @@
 
 - Only owner can edit and delete their posts or replies - server controllers
 
-6/8/2021 - Hustin
-
-<<<<<<< HEAD
 6/3/2021 - Tristan 
 - Abtract fetch requests in FeedCard and CreatePost Component 
 - add notification for deleted reply and created post 
 - Cleaned up code in FeedCard
-=======
-- Added Skeleton to Dashboard - can't tell if it's working due to data coming in to fast
+
+6/8/2021 - Hustin
+- Added Skeleton to Dashboard - can't tell if it's working due to data coming in too fast
 - Added a Get Started component if there are no posts found (for people cloning)
 - In App.css for .ant-layout-content I changed height from 100% to 100vh, can change if causes issues
 - Added an option to add code when creating a post. Updated post model.
->>>>>>> 4946b97f8622a1d9bab3ee9538dbc9dab61036aa

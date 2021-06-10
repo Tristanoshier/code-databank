@@ -26,7 +26,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
     })
       .then((res) => res.json())
       .then(() => {
-        getPosts();
+        getPosts(false);
         setReplyMessage("");
         setReplyCode("");
         replyOff();

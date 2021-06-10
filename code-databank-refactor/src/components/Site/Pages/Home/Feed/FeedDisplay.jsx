@@ -10,14 +10,23 @@ const FeedDisplay = (props) => {
     <div>
       <Row justify="end" gutter={[16, 16]}>
         <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-          {props.posts.length === 0 ? (
+          {props.showGetStarted ? (
             <GettingStarted />
           ) : (
-            props.posts
-              ?.sort((a, b) => {
-                return b.id - a.id;
-              })
-              .map((post, index) => (
+            props.posts?.map((post, index) => (
+              props.posts.length === index + 1 && props.lastPostOnScreen !== null ? (
+                <div ref={props.lastPostOnScreen} key={index}>
+                  <FeedCard
+                    post={post}
+                    replyOn={props.replyOn}
+                    replyOff={props.replyOff}
+                    addReply={props.addReply}
+                    createReply={props.createReply}
+                    replyActive={props.replyActive}
+                    getPosts={props.getPosts}
+                  />
+                </div>
+              ) : (
                 <div key={index}>
                   <FeedCard
                     post={post}
@@ -29,7 +38,9 @@ const FeedDisplay = (props) => {
                     getPosts={props.getPosts}
                   />
                 </div>
-              ))
+              )
+
+            ))
           )}
         </Col>
         <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>

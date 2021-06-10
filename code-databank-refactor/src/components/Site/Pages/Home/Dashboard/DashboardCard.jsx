@@ -8,7 +8,7 @@ const DashboardCard = ({
   postOff,
   getPosts,
   loggedInUser,
-  loading,
+  loading
 }) => {
   const firstName = localStorage.getItem("firstName");
 

@@ -25,7 +25,7 @@ const EditPost = (props) => {
     props.editPostOff();
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     try {
       fetch(`http://localhost:3000/posts/${props.editPost.id}`, {
         method: "PUT",
@@ -44,7 +44,7 @@ const EditPost = (props) => {
         .then(() => {
           props.editPostOff();
           openUpdateNotification();
-          props.getPosts();
+          props.getPosts(false);
           setPostTitle("");
           setPostMessage("");
           setPostType("");

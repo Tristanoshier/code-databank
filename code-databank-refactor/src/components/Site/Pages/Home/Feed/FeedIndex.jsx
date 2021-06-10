@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef, useCallback } from "react";
 import { Spin } from "antd";
-import axios from "axios";
 import { TokenContext } from "../../../../../App";
 import FeedDisplay from "./FeedDisplay";
 
@@ -13,28 +12,54 @@ const FeedIndex = () => {
   const [postActive, setPostActive] = useState(false);
   const [createPost, setCreatePost] = useState({});
   const [loading, setLoading] = useState(true);
+  const [infiniteScrollLoading, setInfiniteScrollLoading] = useState(true);
+  const [hasMore, setHasMore] = useState(false);
+  const [pageNumber, setPageNumber] = useState(1);
+  const [showGetStarted, setShowGetStarted] = useState(false);
 
   useEffect(() => {
-    getPosts();
-  }, []);
-
-  const getPosts = () => {
+    getPosts(true);
+  }, [pageNumber]);
+  
+  const getPosts = scrolling => {
+    pageNumber <= 1 ? setInfiniteScrollLoading(false) : setInfiniteScrollLoading(true);
     try {
-      const data = axios
-        .get("http://localhost:3000/posts", {
-          headers: {
-            Authorization: token,
-          },
+      fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
+          method: 'GET',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: token
         })
-        .then((res) => {
-          setPosts(res.data);
+      }).then(res => res.json())
+        .then(postResults => {
+          if (scrolling) {
+            setPosts(prevPosts => {
+              return [...prevPosts, ...postResults]
+            });
+            setHasMore(postResults.length > 0);
+          } else {
+            setPosts(postResults);
+          }
+          setLoading(false);
+          setInfiniteScrollLoading(false);
         });
-      return data;
     } catch (error) {
       console.log("error", error);
     }
-    setLoading(false);
   };
+
+  const observer = useRef();
+
+  const lastPostOnScreen = useCallback(node => {
+    if (loading) return;
+    if (observer.current) observer.current.disconnect();
+    observer.current = new IntersectionObserver(entries => {
+        if (entries[0].isIntersecting && hasMore) {
+            setPageNumber(prevPageNumber => prevPageNumber + 1);
+        }
+    })
+    if (node) observer.current.observe(node)
+}, [loading, hasMore])
 
   // post actives
   const addPost = (post) => {
@@ -64,7 +89,7 @@ const FeedIndex = () => {
 
   return (
     <div>
-      {loading ? (
+      {!loading || !infiniteScrollLoading ? (
         <FeedDisplay
           posts={posts}
           replyActive={replyActive}
@@ -77,6 +102,8 @@ const FeedIndex = () => {
           replyOn={replyOn}
           replyOff={replyOff}
           getPosts={getPosts}
+          lastPostOnScreen={lastPostOnScreen}
+          showGetStarted={showGetStarted}
         />
       ) : (
         <Spin />

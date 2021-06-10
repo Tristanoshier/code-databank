@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal, Collapse, Button } from "antd";
+import { Form, Input, Card, Select, Modal, Collapse, Button, notification } from "antd";
 import { TokenContext } from "../../../App";
 
 const { TextArea } = Input;
@@ -16,10 +16,6 @@ const CreatePost = ({ postOff, getPosts }) => {
 
   const token = useContext(TokenContext);
 
-  const handleCancel = () => {
-    postOff();
-  }
-
   const openCreatedPostNotification = () => {
     const args = {
       message: "Success!",
@@ -31,9 +27,14 @@ const CreatePost = ({ postOff, getPosts }) => {
 
   const codeOn = () => {
     setPostCodeActive(true);
-  };
+  }
 
-  const handleSubmit = async () => {
+
+  const handleCancel = () => {
+    postOff();
+  }
+
+  const handleSubmit = () => {
     try {
       fetch("http://localhost:3000/posts", {
         method: "POST",
@@ -51,8 +52,9 @@ const CreatePost = ({ postOff, getPosts }) => {
       })
         .then((res) => res.json())
         .then(() => {
-          getPosts();
           postOff();
+          openCreatedPostNotification();
+          getPosts();
           setPostTitle("");
           setPostMessage("");
           setPostCode("");
@@ -62,7 +64,6 @@ const CreatePost = ({ postOff, getPosts }) => {
     } catch (error) {
       console.log(error);
     }
-    getPosts();
   }
 
   return (

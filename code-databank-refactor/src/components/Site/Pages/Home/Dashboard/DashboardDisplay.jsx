@@ -7,7 +7,7 @@ const DashboardDisplay = ({
   postOff,
   getPosts,
   user,
-  loading,
+  loading
 }) => {
   return (
     <>

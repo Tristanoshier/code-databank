@@ -6,14 +6,6 @@ import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../../../../Shared/Replies/CreateReply";
 import EditPost from "../../../../Shared/Posts/EditPost";
 import EditReply from "../../../../Shared/Replies/EditReply";
-import {
-  upVotePostService,
-  downVotePostService,
-  upVoteReplyService,
-  downVoteReplyService,
-  deletePostService,
-  deleteReplyService
-} from "../../../../Shared/Services/PostService";
 
 import {
   Row,
@@ -48,7 +40,7 @@ const FeedCard = ({
   replyOff,
   addReply,
   createReply,
-  getPosts,
+  getPosts
 }) => {
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
@@ -127,61 +119,130 @@ const FeedCard = ({
   // service requests -------------------------------------------
 
   const upVotePost = (post) => {
-    let newUpVotes = post.upVotes + 1;
-    if (upVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-    } else {
+    let newUpVotes = post?.upVotes + 1;
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        })
+      }).then(res => res.json())
+      .then(() => {
+        setUpvotePostCount(newUpVotes);
+        getPosts(false);
+      })
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
+  
 
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
-    if (downVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        })
+      }).then(res => res.json())
+      .then(() => {
+        setUpvotePostCount(newUpVotes);
+        getPosts(false);
+      })
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const upVoteReply = (reply) => {
     let newUpVotes = reply.upVotes + 1;
-    if (upVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          replyMessage: reply.replyMessage,
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      }).then(res => res.json())
+      .then(() => {
+        setUpvoteCount(newUpVotes);
+        getPosts(false);
+      })
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const downVoteReply = (reply) => {
     let newUpVotes = reply.upVotes - 1;
-    if (downVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          replyMessage: reply.replyMessage,
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      }).then(res => res.json())
+      .then(() => {
+        setUpvoteCount(newUpVotes);
+        getPosts(false);
+      })
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const DeletePost = (post) => {
-    if (deletePostService(post, token) === true) {
-      openDeletePostNotification();
-    } else {
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      }).then(res => res.json())
+      .then(() => {
+        openDeletePostNotification();
+        getPosts(false);
+      }) 
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const deleteReply = (reply) => {
-    if (deleteReplyService(reply, token) === true) {
-      openDeleteReplyNotification();
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      }).then(res => res.json())
+      .then(() => {
+        openDeleteReplyNotification();
+        getPosts(false);
+      })
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const savePostInLocalStorage = (post) => {

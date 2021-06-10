@@ -38,7 +38,7 @@ const EditReply = (props) => {
       .then((data) => {
         props.editReplyOff();
         openUpdateNotification();
-        props.getPosts();
+        props.getPosts(false);
         setReplyMessage("");
         setReplyCode("");
       });
