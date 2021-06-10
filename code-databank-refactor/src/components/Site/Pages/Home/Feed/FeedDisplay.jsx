@@ -10,7 +10,7 @@ const FeedDisplay = (props) => {
     <div>
       <Row justify="end" gutter={[16, 16]}>
         <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-          {props.showGetStarted ? (
+          {props.posts.length === 0 ? (
             <GettingStarted />
           ) : (
             props.posts?.map((post, index) => (

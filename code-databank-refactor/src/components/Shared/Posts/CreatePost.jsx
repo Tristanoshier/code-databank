@@ -69,6 +69,7 @@ const CreatePost = ({ postOff, getPosts }) => {
     } catch (error) {
       console.log(error);
     }
+    getPosts(false);  
   }
 
   return (

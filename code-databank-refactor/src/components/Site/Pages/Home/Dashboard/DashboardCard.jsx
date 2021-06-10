@@ -1,10 +1,8 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CreatePost from "../../../../Shared/Posts/CreatePost";
 import { Card, Divider, Button, Skeleton } from "antd";
-import React, { useState } from "react";
-import CreatePost from "../Posts/CreatePost";
-import { Card, Divider, Button, Skeleton, Badge } from "antd";
 import { Link } from "react-router-dom";
+import { TokenContext } from "../../../../../App";
 
 const DashboardCard = ({
   postActive,
@@ -16,6 +14,29 @@ const DashboardCard = ({
   posts,
 }) => {
   const firstName = localStorage.getItem("firstName");
+  const token = useContext(TokenContext);
+  const [popularPosts, setPopularPosts] = useState([])
+
+  useEffect(() => {
+    getPopularPosts()
+  }, [posts])
+
+  const getPopularPosts = () => {
+    try {
+      fetch(`http://localhost:3000/posts/popular/dashboard`, {
+        method: 'GET',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: token
+      })
+    }).then(res => res.json())
+    .then(data => {
+      setPopularPosts(data);
+    }).catch((error) => console.log(error))
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   // dashboard counts ---------------
 
@@ -76,13 +97,9 @@ const DashboardCard = ({
             <Divider orientation="left">
               <h5>Popular Posts</h5>
             </Divider>
-            {posts
-              ?.sort((a, b) => {
-                return b.upVotes - a.upVotes;
-              })
-              .slice(0, 5)
-              .map((post) => (
-                <div className="popular-topics-container">
+            {popularPosts?.slice(0, 5)
+              .map((post, index) => (
+                <div key={index} className="popular-topics-container">
                   {post.upVotes >= 99 ? (
                     <div className="post-badge">99+</div>
                   ) : post.upVotes === null ? (

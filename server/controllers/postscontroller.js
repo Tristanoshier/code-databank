@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { Posts, Replies } = require("../models");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 
 // RECENT ON DASHBOARD
@@ -28,7 +30,31 @@ router.get("/", (req, res) => {
     );
 });
 
-// MOST POPULAR POSTS
+// MOST POPULAR POSTS FOR DASHBOARD
+router.get("/popular/dashboard", (req, res) => {
+  Posts.findAll({
+    where: {
+      upVotes: {
+        [Op.ne]: null
+      }
+    },
+    include: Replies,
+    order: [
+      ["upVotes", "DESC"]
+    ]
+   
+  })
+  .then(posts => {
+    res.status(200).json(posts)
+  })
+  .catch((err) =>
+    res.status(500).json({
+      error: err,
+    })
+  );
+});
+
+// MOST POPULAR POSTS ON POPULAR PAGE
 router.get("/popular", (req, res) => {
   Posts.findAll({
     include: Replies,
@@ -51,7 +77,7 @@ router.get("/popular", (req, res) => {
       error: err,
     })
   );
-})
+});
 
 router.get("/:id", (req, res) => {
   Posts.findOne({

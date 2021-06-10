@@ -138,6 +138,7 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
+    getPosts(false);
   };
   
 
@@ -161,6 +162,7 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
+    getPosts(false);
   };
 
   const upVoteReply = (reply) => {
@@ -207,6 +209,7 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
+    getPosts(false);
   };
 
   const DeletePost = (post) => {
@@ -225,6 +228,7 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
+    getPosts(false);
   };
 
   const deleteReply = (reply) => {
@@ -243,6 +247,7 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
+    getPosts(false);
   };
 
   const savePostInLocalStorage = (post) => {

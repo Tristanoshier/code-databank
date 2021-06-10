@@ -56,6 +56,7 @@ const EditPost = (props) => {
     } catch (error) {
       console.log(error);
     }
+    props.getPosts(false);
   };
   return (
     <Modal
