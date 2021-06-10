@@ -3,7 +3,7 @@ import { TokenContext } from "../../../../../App";
 import "./Dashboard-Styles.css";
 import DashboardDisplay from "./DashboardDisplay";
 
-const DashboardIndex = ({ postActive, postOn, postOff, getPosts }) => {
+const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(false);
   const token = useContext(TokenContext);
@@ -52,6 +52,7 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts }) => {
         postOn={postOn}
         postOff={postOff}
         getPosts={getPosts}
+        posts={posts}
       />
     </div>
   );

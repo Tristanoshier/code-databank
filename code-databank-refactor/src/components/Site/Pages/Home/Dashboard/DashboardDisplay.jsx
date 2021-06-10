@@ -7,7 +7,8 @@ const DashboardDisplay = ({
   postOff,
   getPosts,
   user,
-  loading
+  loading,
+  posts,
 }) => {
   return (
     <>
@@ -20,6 +21,7 @@ const DashboardDisplay = ({
           postOn={postOn}
           postOff={postOff}
           getPosts={getPosts}
+          posts={posts}
         />
       ))}
     </>

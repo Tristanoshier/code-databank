@@ -34,7 +34,11 @@ const CreatePost = ({ postOff, getPosts }) => {
     postOff();
   }
 
-  const handleSubmit = () => {
+  const codeOff = () => {
+    setPostCodeActive(false);
+  };
+
+  const handleSubmit = async () => {
     try {
       fetch("http://localhost:3000/posts", {
         method: "POST",
@@ -53,8 +57,9 @@ const CreatePost = ({ postOff, getPosts }) => {
         .then((res) => res.json())
         .then(() => {
           postOff();
+          codeOff();
           openCreatedPostNotification();
-          getPosts();
+          getPosts(false);  
           setPostTitle("");
           setPostMessage("");
           setPostCode("");

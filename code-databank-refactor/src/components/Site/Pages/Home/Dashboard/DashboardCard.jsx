@@ -1,6 +1,10 @@
 import React from "react";
 import CreatePost from "../../../../Shared/Posts/CreatePost";
 import { Card, Divider, Button, Skeleton } from "antd";
+import React, { useState } from "react";
+import CreatePost from "../Posts/CreatePost";
+import { Card, Divider, Button, Skeleton, Badge } from "antd";
+import { Link } from "react-router-dom";
 
 const DashboardCard = ({
   postActive,
@@ -8,9 +12,12 @@ const DashboardCard = ({
   postOff,
   getPosts,
   loggedInUser,
-  loading
+  loading,
+  posts,
 }) => {
   const firstName = localStorage.getItem("firstName");
+
+  // dashboard counts ---------------
 
   let totalPostUpvotes = loggedInUser?.posts.reduce(function (a, b) {
     let total = 0;
@@ -30,20 +37,72 @@ const DashboardCard = ({
     return total;
   }, 0);
 
+  // focused post from dashboard ---------------
+  const savePostInLocalStorage = (post) => {
+    localStorage.setItem("post", JSON.stringify(post));
+  };
+
   return (
     <div>
       {loading ? (
         <Card
           title={[
-            <i className="fas fa-portrait"></i>,
+            <i
+              className="fas fa-portrait"
+              style={{ paddingRight: "10px" }}
+            ></i>,
             `${firstName}'s Dashboard`,
             ,
           ]}
         >
           <div className="dashboard-content">
-            <p>Posts: {totalPosts}</p>
+            {/* <p>Posts: {totalPosts}</p>
             <p>Replies: {totalRepliesReduced}</p>
-            <p>Post Votes: {totalPostUpvotes}</p>
+            <p>Score: {totalPostUpvotes}</p> */}
+            <div className="dashboard-stats">
+              <table>
+                <tr>
+                  <th>Posts</th>
+                  <th>Replies</th>
+                  <th>Score</th>
+                </tr>
+                <tr>
+                  <td>{totalPosts}</td>
+                  <td>{totalRepliesReduced}</td>
+                  <td>{totalPostUpvotes}</td>
+                </tr>
+              </table>
+            </div>
+            <Divider orientation="left">
+              <h5>Popular Posts</h5>
+            </Divider>
+            {posts
+              ?.sort((a, b) => {
+                return b.upVotes - a.upVotes;
+              })
+              .slice(0, 5)
+              .map((post) => (
+                <div className="popular-topics-container">
+                  {post.upVotes >= 99 ? (
+                    <div className="post-badge">99+</div>
+                  ) : post.upVotes === null ? (
+                    <div className="post-badge">0</div>
+                  ) : (
+                    <div className="post-badge">{post.upVotes}</div>
+                  )}
+                  <div className="topic-title-container">
+                    <Link
+                      onClick={() => savePostInLocalStorage(post)}
+                      to={{
+                        pathname: `/focusedPost/${post?.postTitle}`,
+                        post: post,
+                      }}
+                    >
+                      <h5 id="popular-topics-title">{post.postTitle}</h5>
+                    </Link>
+                  </div>
+                </div>
+              ))}
           </div>
           <Divider />
           <div className="dashboard-footer">

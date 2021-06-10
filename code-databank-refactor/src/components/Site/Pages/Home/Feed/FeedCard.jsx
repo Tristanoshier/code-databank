@@ -376,7 +376,14 @@ const FeedCard = ({
     <div>
       <div key={post?.id}>
         <Badge.Ribbon
-          text={post?.upVotes === null || 0 ? 0 : post?.upVotes}
+          className="badge"
+          text={
+            post?.upVotes === null || 0
+              ? 0
+              : post?.upVotes >= 999
+              ? "1k+"
+              : post?.upVotes
+          }
           color="#f50"
           placement="start"
         >
@@ -429,30 +436,32 @@ const FeedCard = ({
               {post?.postMessage.split("\n").map((message) => (
                 <p>{message}</p>
               ))}
-
-              <div className="post-code">
-                <SyntaxHighlighter
-                  lineProps={{
-                    style: {
-                      // wordBreak: "break-all",
-                      // whiteSpace: "pre-line",
-                      whiteSpace: "pre-wrap",
-                    },
-                  }}
-                  customStyle={{
-                    paddingLeft: "2em",
-                    borderRadius: "5px",
-                  }}
-                  useInlineStyles={true}
-                  wrapLines={true}
-                  key={post.id}
-                  language={post.codeType}
-                  language="Javascript"
-                  style={rainbow}
-                >
-                  {post?.postCode}
-                </SyntaxHighlighter>
-              </div>
+              {post.postCode != "" || null ? (
+                <div className="post-code">
+                  <SyntaxHighlighter
+                    lineProps={{
+                      style: {
+                        // wordBreak: "break-all",
+                        // whiteSpace: "pre-line",
+                        whiteSpace: "pre-wrap",
+                      },
+                    }}
+                    customStyle={{
+                      paddingLeft: "1em",
+                      borderRadius: "5px",
+                    }}
+                    useInlineStyles={true}
+                    wrapLines={true}
+                    key={post.id}
+                    language={post.codeType}
+                    style={rainbow}
+                  >
+                    {post?.postCode}
+                  </SyntaxHighlighter>
+                </div>
+              ) : (
+                <></>
+              )}
             </div>
 
             <div className="postedBy">
@@ -482,6 +491,7 @@ const FeedCard = ({
                     </Col>
                     <Col span={22}>
                       <Badge.Ribbon
+                        className="badge"
                         text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
                         color="#f50"
                         placement="start"
@@ -499,8 +509,10 @@ const FeedCard = ({
                                   },
                                 }}
                                 customStyle={{
-                                  paddingLeft: "2em",
+                                  paddingLeft: "1em",
+                                  // paddingRight: "1em",
                                   borderRadius: "5px",
+                                  overflow: "hidden",
                                 }}
                                 useInlineStyles={true}
                                 wrapLines={true}

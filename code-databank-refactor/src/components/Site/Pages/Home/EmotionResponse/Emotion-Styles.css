@@ -1,3 +1,37 @@
+.emotion-card {
+  margin-top: 20px;
+}
+
+.popular-topics {
+  padding-right: 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.topic-badge {
+  background-color: #76bdff;
+  padding: 0 5px 0 5px;
+  border-radius: 20%;
+  min-width: 25px;
+  text-align: center;
+  color: white;
+  margin-right: 5px;
+  font-size: 10px;
+  font-weight: 400;
+}
+
+.popular-topics-title {
+  color: rgb(168, 167, 167);
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.popular-topics-title:hover {
+  color: lightgray;
+}
+
 .emotion-footer {
   display: flex;
   flex-direction: row;
@@ -7,14 +41,6 @@
 
 .emotion-footer h5:hover {
   color: #1890ff;
-}
-
-.emotion-card {
-  margin-top: 20px;
-}
-
-#popular-topics {
-  text-decoration: underline;
 }
 
 @media only screen and (max-width: 839px) {
