@@ -254,6 +254,31 @@ const FeedCard = ({
     localStorage.setItem("post", JSON.stringify(post));
   };
 
+  const addToSaved = async (post) => {
+    try {
+      fetch("http://localhost:3000/profile", {
+        method: "POST",
+        body: JSON.stringify({
+          postTitle: post.postTitle,
+          postMessage: post.postMessage,
+          postCode: post.postCode,
+          postType: post.postType,
+          codeType: post.codeType,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   // styling functions ---------------------------------------------
 
   const controlButtons = () => {
@@ -291,7 +316,12 @@ const FeedCard = ({
   const menu = (
     <Menu>
       <Menu.Item>
-        <a onClick={() => openSavedPostNotifiction()}>
+        <a
+          onClick={() => {
+            addToSaved(post);
+            openSavedPostNotifiction();
+          }}
+        >
           <i className="far fa-bookmark"></i>
           Save Post
         </a>
@@ -364,11 +394,20 @@ const FeedCard = ({
   };
 
   const icon = unSaved ? (
-    <a onClick={() => openUnSavedPostNotifiction()}>
+    <a
+      onClick={() => {
+        openUnSavedPostNotifiction();
+      }}
+    >
       <i key={unSaved} className="fas fa-bookmark"></i>
     </a>
   ) : (
-    <a onClick={() => openSavedPostNotifiction()}>
+    <a
+      onClick={() => {
+        addToSaved(post);
+        openSavedPostNotifiction();
+      }}
+    >
       <i key={unSaved} className="far fa-bookmark"></i>
     </a>
   );

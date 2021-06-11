@@ -1,9 +1,10 @@
 import React from "react";
 import { Switch, Route } from "react-router-dom";
-import { Search } from "./Pages/Search/Search";
-import { Popular } from "./Pages/Popular/Popular";
 import FocusedPost from "./Pages/Home/Feed/FocusedPost";
+import ProfileIndex from "../Profile/ProfileIndex";
 import { Home } from "./Pages/Home/Home";
+import { Popular } from "./Pages/Popular/Popular";
+import { Search } from "./Pages/Search/Search";
 
 export const Routes = () => {
   return (
@@ -22,6 +23,9 @@ export const Routes = () => {
       </Route>
       <Route exact path="/focusedPost/:post">
         <FocusedPost />
+      </Route>
+      <Route exact path="/profile">
+        <ProfileIndex />
       </Route>
     </Switch>
   );
