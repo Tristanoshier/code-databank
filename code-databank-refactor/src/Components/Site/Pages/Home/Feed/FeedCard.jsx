@@ -3,16 +3,9 @@ import { Link, withRouter } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
-import CreateReply from "../Replies/CreateReply";
-import EditPost from "../Posts/EditPost";
-import EditReply from "../Replies/EditReply";
-import {
-  upVotePostService,
-  downVotePostService,
-  upVoteReplyService,
-  downVoteReplyService,
-} from "../Services/PostService";
-import { deletePostService, deleteReplyService } from "../Services/PostService";
+import CreateReply from "../../../../Shared/Replies/CreateReply";
+import EditPost from "../../../../Shared/Posts/EditPost";
+import EditReply from "../../../../Shared/Replies/EditReply";
 
 import {
   Row,
@@ -38,7 +31,7 @@ const { Panel } = Collapse;
 
 import "./FeedCard-Styles.css";
 
-import { TokenContext } from "../../App";
+import { TokenContext } from "../../../../../App";
 
 const FeedCard = ({
   post,
@@ -126,65 +119,169 @@ const FeedCard = ({
   // service requests -------------------------------------------
 
   const upVotePost = (post) => {
-    let newUpVotes = post.upVotes + 1;
-    if (upVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-    } else {
+    let newUpVotes = post?.upVotes + 1;
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvotePostCount(newUpVotes);
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
+    getPosts(false);
   };
 
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
-    if (downVotePostService(post, newUpVotes, token) === true) {
-      setUpvotePostCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvotePostCount(newUpVotes);
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
+    getPosts(false);
   };
 
   const upVoteReply = (reply) => {
     let newUpVotes = reply.upVotes + 1;
-    if (upVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          replyMessage: reply.replyMessage,
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvoteCount(newUpVotes);
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
   };
 
   const downVoteReply = (reply) => {
     let newUpVotes = reply.upVotes - 1;
-    if (downVoteReplyService(reply, newUpVotes, token) === true) {
-      setUpvoteCount(newUpVotes);
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          replyMessage: reply.replyMessage,
+          upVotes: newUpVotes,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvoteCount(newUpVotes);
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
+    getPosts(false);
   };
 
   const DeletePost = (post) => {
-    if (deletePostService(post, token) === true) {
-      openDeletePostNotification();
-    } else {
+    try {
+      fetch(`http://localhost:3000/posts/${post.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          openDeletePostNotification();
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
+    getPosts(false);
   };
 
   const deleteReply = (reply) => {
-    if (deleteReplyService(reply, token) === true) {
-      openDeleteReplyNotification();
-    } else {
+    try {
+      fetch(`http://localhost:3000/replies/${reply.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then(() => {
+          openDeleteReplyNotification();
+          getPosts(false);
+        });
+    } catch {
       console.log("throw error");
     }
-    getPosts();
+    getPosts(false);
   };
 
   const savePostInLocalStorage = (post) => {
     localStorage.setItem("post", JSON.stringify(post));
+  };
+
+  const addToSaved = async (post) => {
+    try {
+      fetch("http://localhost:3000/profile", {
+        method: "POST",
+        body: JSON.stringify({
+          postTitle: post.postTitle,
+          postMessage: post.postMessage,
+          postCode: post.postCode,
+          postType: post.postType,
+          codeType: post.codeType,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // styling functions ---------------------------------------------
@@ -224,7 +321,12 @@ const FeedCard = ({
   const menu = (
     <Menu>
       <Menu.Item>
-        <a onClick={() => openSavedPostNotifiction()}>
+        <a
+          onClick={() => {
+            addToSaved(post);
+            openSavedPostNotifiction();
+          }}
+        >
           <i className="far fa-bookmark"></i>
           Save Post
         </a>
@@ -297,11 +399,20 @@ const FeedCard = ({
   };
 
   const icon = unSaved ? (
-    <a onClick={() => openUnSavedPostNotifiction()}>
+    <a
+      onClick={() => {
+        openUnSavedPostNotifiction();
+      }}
+    >
       <i key={unSaved} className="fas fa-bookmark"></i>
     </a>
   ) : (
-    <a onClick={() => openSavedPostNotifiction()}>
+    <a
+      onClick={() => {
+        addToSaved(post);
+        openSavedPostNotifiction();
+      }}
+    >
       <i key={unSaved} className="far fa-bookmark"></i>
     </a>
   );

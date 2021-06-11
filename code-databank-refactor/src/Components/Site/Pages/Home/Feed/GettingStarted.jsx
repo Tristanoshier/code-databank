@@ -9,7 +9,7 @@ import {
 } from "@ant-design/icons";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
-import mobileShield from "../Site/assets/mobile-shield.png";
+import mobileShield from "../../../assets/mobile-shield.png";
 
 const GettingStarted = () => {
   const { Panel } = Collapse;
@@ -75,7 +75,12 @@ const GettingStarted = () => {
       </Card>
       <Divider>Example Post</Divider>
       <div>
-        <Badge.Ribbon text="8" color="#f50" placement="start">
+        <Badge.Ribbon
+          text="8"
+          color="#f50"
+          placement="start"
+          style={{ fontWeight: "400" }}
+        >
           <Card
             className="feed-card"
             title={[
@@ -130,7 +135,12 @@ const GettingStarted = () => {
                   </div>
                 </Col>
                 <Col span={22}>
-                  <Badge.Ribbon text="10" color="#f50" placement="start">
+                  <Badge.Ribbon
+                    text="10"
+                    color="#f50"
+                    placement="start"
+                    style={{ fontWeight: "400" }}
+                  >
                     <div className="reply-message-container">
                       <p id="reply-message">
                         Hey, I've replied to your message! Here's some sample

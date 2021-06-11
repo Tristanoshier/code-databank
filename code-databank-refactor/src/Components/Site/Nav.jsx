@@ -31,7 +31,13 @@ const Nav = ({ clickLogout }) => {
           <div className="mobileHidden">
             <Anchor targetOffset="65">
               <RouterLink to="/">
-                <Link href="/" title="Home" />
+                <Link href="/" title="Dashboard" />
+              </RouterLink>
+              <RouterLink to="/popular">
+                <Link href="/" title="Popular" />
+              </RouterLink>
+              <RouterLink to="/search">
+                <Link href="/" title="Search" />
               </RouterLink>
               <RouterLink to="/">
                 <a onClick={clickLogout}>
@@ -52,7 +58,13 @@ const Nav = ({ clickLogout }) => {
             >
               <Anchor targetOffset="65">
                 <RouterLink to="/">
-                  <Link href="/" title="Home" />
+                  <Link href="/" title="Dashboard" />
+                </RouterLink>
+                <RouterLink to="/popular">
+                  <Link href="/" title="Popular" />
+                </RouterLink>
+                <RouterLink to="/search">
+                  <Link href="/" title="Search" />
                 </RouterLink>
                 <RouterLink to="/">
                   <a onClick={clickLogout}>

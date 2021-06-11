@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import CreatePost from "../Posts/CreatePost";
-import { Card, Divider, Button, Skeleton, Badge } from "antd";
+import React, { useState, useEffect, useContext } from "react";
+import CreatePost from "../../../../Shared/Posts/CreatePost";
+import { Card, Divider, Button, Skeleton } from "antd";
 import { Link } from "react-router-dom";
+import { TokenContext } from "../../../../../App";
 
 const DashboardCard = ({
   postActive,
@@ -13,6 +14,31 @@ const DashboardCard = ({
   posts,
 }) => {
   const firstName = localStorage.getItem("firstName");
+  const token = useContext(TokenContext);
+  const [popularPosts, setPopularPosts] = useState([]);
+
+  useEffect(() => {
+    getPopularPosts();
+  }, [posts]);
+
+  const getPopularPosts = () => {
+    try {
+      fetch(`http://localhost:3000/posts/popular/dashboard`, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          setPopularPosts(data);
+        })
+        .catch((error) => console.log(error));
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // dashboard counts ---------------
 
@@ -42,6 +68,8 @@ const DashboardCard = ({
   return (
     <div>
       {loading ? (
+        <Skeleton active />
+      ) : (
         <Card
           title={[
             <i
@@ -73,37 +101,34 @@ const DashboardCard = ({
             <Divider orientation="left">
               <h5>Popular Posts</h5>
             </Divider>
-            {posts
-              ?.sort((a, b) => {
-                return b.upVotes - a.upVotes;
-              })
-              .slice(0, 5)
-              .map((post) => (
-                <div className="popular-topics-container">
-                  {post.upVotes >= 99 ? (
-                    <div className="post-badge">99+</div>
-                  ) : post.upVotes === null ? (
-                    <div className="post-badge">0</div>
-                  ) : (
-                    <div className="post-badge">{post.upVotes}</div>
-                  )}
-                  <div className="topic-title-container">
-                    <Link
-                      onClick={() => savePostInLocalStorage(post)}
-                      to={{
-                        pathname: `/focusedPost/${post?.postTitle}`,
-                        post: post,
-                      }}
-                    >
-                      <h5 id="popular-topics-title">{post.postTitle}</h5>
-                    </Link>
-                  </div>
+            {popularPosts?.slice(0, 5).map((post, index) => (
+              <div key={index} className="popular-topics-container">
+                {post.upVotes >= 99 ? (
+                  <div className="post-badge">99+</div>
+                ) : post.upVotes === null ? (
+                  <div className="post-badge">0</div>
+                ) : (
+                  <div className="post-badge">{post.upVotes}</div>
+                )}
+                <div className="topic-title-container">
+                  <Link
+                    onClick={() => savePostInLocalStorage(post)}
+                    to={{
+                      pathname: `/focusedPost/${post?.postTitle}`,
+                      post: post,
+                    }}
+                  >
+                    <h5 id="popular-topics-title">{post.postTitle}</h5>
+                  </Link>
                 </div>
-              ))}
+              </div>
+            ))}
           </div>
           <Divider />
           <div className="dashboard-footer">
-            <h5>Activity</h5>
+            <Link to="/profile">
+              <h5>Profile</h5>
+            </Link>
             <h5>Placeholder</h5>
           </div>
           <div className="dashboard-post-button">
@@ -117,8 +142,6 @@ const DashboardCard = ({
             <></>
           )}
         </Card>
-      ) : (
-        <Skeleton active />
       )}
     </div>
   );

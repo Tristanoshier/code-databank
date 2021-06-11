@@ -1,17 +1,87 @@
 const express = require("express");
 const router = express.Router();
 const { Posts, Replies } = require("../models");
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
+
+// RECENT ON DASHBOARD
 router.get("/", (req, res) => {
   Posts.findAll({
     include: Replies,
+    order: [
+      ["createdAt", "DESC"]
+    ]
   })
-    .then((posts) => res.status(200).json(posts))
+    .then(posts => {
+      const page = req.query.page;
+      const limit = req.query.limit;
+
+      const startIndex = (page - 1) * limit;
+      const endIndex = page * limit;
+
+      const results = posts.slice(startIndex, endIndex);
+      res.status(200).json(results)
+    }) 
     .catch((err) =>
       res.status(500).json({
         error: err,
       })
     );
+});
+
+// MOST POPULAR POSTS FOR DASHBOARD
+router.get("/popular/dashboard", (req, res) => {
+  Posts.findAll({
+    where: {
+      upVotes: {
+        [Op.ne]: null
+      }
+    },
+    include: Replies,
+    order: [
+      ["upVotes", "DESC"]
+    ]
+   
+  })
+  .then(posts => {
+    res.status(200).json(posts)
+  })
+  .catch((err) =>
+    res.status(500).json({
+      error: err,
+    })
+  );
+});
+
+// MOST POPULAR POSTS ON POPULAR PAGE
+router.get("/popular", (req, res) => {
+  Posts.findAll({
+    where: {
+      upVotes: {
+        [Op.ne]: null
+      }
+    },
+    include: Replies,
+    order: [
+      ["upVotes", "DESC"]
+    ] 
+  })
+  .then(posts => {
+    const page = req.query.page;
+    const limit = req.query.limit;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = posts.slice(startIndex, endIndex);
+    res.status(200).json(results)
+  })
+  .catch((err) =>
+    res.status(500).json({
+      error: err,
+    })
+  );
 });
 
 router.get("/:id", (req, res) => {
