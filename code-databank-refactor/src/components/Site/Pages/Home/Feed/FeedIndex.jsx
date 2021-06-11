@@ -15,12 +15,11 @@ const FeedIndex = () => {
   const [infiniteScrollLoading, setInfiniteScrollLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-  const [showGetStarted, setShowGetStarted] = useState(false);
 
   useEffect(() => {
     getPosts(true);
   }, [pageNumber]);
-  
+
   const getPosts = scrolling => {
     pageNumber <= 1 ? setInfiniteScrollLoading(false) : setInfiniteScrollLoading(true);
     try {
@@ -103,7 +102,7 @@ const FeedIndex = () => {
           replyOff={replyOff}
           getPosts={getPosts}
           lastPostOnScreen={lastPostOnScreen}
-          showGetStarted={showGetStarted}
+          isPopularPage={false}
         />
       ) : (
         <Spin />

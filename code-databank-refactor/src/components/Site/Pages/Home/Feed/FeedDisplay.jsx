@@ -43,16 +43,21 @@ const FeedDisplay = (props) => {
             ))
           )}
         </Col>
-        <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
-          <DashboardIndex
-            postActive={props.postActive}
-            postOn={props.postOn}
-            postOff={props.postOff}
-            getPosts={props.getPosts}
-            posts={props.posts}
-          />
-          <EmotionIndex />
-        </Col>
+        {
+          !props.isPopularPage ?
+            <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
+              <DashboardIndex
+                postActive={props.postActive}
+                postOn={props.postOn}
+                postOff={props.postOff}
+                getPosts={props.getPosts}
+                posts={props.posts}
+              />
+              <EmotionIndex />
+            </Col> :
+            <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}></Col>
+        }
+
       </Row>
     </div>
   );

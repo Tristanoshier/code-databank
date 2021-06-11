@@ -57,6 +57,11 @@ router.get("/popular/dashboard", (req, res) => {
 // MOST POPULAR POSTS ON POPULAR PAGE
 router.get("/popular", (req, res) => {
   Posts.findAll({
+    where: {
+      upVotes: {
+        [Op.ne]: null
+      }
+    },
     include: Replies,
     order: [
       ["upVotes", "DESC"]
