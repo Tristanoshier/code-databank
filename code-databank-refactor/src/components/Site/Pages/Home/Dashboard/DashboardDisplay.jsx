@@ -12,9 +12,9 @@ const DashboardDisplay = ({
 }) => {
   return (
     <>
-      {user.map((loggedInUser) => (
+      {user.map((loggedInUser, index) => (
         <DashboardCard
-          key={loggedInUser.id}
+          key={index}
           loading={loading}
           loggedInUser={loggedInUser}
           postActive={postActive}

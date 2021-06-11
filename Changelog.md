@@ -56,9 +56,13 @@
 
 - Only owner can edit and delete their posts or replies - server controllers
 
-6/8/2021 - Hustin
+6/3/2021 - Tristan 
+- Abtract fetch requests in FeedCard and CreatePost Component 
+- add notification for deleted reply and created post 
+- Cleaned up code in FeedCard
 
-- Added Skeleton to Dashboard - can't tell if it's working due to data coming in to fast
+6/8/2021 - Hustin
+- Added Skeleton to Dashboard - can't tell if it's working due to data coming in too fast
 - Added a Get Started component if there are no posts found (for people cloning)
 - Added an option to add code when creating a post. Updated post model.
 - Dashboard fetches top 5 most upvoted posts for "popular posts" with badge. text-overflow is ellipsis for post titles

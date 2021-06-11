@@ -1,6 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import { TokenContext } from "../../App";
-import axios from "axios";
+import { TokenContext } from "../../../../../App";
 import "./Dashboard-Styles.css";
 import DashboardDisplay from "./DashboardDisplay";
 

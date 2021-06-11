@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Card, Modal, notification } from "antd";
-import { TokenContext } from "../../App";
+import { TokenContext } from "../../../App";
 
 const { TextArea } = Input;
 
@@ -23,25 +23,31 @@ const EditReply = (props) => {
   };
 
   const handleSubmit = () => {
-    fetch(`http://localhost:3000/replies/${props.editReply.id}`, {
-      method: "PUT",
-      body: JSON.stringify({
-        replyMessage: replyMessage,
-        replyCode: replyCode,
-      }),
-      headers: new Headers({
-        "Content-Type": "application/json",
-        Authorization: token,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        props.editReplyOff();
-        openUpdateNotification();
-        props.getPosts();
-        setReplyMessage("");
-        setReplyCode("");
-      });
+    try {
+      fetch(`http://localhost:3000/replies/${props.editReply.id}`, {
+        method: "PUT",
+        body: JSON.stringify({
+          replyMessage: replyMessage,
+          replyCode: replyCode,
+        }),
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          props.editReplyOff();
+          openUpdateNotification();
+          props.getPosts(false);
+          setReplyMessage("");
+          setReplyCode("");
+        });
+    } catch {
+
+    }
+    props.getPosts(false);
+
   };
 
   return (

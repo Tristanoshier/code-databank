@@ -1,12 +1,11 @@
 import React, { useState, useContext } from "react";
-import axios from "axios";
 import { withRouter, useHistory } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { Row, Col, Card, Collapse, Badge, Divider, Button, Menu, Dropdown, notification } from "antd";
 import { ArrowUpOutlined, ArrowDownOutlined, EllipsisOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import CreateReply from "../Replies/CreateReply";
-import { TokenContext } from "../../App";
+import CreateReply from "../../../../Shared/Replies/CreateReply";
+import { TokenContext } from "../../../../../App";
 import "./FeedCard-Styles.css";
 
 const { Panel } = Collapse;
@@ -127,8 +126,21 @@ const FocusedPost = (props) => {
     notification.open(args);
   };
 
+  const getSpecificPost = post => {
+    fetch(`${post.id}`,  {
+      method: "GET",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token
+      })
+    }).then(res => res.json())
+    .then(() => {
+      console.log(data)
+    })
+  }
+
   const upVoteReply = reply => {
-    let newUpvotes = reply.upVotes++;
+    let newUpvotes = reply.upVotes + 1;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -148,7 +160,7 @@ const FocusedPost = (props) => {
   };
 
   const upVotePost = post => {
-    let newUpvotes = post.upVotes++;
+    let newUpvotes = post.upVotes + 1;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -166,7 +178,7 @@ const FocusedPost = (props) => {
   };
 
   const downVotePost = post => {
-    let newUpvotes = post.upVotes--;
+    let newUpvotes = post.upVotes - 1;
     fetch(`http://localhost:3000/posts/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
@@ -184,7 +196,7 @@ const FocusedPost = (props) => {
   };
 
   const downVoteReply = reply => {
-    let newUpvotes = reply.upVotes--;
+    let newUpvotes = reply.upVotes - 1;
     fetch(`http://localhost:3000/replies/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({

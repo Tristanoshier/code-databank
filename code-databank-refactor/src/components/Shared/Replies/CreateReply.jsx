@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Button, Collapse } from "antd";
-import { TokenContext } from "../../App";
+import { TokenContext } from "../../../App";
 
 const { Panel } = Collapse;
 const { TextArea } = Input;
@@ -26,11 +26,12 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
     })
       .then((res) => res.json())
       .then(() => {
-        getPosts();
+        getPosts(false);
         setReplyMessage("");
         setReplyCode("");
         replyOff();
       });
+      getPosts(false);
   };
 
   const codeOn = () => {
