@@ -103,7 +103,9 @@ const DashboardCard = ({
           </div>
           <Divider />
           <div className="dashboard-footer">
-            <h5>Activity</h5>
+            <Link to="/profile">
+              <h5>Profile</h5>
+            </Link>
             <h5>Placeholder</h5>
           </div>
           <div className="dashboard-post-button">
