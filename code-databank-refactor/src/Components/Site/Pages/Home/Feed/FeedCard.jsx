@@ -40,7 +40,7 @@ const FeedCard = ({
   replyOff,
   addReply,
   createReply,
-  getPosts
+  getPosts,
 }) => {
   const [upvoteCount, setUpvoteCount] = useState();
   const [upvotePostCount, setUpvotePostCount] = useState();
@@ -129,18 +129,18 @@ const FeedCard = ({
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: token,
-        })
-      }).then(res => res.json())
-      .then(() => {
-        setUpvotePostCount(newUpVotes);
-        getPosts(false);
+        }),
       })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvotePostCount(newUpVotes);
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }
     getPosts(false);
   };
-  
 
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
@@ -153,12 +153,13 @@ const FeedCard = ({
         headers: new Headers({
           "Content-Type": "application/json",
           Authorization: token,
-        })
-      }).then(res => res.json())
-      .then(() => {
-        setUpvotePostCount(newUpVotes);
-        getPosts(false);
+        }),
       })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvotePostCount(newUpVotes);
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }
@@ -178,11 +179,12 @@ const FeedCard = ({
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
-      .then(() => {
-        setUpvoteCount(newUpVotes);
-        getPosts(false);
       })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvoteCount(newUpVotes);
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }
@@ -201,11 +203,12 @@ const FeedCard = ({
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
-      .then(() => {
-        setUpvoteCount(newUpVotes);
-        getPosts(false);
       })
+        .then((res) => res.json())
+        .then(() => {
+          setUpvoteCount(newUpVotes);
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }
@@ -220,11 +223,12 @@ const FeedCard = ({
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
-      .then(() => {
-        openDeletePostNotification();
-        getPosts(false);
-      }) 
+      })
+        .then((res) => res.json())
+        .then(() => {
+          openDeletePostNotification();
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }
@@ -239,11 +243,12 @@ const FeedCard = ({
           "Content-Type": "application/json",
           Authorization: token,
         }),
-      }).then(res => res.json())
-      .then(() => {
-        openDeleteReplyNotification();
-        getPosts(false);
       })
+        .then((res) => res.json())
+        .then(() => {
+          openDeleteReplyNotification();
+          getPosts(false);
+        });
     } catch {
       console.log("throw error");
     }

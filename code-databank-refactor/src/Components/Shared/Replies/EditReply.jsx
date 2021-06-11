@@ -5,10 +5,14 @@ import { TokenContext } from "../../../App";
 const { TextArea } = Input;
 
 const EditReply = (props) => {
-  const [replyMessage, setReplyMessage] = useState(props.reply?.replyMessage);
-  const [replyCode, setReplyCode] = useState(props.reply?.replyCode);
+  const [replyMessage, setReplyMessage] = useState(
+    props.editReply?.replyMessage
+  );
+  const [replyCode, setReplyCode] = useState(props.editReply?.replyCode);
 
   const token = useContext(TokenContext);
+
+  console.log(props.editReply);
 
   const openUpdateNotification = () => {
     const args = {
@@ -43,11 +47,8 @@ const EditReply = (props) => {
           setReplyMessage("");
           setReplyCode("");
         });
-    } catch {
-
-    }
+    } catch {}
     props.getPosts(false);
-
   };
 
   return (
