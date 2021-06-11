@@ -485,7 +485,7 @@ const FeedCard = ({
               {post?.postMessage.split("\n").map((message) => (
                 <p>{message}</p>
               ))}
-              {post.postCode != null ? (
+              {post.postCode != "" || null ? (
                 <div className="post-code">
                   <SyntaxHighlighter
                     lineProps={{

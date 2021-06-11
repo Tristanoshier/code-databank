@@ -5,7 +5,7 @@ import DashboardDisplay from "./DashboardDisplay";
 
 const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   const [user, setUser] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const token = useContext(TokenContext);
 
   useEffect(() => {
@@ -22,7 +22,7 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
       .then((data) => {
         setUser(data.user);
       });
-    setLoading(true);
+    setLoading(false);
   };
 
   // const getUser = async () => {
