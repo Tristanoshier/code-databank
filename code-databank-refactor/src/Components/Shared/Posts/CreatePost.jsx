@@ -7,7 +7,7 @@ import {
   Modal,
   Collapse,
   Button,
-  notification,
+  notification
 } from "antd";
 import { TokenContext } from "../../../App";
 
@@ -46,7 +46,7 @@ const CreatePost = ({ postOff, getPosts }) => {
     setPostCodeActive(false);
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     try {
       fetch("http://localhost:3000/posts", {
         method: "POST",
@@ -77,7 +77,6 @@ const CreatePost = ({ postOff, getPosts }) => {
     } catch (error) {
       console.log(error);
     }
-    getPosts(false);
   };
 
   return (

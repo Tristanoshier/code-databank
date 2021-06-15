@@ -26,14 +26,15 @@ const FeedIndex = () => {
     getPosts(true);
   }, [pageNumber]);
 
-  useEffect(() => {
-    setPageNumber(1);
-  }, [posts]);
-
   const getPosts = (scrolling) => {
     pageNumber <= 1
       ? setInfiniteScrollLoading(false)
       : setInfiniteScrollLoading(true);
+
+    if (scrolling === false) {
+      setPageNumber(1)
+    }
+
     try {
       fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
         method: "GET",
@@ -70,8 +71,8 @@ const FeedIndex = () => {
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-          // setPageNumber((prevPageNumber) => prevPageNumber + 1);
-          setPageNumber(pageNumber + 1);
+          setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          // setPageNumber(pageNumber + 1);
         }
       });
       if (node) observer.current.observe(node);
