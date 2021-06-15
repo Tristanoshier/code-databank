@@ -31,7 +31,7 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
         setReplyCode("");
         replyOff();
       });
-      getPosts(false);
+    getPosts(false);
   };
 
   const codeOn = () => {

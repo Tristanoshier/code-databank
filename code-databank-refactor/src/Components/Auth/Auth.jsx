@@ -170,7 +170,7 @@ const Auth = (props) => {
   return (
     <div className="auth">
       <Card
-        style={{ width: 500 }}
+        // style={{ width: 500 }}
         cover={
           <img
             alt="mobile-shield"

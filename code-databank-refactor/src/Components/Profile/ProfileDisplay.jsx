@@ -5,9 +5,9 @@ import { Row, Col } from "antd";
 const ProfileDisplay = (props) => {
   return (
     <div>
-      <Row justify="space-between">
+      <Row justify="space-between" gutter={[16, 16]}>
         {props.posts?.map((post) => (
-          <Col span={8}>
+          <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
             <ProfileCard post={post} getPosts={props.getPosts} />
           </Col>
         ))}
