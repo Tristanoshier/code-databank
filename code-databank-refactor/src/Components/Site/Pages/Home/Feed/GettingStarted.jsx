@@ -56,14 +56,13 @@ const GettingStarted = () => {
             height="60px"
             style={{ paddingRight: "20px" }}
           />,
-          `Welcome to Eleven Fifty Code-Databank`,
+          `Eleven Fifty Code-Databank`,
         ]}
       >
         <p>So far, there's nothing to see!</p>
         <p>
           Help other Learning Assistants by creating a post. You can create a
-          post by clicking "Create a Post" underneath your Dashboard to the
-          right.
+          post by clicking "Create a Post" within your Dashboard.
         </p>
         <Divider orientation="left">Helpful Posts</Divider>
         {/* <h3>Helpful Posts</h3> */}

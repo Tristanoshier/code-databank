@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardIndex from "../Dashboard/DashboardIndex";
 import EmotionIndex from "../EmotionResponse/EmotionIndex";
-import { Row, Col } from "antd";
+import { Row, Col, Spin } from "antd";
 import FeedCard from "./FeedCard";
 import GettingStarted from "./GettingStarted";
 
@@ -10,11 +10,14 @@ const FeedDisplay = (props) => {
     <div>
       <Row justify="end" gutter={[16, 16]}>
         <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-          {props.posts.length === 0 ? (
-            <GettingStarted />
+          {/* original: props.posts.length === 0 */}
+          {props.loading ? (
+            // <GettingStarted />
+            <Spin />
           ) : (
-            props.posts?.map((post, index) => (
-              props.posts.length === index + 1 && props.lastPostOnScreen !== null ? (
+            props.posts?.map((post, index) =>
+              props.posts.length === index + 1 &&
+              props.lastPostOnScreen !== null ? (
                 <div ref={props.lastPostOnScreen} key={index}>
                   <FeedCard
                     post={post}
@@ -39,25 +42,23 @@ const FeedDisplay = (props) => {
                   />
                 </div>
               )
-
-            ))
+            )
           )}
         </Col>
-        {
-          !props.isPopularPage ?
-            <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
-              <DashboardIndex
-                postActive={props.postActive}
-                postOn={props.postOn}
-                postOff={props.postOff}
-                getPosts={props.getPosts}
-                posts={props.posts}
-              />
-              <EmotionIndex />
-            </Col> :
-            <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}></Col>
-        }
-
+        {!props.isPopularPage ? (
+          <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}>
+            <DashboardIndex
+              postActive={props.postActive}
+              postOn={props.postOn}
+              postOff={props.postOff}
+              getPosts={props.getPosts}
+              posts={props.posts}
+            />
+            <EmotionIndex />
+          </Col>
+        ) : (
+          <Col xs={24} sm={24} md={8} lg={8} xl={6} xxl={6}></Col>
+        )}
       </Row>
     </div>
   );

@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useRef, useCallback } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useCallback,
+} from "react";
 import { Spin } from "antd";
 import { TokenContext } from "../../../../../App";
 import FeedDisplay from "./FeedDisplay";
@@ -20,25 +26,34 @@ const FeedIndex = () => {
     getPosts(true);
   }, [pageNumber]);
 
-  const getPosts = scrolling => {
-    pageNumber <= 1 ? setInfiniteScrollLoading(false) : setInfiniteScrollLoading(true);
+  useEffect(() => {
+    setPageNumber(1);
+  }, [posts]);
+
+  const getPosts = (scrolling) => {
+    pageNumber <= 1
+      ? setInfiniteScrollLoading(false)
+      : setInfiniteScrollLoading(true);
     try {
       fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
-          method: 'GET',
-          headers: new Headers({
-            'Content-Type': 'application/json',
-            Authorization: token
-        })
-      }).then(res => res.json())
-        .then(postResults => {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((postResults) => {
           if (scrolling) {
-            setPosts(prevPosts => {
-              return [...prevPosts, ...postResults]
+            setPosts((prevPosts) => {
+              return [...prevPosts, ...postResults];
             });
             setHasMore(postResults.length > 0);
           } else {
             setPosts(postResults);
           }
+        })
+        .then(() => {
           setLoading(false);
           setInfiniteScrollLoading(false);
         });
@@ -49,16 +64,20 @@ const FeedIndex = () => {
 
   const observer = useRef();
 
-  const lastPostOnScreen = useCallback(node => {
-    if (loading) return;
-    if (observer.current) observer.current.disconnect();
-    observer.current = new IntersectionObserver(entries => {
+  const lastPostOnScreen = useCallback(
+    (node) => {
+      if (loading) return;
+      if (observer.current) observer.current.disconnect();
+      observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
-            setPageNumber(prevPageNumber => prevPageNumber + 1);
+          // setPageNumber((prevPageNumber) => prevPageNumber + 1);
+          setPageNumber(pageNumber + 1);
         }
-    })
-    if (node) observer.current.observe(node)
-}, [loading, hasMore])
+      });
+      if (node) observer.current.observe(node);
+    },
+    [loading, hasMore]
+  );
 
   // post actives
   const addPost = (post) => {
@@ -90,6 +109,7 @@ const FeedIndex = () => {
     <div>
       {!loading || !infiniteScrollLoading ? (
         <FeedDisplay
+          loading={loading}
           posts={posts}
           replyActive={replyActive}
           postActive={postActive}

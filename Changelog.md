@@ -89,3 +89,9 @@
 
 - Fixed Edit Reply Modal ghosting
 - Fixed empty Syntax highlighter displaying if no postCode (this might be a future issue with null or empty string on FeedCard (@ Line 488 6/11/2021)
+
+6/14/2021 - Hustin
+
+- Profile now responsive
+- Fixed CreatePost card extending out of modal, changed width: 500 to width: 100%
+- Font size 12px media query for 480px

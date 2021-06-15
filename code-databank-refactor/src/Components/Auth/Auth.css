@@ -5,3 +5,18 @@
   align-items: center;
   height: 100vh;
 }
+
+.auth-card {
+  width: 500px;
+}
+
+@media only screen and (max-width: 480px) {
+  .auth {
+    align-items: flex-start;
+    /* height: 100%; */
+  }
+
+  .auth-card {
+    width: 90%;
+  }
+}

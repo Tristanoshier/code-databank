@@ -1,5 +1,14 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal, Collapse, Button, notification } from "antd";
+import {
+  Form,
+  Input,
+  Card,
+  Select,
+  Modal,
+  Collapse,
+  Button,
+  notification,
+} from "antd";
 import { TokenContext } from "../../../App";
 
 const { TextArea } = Input;
@@ -21,18 +30,17 @@ const CreatePost = ({ postOff, getPosts }) => {
       message: "Success!",
       description: "Your post has been created!",
       duration: 1,
-    }
+    };
     notification.open(args);
-  }
+  };
 
   const codeOn = () => {
     setPostCodeActive(true);
-  }
-
+  };
 
   const handleCancel = () => {
     postOff();
-  }
+  };
 
   const codeOff = () => {
     setPostCodeActive(false);
@@ -59,7 +67,7 @@ const CreatePost = ({ postOff, getPosts }) => {
           postOff();
           codeOff();
           openCreatedPostNotification();
-          getPosts(false);  
+          getPosts(false);
           setPostTitle("");
           setPostMessage("");
           setPostCode("");
@@ -69,8 +77,8 @@ const CreatePost = ({ postOff, getPosts }) => {
     } catch (error) {
       console.log(error);
     }
-    getPosts(false);  
-  }
+    getPosts(false);
+  };
 
   return (
     <Modal
@@ -80,7 +88,7 @@ const CreatePost = ({ postOff, getPosts }) => {
       onCancel={handleCancel}
       okText="Submit"
     >
-      <Card style={{ width: 500 }} bordered={false}>
+      <Card style={{ width: "100%" }} bordered={false}>
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
