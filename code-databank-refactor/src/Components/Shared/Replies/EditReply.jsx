@@ -12,8 +12,6 @@ const EditReply = (props) => {
 
   const token = useContext(TokenContext);
 
-  console.log(props.editReply);
-
   const openUpdateNotification = () => {
     const args = {
       message: "Reply Updated!",
