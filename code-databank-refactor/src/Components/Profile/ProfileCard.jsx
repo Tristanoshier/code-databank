@@ -137,7 +137,7 @@ const ProfileCard = ({ post, getPosts }) => {
     //     <p>{props.post.postTitle}</p>
     //   </Card>
     // </div>
-    <div key={post?.id}>
+    <div key={post.id}>
       <Badge.Ribbon
         className="badge"
         text={

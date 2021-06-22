@@ -89,6 +89,11 @@ body {
   display: none;
 }
 
+a {
+  display: flex;
+  align-items: center;
+}
+
 .header .ant-anchor-link {
   padding: 0 20px;
   line-height: 1.4;

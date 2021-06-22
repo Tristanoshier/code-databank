@@ -95,3 +95,9 @@
 - Profile now responsive
 - Fixed CreatePost card extending out of modal, changed width: 500 to width: 100%
 - Font size 12px media query for 480px
+
+6/22/2021 - Hustin
+
+- Fixed key warnings, link nesting warning
+- Fixed navbar styling
+- Fixed drawer not closing when clicking links

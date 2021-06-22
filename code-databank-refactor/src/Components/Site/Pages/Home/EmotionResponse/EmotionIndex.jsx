@@ -4,11 +4,26 @@ import "./Emotion-Styles.css";
 
 const EmotionIndex = () => {
   let topics = [
-    "Student gets upset with you",
-    "Student threatens a bad review",
-    "Student has personal issues",
-    "Motivation tips",
-    "Student is inappropriate with you",
+    {
+      id: 1,
+      title: "Student gets upset with you",
+    },
+    {
+      id: 2,
+      title: "Student threatens a bad review",
+    },
+    {
+      id: 3,
+      title: "Student has personal issues",
+    },
+    {
+      id: 4,
+      title: "Motivation tips",
+    },
+    {
+      id: 5,
+      title: "Student is inappropriate with you",
+    },
   ];
 
   return (
@@ -25,9 +40,9 @@ const EmotionIndex = () => {
         </Divider>
         <div className="emotion-popular-topics-content">
           {topics.map((topic) => (
-            <div className="popular-topics">
+            <div key={topic.id} className="popular-topics">
               <div className="topic-badge">99+</div>
-              <h5 className="popular-topics-title">{topic}</h5>
+              <h5 className="popular-topics-title">{topic.title}</h5>
             </div>
           ))}
         </div>

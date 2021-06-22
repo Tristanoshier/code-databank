@@ -1,7 +1,7 @@
 import React from "react";
 import DashboardIndex from "../Dashboard/DashboardIndex";
 import EmotionIndex from "../EmotionResponse/EmotionIndex";
-import { Row, Col, Spin } from "antd";
+import { Row, Col, Spin, Skeleton, Card } from "antd";
 import FeedCard from "./FeedCard";
 import GettingStarted from "./GettingStarted";
 
@@ -13,36 +13,41 @@ const FeedDisplay = (props) => {
           {/* original: props.posts.length === 0 */}
           {props.loading ? (
             // <GettingStarted />
-            <Spin />
+            // <Spin />
+            <Card>
+              <Skeleton active paragraph={{ rows: 12 }} />
+            </Card>
           ) : (
-            props.posts?.map((post, index) =>
-              props.posts.length === index + 1 &&
-              props.lastPostOnScreen !== null ? (
-                <div ref={props.lastPostOnScreen} key={index}>
-                  <FeedCard
-                    post={post}
-                    replyOn={props.replyOn}
-                    replyOff={props.replyOff}
-                    addReply={props.addReply}
-                    createReply={props.createReply}
-                    replyActive={props.replyActive}
-                    getPosts={props.getPosts}
-                  />
-                </div>
-              ) : (
-                <div key={index}>
-                  <FeedCard
-                    post={post}
-                    replyOn={props.replyOn}
-                    replyOff={props.replyOff}
-                    addReply={props.addReply}
-                    createReply={props.createReply}
-                    replyActive={props.replyActive}
-                    getPosts={props.getPosts}
-                  />
-                </div>
+            props.posts
+              ?.filter((v, i, a) => a.indexOf(v) == i)
+              .map((post, index) =>
+                props.posts.length === index + 1 &&
+                props.lastPostOnScreen !== null ? (
+                  <div ref={props.lastPostOnScreen} key={post.id}>
+                    <FeedCard
+                      post={post}
+                      replyOn={props.replyOn}
+                      replyOff={props.replyOff}
+                      addReply={props.addReply}
+                      createReply={props.createReply}
+                      replyActive={props.replyActive}
+                      getPosts={props.getPosts}
+                    />
+                  </div>
+                ) : (
+                  <div key={post.id}>
+                    <FeedCard
+                      post={post}
+                      replyOn={props.replyOn}
+                      replyOff={props.replyOff}
+                      addReply={props.addReply}
+                      createReply={props.createReply}
+                      replyActive={props.replyActive}
+                      getPosts={props.getPosts}
+                    />
+                  </div>
+                )
               )
-            )
           )}
         </Col>
         {!props.isPopularPage ? (

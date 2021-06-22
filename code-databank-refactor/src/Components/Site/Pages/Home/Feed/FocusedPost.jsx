@@ -314,8 +314,8 @@ const FocusedPost = (props) => {
               .sort((a, b) => {
                 return b.upVotes - a.upVotes;
               })
-              .map((reply, index) => (
-                <div key={index} className="reply-container" key={reply.id}>
+              .map((reply) => (
+                <div key={reply.id} className="reply-container">
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>

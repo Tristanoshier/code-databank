@@ -67,82 +67,76 @@ const DashboardCard = ({
 
   return (
     <div>
-      {loading ? (
-        <Skeleton active />
-      ) : (
-        <Card
-          title={[
-            <i
-              className="fas fa-portrait"
-              style={{ paddingRight: "10px" }}
-            ></i>,
-            `${firstName}'s Dashboard`,
-            ,
-          ]}
-        >
-          <div className="dashboard-content">
-            {/* <p>Posts: {totalPosts}</p>
-            <p>Replies: {totalRepliesReduced}</p>
-            <p>Score: {totalPostUpvotes}</p> */}
-            <div className="dashboard-stats">
-              <table>
+      <Card
+        title={[
+          <i className="fas fa-portrait" style={{ paddingRight: "10px" }}></i>,
+          `${firstName}'s Dashboard`,
+          ,
+        ]}
+      >
+        <div className="dashboard-content">
+          <div className="dashboard-stats">
+            <table>
+              <thead>
                 <tr>
                   <th>Posts</th>
                   <th>Replies</th>
                   <th>Score</th>
                 </tr>
+              </thead>
+              <tbody>
                 <tr>
                   <td>{totalPosts}</td>
                   <td>{totalRepliesReduced}</td>
                   <td>{totalPostUpvotes}</td>
                 </tr>
-              </table>
-            </div>
-            <Divider orientation="left">
-              <h5>Popular Posts</h5>
-            </Divider>
-            {popularPosts?.slice(0, 5).map((post, index) => (
-              <div key={index} className="popular-topics-container">
-                {post.upVotes >= 99 ? (
-                  <div className="post-badge">99+</div>
-                ) : post.upVotes === null ? (
-                  <div className="post-badge">0</div>
-                ) : (
-                  <div className="post-badge">{post.upVotes}</div>
-                )}
-                <div className="topic-title-container">
-                  <Link
-                    onClick={() => savePostInLocalStorage(post)}
-                    to={{
-                      pathname: `/focusedPost/${post?.postTitle}`,
-                      post: post,
-                    }}
-                  >
-                    <h5 id="popular-topics-title">{post.postTitle}</h5>
-                  </Link>
-                </div>
+              </tbody>
+            </table>
+          </div>
+          <Divider orientation="left">
+            <h5>Popular Posts</h5>
+          </Divider>
+          {popularPosts?.slice(0, 5).map((post) => (
+            <div key={post.id} className="popular-topics-container">
+              {post.upVotes >= 99 ? (
+                <div className="post-badge">99+</div>
+              ) : post.upVotes === null ? (
+                <div className="post-badge">0</div>
+              ) : (
+                <div className="post-badge">{post.upVotes}</div>
+              )}
+              <div className="topic-title-container">
+                <Link
+                  onClick={() => savePostInLocalStorage(post)}
+                  to={{
+                    pathname: `/focusedPost/${post?.postTitle}`,
+                    post: post,
+                  }}
+                >
+                  <h5 id="popular-topics-title">{post.postTitle}</h5>
+                </Link>
               </div>
-            ))}
-          </div>
-          <Divider />
-          <div className="dashboard-footer">
-            <Link to="/profile">
-              <h5>Profile</h5>
-            </Link>
-            <h5>Placeholder</h5>
-          </div>
-          <div className="dashboard-post-button">
-            <Button type="default" onClick={() => postOn()}>
-              Create a post
-            </Button>
-          </div>
-          {postActive ? (
-            <CreatePost postOff={postOff} getPosts={getPosts} />
-          ) : (
-            <></>
-          )}
-        </Card>
-      )}
+            </div>
+          ))}
+        </div>
+        <Divider />
+        <div className="dashboard-footer">
+          <Link to="/profile">
+            <h5>Profile</h5>
+          </Link>
+          <h5>Placeholder</h5>
+        </div>
+        <div className="dashboard-post-button">
+          <Button type="default" onClick={() => postOn()}>
+            Create a post
+          </Button>
+        </div>
+        {postActive ? (
+          <CreatePost postOff={postOff} getPosts={getPosts} />
+        ) : (
+          <></>
+        )}
+      </Card>
     </div>
   );
 };
