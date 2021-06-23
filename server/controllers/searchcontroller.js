@@ -58,8 +58,8 @@ router.get("/all/title", (req, res) => {
       let results = [];
 
       for (const post of posts) {
-        let wordsInSearch = req.query.search.split(" ");
-        let title = post.postTitle;
+        let wordsInSearch = req.query.search.toLowerCase().split(" ");
+        let title = post.postTitle.toLowerCase();
 
         let wordValues = multiStringSearch(title, wordsInSearch);
 
