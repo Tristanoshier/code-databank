@@ -32,7 +32,7 @@ const FeedIndex = () => {
       : setInfiniteScrollLoading(true);
 
     if (scrolling === false) {
-      setPageNumber(1)
+      setPageNumber(1);
     }
 
     try {

@@ -418,7 +418,7 @@ const FeedCard = ({
 
   return (
     <div>
-      <div key={post?.id}>
+      <div>
         <Badge.Ribbon
           className="badge"
           text={
@@ -478,9 +478,9 @@ const FeedCard = ({
             <h4>{post?.postType}</h4>
             <div className="post-container">
               {post?.postMessage.split("\n").map((message) => (
-                <p>{message}</p>
+                <p key={post.id}>{message}</p>
               ))}
-              {post.postCode != "" || null ? (
+              {post.postCode != "" && post?.postCode != null ? (
                 <div className="post-code">
                   <SyntaxHighlighter
                     lineProps={{
@@ -516,8 +516,8 @@ const FeedCard = ({
                 return b.upVotes - a.upVotes;
               })
               .slice(0, 4)
-              .map((reply, index) => (
-                <div key={index} className="reply-container" key={reply.id}>
+              .map((reply) => (
+                <div key={reply.id} className="reply-container">
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
