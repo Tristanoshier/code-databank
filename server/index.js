@@ -16,6 +16,7 @@ app.use(require("./middleware/validate-session"));
 app.use("/posts", controllers.postscontroller);
 app.use("/replies", controllers.repliescontroller);
 app.use("/profile", controllers.profilecontroller);
+app.use("/search", controllers.searchcontroller);
 
 db.authenticate()
   .then(() => db.sync())
