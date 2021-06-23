@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { Spin } from "antd";
 import { TokenContext } from "../../../../App";
 import { SearchDisplay } from './SearchDisplay';
 
@@ -6,11 +7,13 @@ export const Search = () => {
     const [query, setQuery] = useState('')
     const [filteredPosts, setFilteredPosts] = useState([])
     const [queryInUse, setQueryInUse] = useState()
+    const [loading, setLoading] = useState(false)
 
     const token = useContext(TokenContext);
 
     const searchAllByTitleQuery = () => {
         try {
+            setLoading(true)
             fetch(`http://localhost:3000/search/all/title?search=${query}`, {
                 method: "GET",
                 headers: new Headers({
@@ -21,10 +24,11 @@ export const Search = () => {
                 .then((res) => res.json())
                 .then((data) => {
                     setFilteredPosts(data)
-                })
+                }).then(() => setLoading(false))
                 .catch((error) => console.log(error));
         } catch (error) {
             console.log(error);
+            setLoading(false)
         }
     }
 
@@ -90,7 +94,11 @@ export const Search = () => {
             <input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search"></input>
             <button onClick={searchAllByTitleQuery}>Search</button>
             <br />
-            <SearchDisplay posts={filteredPosts} getPosts={searchAllByTitleQuery} />
+            {!loading ? (
+                <SearchDisplay posts={filteredPosts} getPosts={searchAllByTitleQuery} />
+            ) : (
+                <Spin />
+            )}
         </div>
     )
 }
