@@ -78,36 +78,6 @@ router.get("/all/title", (req, res) => {
     );
 });
 
-// search all posts by message
-router.get("/all/message", (req, res) => {
-  Posts.findAll({
-    include: Replies,
-    order: [["createdAt", "DESC"]],
-  })
-    .then((posts) => {
-      let results = [];
-
-      for (const post of posts) {
-        let wordsInSearch = req.query.search.split(" ");
-        let message = post.postMessage;
-
-        let wordValues = multiStringSearch(message, wordsInSearch);
-
-        let matchedWords = wordValues.filter((x) => x == true).length;
-        let unmatchedWords = wordValues.filter((x) => x == false).length;
-
-        if (matchedWords > unmatchedWords) results.push(post);
-      }
-
-      res.status(200).json(results);
-    })
-    .catch((err) =>
-      res.status(500).json({
-        error: err,
-      })
-    );
-});
-
 // search all posts by code type for title
 router.get("/type/title", (req, res) => {
   Posts.findAll({
@@ -125,39 +95,6 @@ router.get("/type/title", (req, res) => {
         let title = post.postTitle;
 
         let wordValues = multiStringSearch(title, wordsInSearch);
-
-        let matchedWords = wordValues.filter((x) => x == true).length;
-        let unmatchedWords = wordValues.filter((x) => x == false).length;
-
-        if (matchedWords > unmatchedWords) results.push(post);
-      }
-
-      res.status(200).json(results);
-    })
-    .catch((err) =>
-      res.status(500).json({
-        error: err,
-      })
-    );
-});
-
-// search all posts by code type for message
-router.get("/type/message", (req, res) => {
-  Posts.findAll({
-    where: {
-      postTitle: req.query.type,
-    },
-    include: Replies,
-    order: [["createdAt", "DESC"]],
-  })
-    .then((posts) => {
-      let results = [];
-
-      for (const post of posts) {
-        let wordsInSearch = req.query.search.split(" ");
-        let message = post.postMessage;
-
-        let wordValues = multiStringSearch(message, wordsInSearch);
 
         let matchedWords = wordValues.filter((x) => x == true).length;
         let unmatchedWords = wordValues.filter((x) => x == false).length;
