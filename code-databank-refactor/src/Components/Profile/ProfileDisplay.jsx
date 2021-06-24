@@ -1,6 +1,7 @@
 import React from "react";
 import ProfileCard from "./ProfileCard";
 import { Row, Col, Card, Tabs } from "antd";
+import ProfileOverview from "./ProfileOverview";
 
 const { TabPane } = Tabs;
 
@@ -14,7 +15,13 @@ const ProfileDisplay = (props) => {
         animated={true}
         centered={true}
       >
-        <TabPane tab="Overview" key="1"></TabPane>
+        <TabPane tab="Overview" key="1">
+          <Row justify="center">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+              <ProfileOverview />
+            </Col>
+          </Row>
+        </TabPane>
         <TabPane tab="Saved Posts" key="2">
           <Row justify="center" gutter={[16, 16]}>
             {props.posts?.length === 0 ? (

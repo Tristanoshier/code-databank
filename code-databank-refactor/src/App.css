@@ -188,9 +188,9 @@ a {
   margin: 0 !important;
 }
 
-.ant-tabs-content-holder {
+/* .ant-tabs-content-holder {
   padding: 20px;
-}
+} */
 
 .mobileVisible {
   display: none;

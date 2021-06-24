@@ -5,6 +5,7 @@ const { Panel } = Collapse;
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { TokenContext } from "../../App";
+import "./ProfileCard.css";
 
 const ProfileCard = ({ post, getPosts }) => {
   const token = useContext(TokenContext);
@@ -45,7 +46,7 @@ const ProfileCard = ({ post, getPosts }) => {
   };
 
   return (
-    <div>
+    <div className="profile-container">
       <Badge.Ribbon
         className="badge"
         text={
@@ -114,58 +115,9 @@ const ProfileCard = ({ post, getPosts }) => {
           </div>
 
           <Divider />
-          {/* <div className="post-footer">
-              <div className="view-replies-container">
-                <i className="fas fa-comment-alt"></i>
-                <Link
-                  onClick={() => savePostInLocalStorage(post)}
-                  to={{
-                    pathname: `/focusedPost/${post?.postTitle}`,
-                    post: post,
-                  }}
-                >
-                  <h5 id="view-replies">
-                    View Replies ({post?.replies.length})
-                  </h5>
-                </Link>
-              </div>
-              <h5>Placeholder</h5>
-              <h5>Placeholder</h5>
-            </div> */}
-          {/* <div className="add-reply-container">
-              <Collapse ghost>
-                <Panel
-                  showArrow={false}
-                  key="1"
-                  extra={
-                    <Button
-                      type="ghost"
-                      onClick={() => {
-                        replyOn();
-                        addReply(post);
-                      }}
-                    >
-                      Add Reply
-                    </Button>
-                  }
-                >
-                  {replyActive ? (
-                    <CreateReply
-                      createReply={createReply}
-                      replyOff={replyOff}
-                      getPosts={getPosts}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </Panel>
-              </Collapse>
-            </div> */}
         </Card>
       </Badge.Ribbon>
     </div>
-
-    // </div>
   );
 };
 

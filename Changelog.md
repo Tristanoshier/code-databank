@@ -112,3 +112,6 @@
 6/24/2021 - Hustin
 
 - Fixed saved posts displaying for all users in profile
+- Updated profile styling
+- Add enter key press for search
+- Styled search
