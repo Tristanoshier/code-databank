@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Avatar, Input, Button, Spin, message } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./Auth.css";
 
 const Auth = (props) => {
@@ -13,6 +13,7 @@ const Auth = (props) => {
   const [loginAlert, setLoginAlert] = useState(false);
 
   const { Meta } = Card;
+  const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -157,7 +158,7 @@ const Auth = (props) => {
                 {authTitle()}
               </Button>
             ) : (
-              <Spin />
+              <Spin indicator={loadingIcon} />
             )}
           </div>
           <br />
@@ -170,7 +171,6 @@ const Auth = (props) => {
   return (
     <div className="auth">
       <Card
-        // style={{ width: 500 }}
         cover={
           <img
             alt="mobile-shield"

@@ -411,16 +411,12 @@ const FocusedPost = (props) => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="content">
-        <Row justify="center">
-          {/* <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}> */}
-          <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}>
-            {displayPost()}
-          </Col>
-        </Row>
-      </div>
-    </div>
+    <Row justify="center">
+      <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+        {/* <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}> */}
+        {displayPost()}
+      </Col>
+    </Row>
   );
 };
 

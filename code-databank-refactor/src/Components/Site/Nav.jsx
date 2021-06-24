@@ -44,6 +44,14 @@ const Nav = ({ clickLogout }) => {
                 Popular
               </RouterLink>
               <RouterLink
+                to="/profile"
+                className="ant-anchor-link"
+                onClick={onClose}
+              >
+                {/* <Link href="/" title="Popular" /> */}
+                Profile
+              </RouterLink>
+              <RouterLink
                 to="/search"
                 className="ant-anchor-link"
                 onClick={onClose}
@@ -92,6 +100,14 @@ const Nav = ({ clickLogout }) => {
                 >
                   {/* <Link href="/" title="Popular" /> */}
                   Popular
+                </RouterLink>
+                <RouterLink
+                  to="/profile"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  {/* <Link href="/" title="Popular" /> */}
+                  Profile
                 </RouterLink>
                 <RouterLink
                   to="/search"

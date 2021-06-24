@@ -66,15 +66,14 @@ body {
   font-size: 22px;
   text-transform: uppercase;
   font-weight: 400;
+  color: #333;
+  display: flex;
+  align-items: center;
 }
 
 .header .logo .fas {
   margin: 0 5px 0 0;
   font-size: 28px;
-}
-
-.header .logo a {
-  color: #333;
 }
 
 .header .ant-anchor-wrapper {
@@ -180,6 +179,13 @@ a {
 .header .ant-menu li.ant-menu-item:hover:after {
   right: 5%;
   opacity: 1;
+}
+
+.ant-tabs-top > .ant-tabs-nav,
+.ant-tabs-bottom > .ant-tabs-nav,
+.ant-tabs-top > div > .ant-tabs-nav,
+.ant-tabs-bottom > div > .ant-tabs-nav {
+  margin: 0 !important;
 }
 
 .mobileVisible {

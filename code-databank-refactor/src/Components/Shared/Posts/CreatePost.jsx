@@ -7,7 +7,7 @@ import {
   Modal,
   Collapse,
   Button,
-  notification
+  notification,
 } from "antd";
 import { TokenContext } from "../../../App";
 
