@@ -9,6 +9,7 @@ const ProfileIndex = (props) => {
 
   const getPosts = () => {
     fetch("http://localhost:3000/profile", {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: token,

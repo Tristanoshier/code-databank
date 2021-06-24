@@ -264,6 +264,7 @@ const FeedCard = ({
           postCode: post.postCode,
           postType: post.postType,
           codeType: post.codeType,
+          upVotes: post.upVotes,
         }),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -477,9 +478,10 @@ const FeedCard = ({
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              {post?.postMessage.split("\n").map((message) => (
+              {/* {post?.postMessage.split("\n").map((message) => (
                 <p key={post.id}>{message}</p>
-              ))}
+              ))} */}
+              <p>{post?.postMessage}</p>
               {post.postCode != "" && post?.postCode != null ? (
                 <div className="post-code">
                   <SyntaxHighlighter

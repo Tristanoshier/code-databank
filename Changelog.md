@@ -108,3 +108,7 @@
 - Dashboard/Emotion tabs
 - Added profile to nav
 - Fixed focused post styling being narrow, duplicate container divs from MainLayout
+
+6/24/2021 - Hustin
+
+- Fixed saved posts displaying for all users in profile
