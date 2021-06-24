@@ -12,8 +12,8 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
 
   const token = useContext(TokenContext);
 
-  const handleSubmit = () => {
-    fetch(`http://localhost:3000/replies/${createReply.id}`, {
+  const handleSubmit = async () => {
+    await fetch(`http://localhost:3000/replies/${createReply.id}`, {
       method: "POST",
       body: JSON.stringify({
         replyMessage: replyMessage,
