@@ -121,7 +121,7 @@ const FeedCard = ({
   const upVotePost = (post) => {
     let newUpVotes = post?.upVotes + 1;
     try {
-      fetch(`http://localhost:3000/posts/${post.id}`, {
+      fetch(`http://localhost:3000/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -144,7 +144,7 @@ const FeedCard = ({
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
     try {
-      fetch(`http://localhost:3000/posts/${post.id}`, {
+      fetch(`http://localhost:3000/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -167,7 +167,7 @@ const FeedCard = ({
   const upVoteReply = (reply) => {
     let newUpVotes = reply.upVotes + 1;
     try {
-      fetch(`http://localhost:3000/replies/${reply.id}`, {
+      fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -191,7 +191,7 @@ const FeedCard = ({
   const downVoteReply = (reply) => {
     let newUpVotes = reply.upVotes - 1;
     try {
-      fetch(`http://localhost:3000/replies/${reply.id}`, {
+      fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -264,6 +264,7 @@ const FeedCard = ({
           postCode: post.postCode,
           postType: post.postType,
           codeType: post.codeType,
+          upVotes: post.upVotes,
         }),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -477,9 +478,10 @@ const FeedCard = ({
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              {post?.postMessage.split("\n").map((message) => (
+              {/* {post?.postMessage.split("\n").map((message) => (
                 <p key={post.id}>{message}</p>
-              ))}
+              ))} */}
+              <p>{post?.postMessage}</p>
               {post.postCode != "" && post?.postCode != null ? (
                 <div className="post-code">
                   <SyntaxHighlighter

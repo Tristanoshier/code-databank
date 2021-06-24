@@ -101,3 +101,17 @@
 - Fixed key warnings, link nesting warning
 - Fixed navbar styling
 - Fixed drawer not closing when clicking links
+
+6/23/2021 - Hustin
+
+- Created a hook to check for window resize, if under 768px dashboard and emotion will be on top of feed instead of bottom
+- Dashboard/Emotion tabs
+- Added profile to nav
+- Fixed focused post styling being narrow, duplicate container divs from MainLayout
+
+6/24/2021 - Hustin
+
+- Fixed saved posts displaying for all users in profile
+- Updated profile styling
+- Add enter key press for search
+- Styled search

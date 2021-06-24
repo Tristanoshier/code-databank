@@ -158,7 +158,7 @@ const FocusedPost = (props) => {
 
   const upVoteReply = (reply) => {
     let newUpvotes = reply.upVotes + 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
+    fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
         replyMessage: reply.replyMessage,
@@ -178,7 +178,7 @@ const FocusedPost = (props) => {
 
   const upVotePost = (post) => {
     let newUpvotes = post.upVotes + 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
+    fetch(`http://localhost:3000/posts/vote/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
         upVotes: newUpvotes,
@@ -196,7 +196,7 @@ const FocusedPost = (props) => {
 
   const downVotePost = (post) => {
     let newUpvotes = post.upVotes - 1;
-    fetch(`http://localhost:3000/posts/${post.id}`, {
+    fetch(`http://localhost:3000/posts/vote/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
         upVotes: newUpvotes,
@@ -214,7 +214,7 @@ const FocusedPost = (props) => {
 
   const downVoteReply = (reply) => {
     let newUpvotes = reply.upVotes - 1;
-    fetch(`http://localhost:3000/replies/${reply.id}`, {
+    fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
         replyMessage: reply.replyMessage,
@@ -411,16 +411,12 @@ const FocusedPost = (props) => {
   };
 
   return (
-    <div className="container-fluid">
-      <div className="content">
-        <Row justify="center">
-          {/* <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}> */}
-          <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}>
-            {displayPost()}
-          </Col>
-        </Row>
-      </div>
-    </div>
+    <Row justify="center">
+      <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+        {/* <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}> */}
+        {displayPost()}
+      </Col>
+    </Row>
   );
 };
 

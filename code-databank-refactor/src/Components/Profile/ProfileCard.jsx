@@ -1,118 +1,32 @@
-import React from "react";
-import {
-  Row,
-  Col,
-  Card,
-  Collapse,
-  Badge,
-  Divider,
-  Button,
-  Menu,
-  Dropdown,
-  notification,
-  Popconfirm,
-} from "antd";
-import {
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  EllipsisOutlined,
-  EditOutlined,
-  DeleteOutlined,
-} from "@ant-design/icons";
+import React, { useContext } from "react";
+import { Card, Collapse, Badge, Divider, Button } from "antd";
+
 const { Panel } = Collapse;
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
+import { TokenContext } from "../../App";
+import "./ProfileCard.css";
 
 const ProfileCard = ({ post, getPosts }) => {
-  const controlButtons = () => {
-    return localStorage.getItem("id") != post?.ownerId ? (
-      ""
-    ) : (
-      <>
-        <Menu.Item>
-          <a
-            onClick={() => {
-              editPostOn();
-              updatePost(post);
-            }}
-          >
-            <EditOutlined />
-            Edit Post
-          </a>
-        </Menu.Item>
-        <Menu.Item danger>
-          <Popconfirm
-            title="Are you sure？"
-            placement="topRight"
-            okText="Yes"
-            cancelText="No"
-            onConfirm={() => DeletePost(post)}
-          >
-            <DeleteOutlined />
-            Delete Post
-          </Popconfirm>
-        </Menu.Item>
-      </>
-    );
-  };
+  const token = useContext(TokenContext);
 
-  const menu = (
-    <Menu>
-      <Menu.Item>
-        <a onClick={() => openSavedPostNotifiction()}>
-          <i className="far fa-bookmark"></i>
-          Save Post
-        </a>
-      </Menu.Item>
-      {controlButtons()}
-    </Menu>
-  );
-
-  const replyControlButtons = (reply) => {
-    return localStorage.getItem("id") != reply?.ownerId ? (
-      ""
-    ) : (
-      <div className="reply-footer-actions">
-        <h5>
-          <a
-            id="edit-reply"
-            onClick={() => {
-              editReplyOn();
-              updateReply(reply);
-            }}
-          >
-            Edit
-          </a>
-        </h5>
-        <h5>
-          <a id="delete-reply">
-            <Popconfirm
-              title="Are you sure？"
-              placement="topRight"
-              okText="Yes"
-              cancelText="No"
-              onConfirm={() => deleteReply(reply)}
-            >
-              Delete
-            </Popconfirm>
-          </a>
-        </h5>
-      </div>
-    );
-  };
-
-  const cardDropdown = () => {
-    return (
-      <Dropdown overlay={menu}>
-        <Button
-          className="settings-button"
-          type="default"
-          onClick={(e) => e.preventDefault()}
-        >
-          <EllipsisOutlined key="ellipsis" />
-        </Button>
-      </Dropdown>
-    );
+  const removeSavedPost = (post) => {
+    try {
+      fetch(`http://localhost:3000/profile/${post.id}`, {
+        method: "DELETE",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          getPosts();
+          return data;
+        });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const iconType = () => {
@@ -132,12 +46,7 @@ const ProfileCard = ({ post, getPosts }) => {
   };
 
   return (
-    // <div>
-    //   <Card>
-    //     <p>{props.post.postTitle}</p>
-    //   </Card>
-    // </div>
-    <div key={post.id}>
+    <div className="profile-container">
       <Badge.Ribbon
         className="badge"
         text={
@@ -154,40 +63,17 @@ const ProfileCard = ({ post, getPosts }) => {
           className="feed-card"
           title={[
             <div className="card-header">
-              {/* <div className="card-header-arrow-container">
-                  <div className="arrow-container">
-                    <div className="arrow">
-                      <ArrowUpOutlined
-                        className="arrow-up"
-                        onClick={() => {
-                          upVotePost(post);
-                        }}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="arrow">
-                    <ArrowDownOutlined
-                      className="arrow-down"
-                      onClick={() => downVotePost(post)}
-                    />
-                  </div>
-                </div> */}
-
               <div className="container-sub">
                 {iconType()}
                 {post?.codeType}
               </div>
             </div>,
           ]}
-          // extra={[
-          //   <>
-          //     <Button type="link" onClick={toggleIcon}>
-          //       {icon}
-          //     </Button>
-          //   </>,
-          //   cardDropdown(),
-          // ]}
+          extra={[
+            <Button type="text" onClick={() => removeSavedPost(post)}>
+              <i className="fas fa-times-circle"></i>
+            </Button>,
+          ]}
         >
           <div className="postTitle-container">
             <h4 id="postTitle">{post?.postTitle}</h4>
@@ -196,16 +82,13 @@ const ProfileCard = ({ post, getPosts }) => {
 
           <h4>{post?.postType}</h4>
           <div className="post-container">
-            {post?.postMessage.split("\n").map((message) => (
-              <p>{message}</p>
-            ))}
-            {post.postCode != "" || null ? (
+            <p>{post?.postMessage}</p>
+
+            {post?.postCode != "" || null ? (
               <div className="post-code">
                 <SyntaxHighlighter
                   lineProps={{
                     style: {
-                      // wordBreak: "break-all",
-                      // whiteSpace: "pre-line",
                       whiteSpace: "pre-wrap",
                     },
                   }}
@@ -232,58 +115,9 @@ const ProfileCard = ({ post, getPosts }) => {
           </div>
 
           <Divider />
-          {/* <div className="post-footer">
-              <div className="view-replies-container">
-                <i className="fas fa-comment-alt"></i>
-                <Link
-                  onClick={() => savePostInLocalStorage(post)}
-                  to={{
-                    pathname: `/focusedPost/${post?.postTitle}`,
-                    post: post,
-                  }}
-                >
-                  <h5 id="view-replies">
-                    View Replies ({post?.replies.length})
-                  </h5>
-                </Link>
-              </div>
-              <h5>Placeholder</h5>
-              <h5>Placeholder</h5>
-            </div> */}
-          {/* <div className="add-reply-container">
-              <Collapse ghost>
-                <Panel
-                  showArrow={false}
-                  key="1"
-                  extra={
-                    <Button
-                      type="ghost"
-                      onClick={() => {
-                        replyOn();
-                        addReply(post);
-                      }}
-                    >
-                      Add Reply
-                    </Button>
-                  }
-                >
-                  {replyActive ? (
-                    <CreateReply
-                      createReply={createReply}
-                      replyOff={replyOff}
-                      getPosts={getPosts}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </Panel>
-              </Collapse>
-            </div> */}
         </Card>
       </Badge.Ribbon>
     </div>
-
-    // </div>
   );
 };
 

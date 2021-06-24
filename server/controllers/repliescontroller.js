@@ -57,6 +57,24 @@ router.put("/:id", (req, res) => {
     );
 });
 
+router.put("/vote/:id", (req, res) => {
+  const query = { where: { id: req.params.id } };
+  const updateReply = {
+    upVotes: req.body.upVotes,
+  };
+  Replies.update(updateReply, query)
+    .then(
+      res.status(200).json({
+        message: "Updated",
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        message: "Failed to update",
+      })
+    );
+});
+
 router.delete("/:id", (req, res) => {
   Replies.destroy({
     where: {

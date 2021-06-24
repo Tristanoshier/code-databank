@@ -26,7 +26,7 @@ const FeedIndex = () => {
     getPosts(true);
   }, [pageNumber]);
 
-  const getPosts = (scrolling) => {
+  const getPosts = async (scrolling) => {
     pageNumber <= 1
       ? setInfiniteScrollLoading(false)
       : setInfiniteScrollLoading(true);
@@ -36,7 +36,7 @@ const FeedIndex = () => {
     }
 
     try {
-      fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
+      await fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -62,6 +62,44 @@ const FeedIndex = () => {
       console.log("error", error);
     }
   };
+
+  // const getPosts = async (scrolling) => {
+  //   pageNumber <= 1
+  //     ? setInfiniteScrollLoading(false)
+  //     : setInfiniteScrollLoading(true);
+
+  //   if (scrolling === false) {
+  //     setPageNumber(1);
+  //   }
+
+  //   const settings = {
+  //     method: "GET",
+  //     headers: new Headers({
+  //       "Content-Type": "application/json",
+  //       Authorization: token,
+  //     }),
+  //   };
+  //   try {
+  //     const response = await fetch(
+  //       `http://localhost:3000/posts?page=${pageNumber}&limit=10`,
+  //       settings
+  //     );
+  //     const data = await response.json();
+  //     if (scrolling) {
+  //       setPosts((prevPosts) => {
+  //         return [...prevPosts, ...data];
+  //       });
+  //       setHasMore(data.length > 0);
+  //     } else {
+  //       setPosts(data);
+  //     }
+  //     console.log(data);
+  //     setLoading(false);
+  //     setInfiniteScrollLoading(false);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const observer = useRef();
 
