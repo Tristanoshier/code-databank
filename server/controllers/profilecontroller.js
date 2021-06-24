@@ -3,7 +3,11 @@ const router = express.Router();
 const { Profile, Replies } = require("../models");
 
 router.get("/", (req, res) => {
-  Profile.findAll()
+  Profile.findAll({
+    where: {
+      ownerId: req.user.id,
+    },
+  })
     .then((profile) => res.status(200).json(profile))
     .catch((err) =>
       res.status(500).json({
@@ -45,6 +49,7 @@ router.delete("/:id", (req, res) => {
   })
     .then((profile) =>
       res.status(200).json({
+        message: "Post removed",
         profile: profile,
       })
     )

@@ -7,7 +7,7 @@ import {
   Modal,
   Collapse,
   Button,
-  notification
+  notification,
 } from "antd";
 import { TokenContext } from "../../../App";
 
@@ -46,34 +46,70 @@ const CreatePost = ({ postOff, getPosts }) => {
     setPostCodeActive(false);
   };
 
-  const handleSubmit = () => {
+  // const handleSubmit = () => {
+  //   try {
+  //     fetch("http://localhost:3000/posts", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         postTitle: postTitle,
+  //         postMessage: postMessage,
+  //         postCode: postCode,
+  //         postType: postType,
+  //         codeType: codeType,
+  //       }),
+  //       headers: new Headers({
+  //         "Content-Type": "application/json",
+  //         Authorization: token,
+  //       }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then(() => {
+  //         postOff();
+  //         codeOff();
+  //         openCreatedPostNotification();
+  //         getPosts(false);
+  //         setPostTitle("");
+  //         setPostMessage("");
+  //         setPostCode("");
+  //         setPostType("");
+  //         setCodeType("");
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  const handleSubmit = async () => {
+    const settings = {
+      method: "POST",
+      body: JSON.stringify({
+        postTitle: postTitle,
+        postMessage: postMessage,
+        postCode: postCode,
+        postType: postType,
+        codeType: codeType,
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    };
+
     try {
-      fetch("http://localhost:3000/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          postTitle: postTitle,
-          postMessage: postMessage,
-          postCode: postCode,
-          postType: postType,
-          codeType: codeType,
-        }),
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          postOff();
-          codeOff();
-          openCreatedPostNotification();
-          getPosts(false);
-          setPostTitle("");
-          setPostMessage("");
-          setPostCode("");
-          setPostType("");
-          setCodeType("");
-        });
+      const response = await fetch("http://localhost:3000/posts", settings);
+      const data = await response.json();
+
+      postOff();
+      codeOff();
+      openCreatedPostNotification();
+      getPosts(false);
+      setPostTitle("");
+      setPostMessage("");
+      setPostCode("");
+      setPostType("");
+      setCodeType("");
+
+      return data;
     } catch (error) {
       console.log(error);
     }

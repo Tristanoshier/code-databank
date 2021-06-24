@@ -1,5 +1,9 @@
 # EFA code-databank
 
+## Deployed:
+
+[https://code-databank.web.app/](https://code-databank.web.app/)
+
 ### How to setup
 
 - Clone repo
