@@ -1,137 +1,121 @@
 import React, { useState, useContext } from "react";
-import { Spin, Input, Button, Form, Row, Col } from "antd";
+import { Skeleton, Input, Select, Button, Row, Col } from "antd";
 import { TokenContext } from "../../../../App";
 import { SearchDisplay } from "./SearchDisplay";
 import "./Search.css";
 
 export const Search = () => {
-  const [query, setQuery] = useState("");
-  const [filteredPosts, setFilteredPosts] = useState([]);
-  const [queryInUse, setQueryInUse] = useState();
-  const [loading, setLoading] = useState(false);
+    const [query, setQuery] = useState("");
+    const [filteredPosts, setFilteredPosts] = useState([]);
+    const [filterType, setFilterType] = useState('all');
+    const [loading, setLoading] = useState(false);
+    const [showSearchMessage, setShowSearchMessage] = useState(true);
 
-  const token = useContext(TokenContext);
+    const token = useContext(TokenContext);
 
-  const searchAllByTitleQuery = () => {
-    try {
-      setLoading(true);
-      fetch(`http://localhost:3000/search/all/title?search=${query}`, {
-        method: "GET",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setFilteredPosts(data);
-        })
-        .then(() => setLoading(false))
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
-  };
-
-  const searchAllByMessageQuery = () => {
-    try {
-      fetch(`http://localhost:3000/search/all/message?search=${query}`, {
-        method: "GET",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setFilteredPosts(data);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const searchAllByPostTypeForTitle = () => {
-    try {
-      fetch(
-        `http://localhost:3000/search/type/title?search=${query}&type=${type}`,
-        {
-          method: "GET",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: token,
-          }),
+    const searchPosts = () => {
+        if (filterType === 'all' && query != "") {
+            searchAllByTitleQuery();
+        } else {
+            searchAllByPostTypeForTitle();
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setFilteredPosts(data);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
     }
-  };
 
-  const searchAllByPostTypeForMessage = () => {
-    try {
-      fetch(
-        `http://localhost:3000/search/type/message?search=${query}&type=${type}`,
-        {
-          method: "GET",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: token,
-          }),
+    const searchAllByTitleQuery = () => {
+        try {
+            setLoading(true);
+            fetch(`http://localhost:3000/search/all?search=${query}`, {
+                method: "GET",
+                headers: new Headers({
+                    "Content-Type": "application/json",
+                    Authorization: token,
+                }),
+            })
+                .then(res => res.json())
+                .then(data => {
+                    setFilteredPosts(data);
+                    setShowSearchMessage(false);
+                })
+                .then(() => setLoading(false))
+                .catch(error => console.log(error));
+        } catch (error) {
+            setLoading(false);
         }
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setFilteredPosts(data);
-        })
-        .catch((error) => console.log(error));
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    };
 
-  return (
-    <div>
-      <Row justify="center">
-        <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-          <div className="search-field-container">
-            <Form layout="inline" style={{ marginBottom: "20px" }}>
-              <Form.Item>
-                <Input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search"
-                  onKeyPress={(e) => {
-                    if (e.key === "Enter") {
-                      searchAllByTitleQuery();
-                    }
-                  }}
-                />
-              </Form.Item>
-              <Form.Item>
-                <Button type="default" onClick={searchAllByTitleQuery}>
-                  Search
-                </Button>
-              </Form.Item>
-              <br />
-            </Form>
-          </div>
-        </Col>
-      </Row>
-      {!loading ? (
-        <SearchDisplay posts={filteredPosts} getPosts={searchAllByTitleQuery} />
-      ) : (
-        <Row justify="center">
-          <Spin />
-        </Row>
-      )}
-    </div>
-  );
+    const searchAllByPostTypeForTitle = () => {
+        try {
+            setLoading(true);
+            fetch(`http://localhost:3000/search/type?search=${query}&type=${filterType}`, {
+                    method: "GET",
+                    headers: new Headers({
+                        "Content-Type": "application/json",
+                        Authorization: token,
+                    }),
+                }
+            )
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    setFilteredPosts(data);
+                    setShowSearchMessage(false);
+                })
+                .then(() => setLoading(false))
+                .catch(error => console.log(error));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    return (
+        <div>
+            <Row justify="center">
+                <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+                    <div className="search-field-container">
+                        <Input.Group compact>
+                            <Select onChange={value => setFilterType(value)} style={{ width: '25%' }} defaultValue="All">
+                                <Select.Option value='all'>All</Select.Option>
+                                <Select.Option value='HTML'>HTML</Select.Option>
+                                <Select.Option value="CSS">CSS</Select.Option>
+                                <Select.Option value="JavaScript">JavaScript</Select.Option>
+                                <Select.Option value="React">React</Select.Option>
+                                <Select.Option value="GitHub">GitHub</Select.Option>
+                            </Select>
+                            <Input
+                                value={query}
+                                onChange={e => setQuery(e.target.value)}
+                                placeholder="Search"
+                                onKeyPress={e => { if (e.key === "Enter" && query != "") searchPosts() }}
+                                style={{ width: '60%' }}
+                            />
+                            <Button style={{ width: '15%' }} type="default" onClick={searchPosts}>
+                                Search
+                                </Button>
+                        </Input.Group>
+                    </div>
+                </Col>
+            </Row>
+            <br />
+            {loading ? (
+                <Row justify="center">
+                    <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+                        <Skeleton />
+                    </Col>
+                </Row>
+            ) : showSearchMessage ? (
+                <Row justify="center">
+                    <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+                        <h1>default search message</h1>
+                    </Col>
+                </Row>
+            ) : filteredPosts.length === 0 && !loading ? (
+                <Row justify="center">
+                    <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+                        <h1>No results found</h1>
+                    </Col>
+                </Row>
+            ) : (
+                <SearchDisplay posts={filteredPosts} getPosts={searchPosts} />
+            )}
+        </div>
+    );
 };
