@@ -116,13 +116,13 @@ export const Search = () => {
       ) : showSearchMessage ? (
         <Row justify="center">
           <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-            <h1>default search message</h1>
+            <h4>Search all or choose by category.</h4>
           </Col>
         </Row>
       ) : filteredPosts.length === 0 && !loading ? (
         <Row justify="center">
           <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
-            <h1>No results found</h1>
+            <h4>No results found</h4>
           </Col>
         </Row>
       ) : (
