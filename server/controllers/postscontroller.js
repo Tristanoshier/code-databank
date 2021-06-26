@@ -5,7 +5,7 @@ const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
 // RECENT ON DASHBOARD
-router.get("/", (req, res) => {
+router.get("/infinite", (req, res) => {
   Posts.findAll({
     include: Replies,
     order: [["createdAt", "DESC"]],
@@ -19,6 +19,21 @@ router.get("/", (req, res) => {
 
       const results = posts.slice(startIndex, endIndex);
       res.status(200).json(results);
+    })
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
+router.get("/", (req, res) => {
+  Posts.findAll({
+    include: Replies,
+    order: [["createdAt", "DESC"]],
+  })
+    .then((posts) => {
+      res.status(200).json(posts);
     })
     .catch((err) =>
       res.status(500).json({
@@ -49,7 +64,7 @@ router.get("/popular/dashboard", (req, res) => {
 });
 
 // MOST POPULAR POSTS ON POPULAR PAGE
-router.get("/popular", (req, res) => {
+router.get("/popular/infinite", (req, res) => {
   Posts.findAll({
     where: {
       upVotes: {
@@ -68,6 +83,26 @@ router.get("/popular", (req, res) => {
 
       const results = posts.slice(startIndex, endIndex);
       res.status(200).json(results);
+    })
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
+router.get("/popular", (req, res) => {
+  Posts.findAll({
+    where: {
+      upVotes: {
+        [Op.ne]: null,
+      },
+    },
+    include: Replies,
+    order: [["upVotes", "DESC"]],
+  })
+    .then((posts) => {
+      res.status(200).json(posts);
     })
     .catch((err) =>
       res.status(500).json({
