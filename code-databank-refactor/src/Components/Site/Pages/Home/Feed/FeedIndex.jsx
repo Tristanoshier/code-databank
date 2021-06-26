@@ -21,12 +21,41 @@ const FeedIndex = () => {
   const [infiniteScrollLoading, setInfiniteScrollLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
+  
+  // infinite scroll is currently broken, this var can be toggled to turn it on and off for testing purposes 
+  let useInfiniteScroll = false;
 
   useEffect(() => {
-    getPosts(true);
+    if (useInfiniteScroll) getPostsInfinite(true);
   }, [pageNumber]);
 
+  useEffect(() => {
+    if (!useInfiniteScroll) getPosts(true);
+  }, [])
+
+  // since we are passing down diff fuctions as same prop, have to include scrolling even though its not being used
   const getPosts = async (scrolling) => {
+    try {
+      await fetch(`http://localhost:3000/posts`, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
+        .then((res) => res.json())
+        .then((postResults) => {
+         setPosts(postResults)
+        })
+        .then(() => {
+          setLoading(false);
+        });
+    } catch (error) {
+      console.log("error", error);
+    }
+  }
+
+  const getPostsInfinite = async (scrolling) => {
     pageNumber <= 1
       ? setInfiniteScrollLoading(false)
       : setInfiniteScrollLoading(true);
@@ -36,7 +65,7 @@ const FeedIndex = () => {
     }
 
     try {
-      await fetch(`http://localhost:3000/posts?page=${pageNumber}&limit=10`, {
+      await fetch(`http://localhost:3000/posts/infinite?page=${pageNumber}&limit=10`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -110,7 +139,6 @@ const FeedIndex = () => {
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting && hasMore) {
           setPageNumber((prevPageNumber) => prevPageNumber + 1);
-          // setPageNumber(pageNumber + 1);
         }
       });
       if (node) observer.current.observe(node);
@@ -159,7 +187,7 @@ const FeedIndex = () => {
           addReply={addReply}
           replyOn={replyOn}
           replyOff={replyOff}
-          getPosts={getPosts}
+          getPosts={useInfiniteScroll ? getPostsInfinite : getPosts}
           lastPostOnScreen={lastPostOnScreen}
           isPopularPage={false}
         />
