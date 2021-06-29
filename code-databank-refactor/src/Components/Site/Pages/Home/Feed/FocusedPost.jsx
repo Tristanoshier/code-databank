@@ -13,6 +13,7 @@ import {
   Menu,
   Dropdown,
   notification,
+  Popconfirm,
 } from "antd";
 import {
   ArrowUpOutlined,
@@ -70,10 +71,16 @@ const FocusedPost = (props) => {
           </a>
         </Menu.Item>
         <Menu.Item danger>
-          <a onClick={() => DeletePost(post)}>
+          <Popconfirm
+            title="Are you sure？"
+            placement="topRight"
+            okText="Yes"
+            cancelText="No"
+            onConfirm={() => DeletePost(post)}
+          >
             <DeleteOutlined />
             Delete Post
-          </a>
+          </Popconfirm>
         </Menu.Item>
       </>
     );
