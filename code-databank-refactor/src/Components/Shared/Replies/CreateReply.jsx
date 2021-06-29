@@ -5,7 +5,14 @@ import { TokenContext } from "../../../App";
 const { Panel } = Collapse;
 const { TextArea } = Input;
 
-const CreateReply = ({ createReply, replyOff, getPosts }) => {
+const CreateReply = ({
+  createReply,
+  replyOff,
+  getPosts,
+  getFocusedPost,
+  focusedReply,
+  post,
+}) => {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyCode, setReplyCode] = useState("");
   const [codeActive, setCodeActive] = useState(false);
@@ -26,10 +33,17 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
     })
       .then((res) => res.json())
       .then(() => {
-        getPosts(false);
-        setReplyMessage("");
-        setReplyCode("");
-        replyOff();
+        if (focusedReply) {
+          getFocusedPost(post);
+          setReplyMessage("");
+          setReplyCode("");
+          replyOff();
+        } else if (!focusedReply) {
+          getPosts(false);
+          setReplyMessage("");
+          setReplyCode("");
+          replyOff();
+        } else return;
       });
   };
 
