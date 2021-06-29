@@ -173,8 +173,16 @@ const FocusedPost = (props) => {
           </a>
         </h5>
         <h5>
-          <a id="delete-reply" onClick={() => deleteReply(reply)}>
-            Delete
+          <a id="delete-reply">
+            <Popconfirm
+              title="Are you sure？"
+              placement="topRight"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => deleteReply(reply)}
+            >
+              Delete
+            </Popconfirm>
           </a>
         </h5>
       </div>
