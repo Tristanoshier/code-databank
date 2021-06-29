@@ -39,14 +39,26 @@ const EditReply = (props) => {
       })
         .then((res) => res.json())
         .then((data) => {
-          props.editReplyOff();
-          openUpdateNotification();
-          props.getPosts(false);
-          setReplyMessage("");
-          setReplyCode("");
+          if (props.focusedReplyEdit) {
+            props.getFocusedPost(props.post);
+            props.editReplyOff();
+            openUpdateNotification();
+            setReplyMessage("");
+            setReplyCode("");
+          } else if (!props.focusedReplyEdit) {
+            props.editReplyOff();
+            openUpdateNotification();
+            props.getPosts(false);
+            setReplyMessage("");
+            setReplyCode("");
+          }
         });
-    } catch {}
-    props.getPosts(false);
+    } catch (error) {
+      console.log(error);
+    }
+    if (!props.focusedReplyEdit) {
+      props.getPosts(false);
+    }
   };
 
   return (

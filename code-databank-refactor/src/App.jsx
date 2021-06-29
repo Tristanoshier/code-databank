@@ -57,6 +57,18 @@ function App() {
     setToken("");
   };
 
+  const expirationDuration = 1000 * 60 * 60 * 24;
+  let now = new Date().getTime();
+  let setupTime = localStorage.getItem("setupTime");
+  if (setupTime == null) {
+    localStorage.setItem("setupTime", now);
+  } else {
+    if (now - setupTime > expirationDuration) {
+      localStorage.clear();
+      localStorage.setItem("setupTime", now);
+    }
+  }
+
   const protectedViews = () => {
     return (token === localStorage.getItem("token")) |
       (localStorage.getItem("token") === !undefined) ? (

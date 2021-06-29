@@ -44,19 +44,32 @@ const EditPost = (props) => {
       })
         .then((res) => res.json())
         .then(() => {
-          props.editPostOff();
-          openUpdateNotification();
-          props.getPosts(false);
-          setPostTitle("");
-          setPostMessage("");
-          setPostCode("");
-          setPostType("");
-          setCodeType("");
+          if (props.focusedPostEdit) {
+            props.getFocusedPost(props.post);
+            props.editPostOff();
+            openUpdateNotification();
+            setPostTitle("");
+            setPostMessage("");
+            setPostCode("");
+            setPostType("");
+            setCodeType("");
+          } else if (!props.focusedPostEdit) {
+            props.editPostOff();
+            openUpdateNotification();
+            props.getPosts(false);
+            setPostTitle("");
+            setPostMessage("");
+            setPostCode("");
+            setPostType("");
+            setCodeType("");
+          } else return;
         });
     } catch (error) {
       console.log(error);
     }
-    props.getPosts(false);
+    if (!props.focusedPostEdit) {
+      props.getPosts(false);
+    }
   };
   return (
     <Modal

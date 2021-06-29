@@ -115,3 +115,12 @@
 - Updated profile styling
 - Add enter key press for search
 - Styled search
+
+6/28/2021 - Hustin
+
+- localStorage should clear now after 24 hours.
+- Password confirm on register
+
+6/29/2021 - Hustin
+
+- Added focusedPost post message syntax highlighter

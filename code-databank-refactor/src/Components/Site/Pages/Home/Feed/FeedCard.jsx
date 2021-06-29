@@ -482,7 +482,7 @@ const FeedCard = ({
                 <p key={post.id}>{message}</p>
               ))} */}
               <p>{post?.postMessage}</p>
-              {post.postCode != "" && post?.postCode != null ? (
+              {post.postCode !== "" && post?.postCode !== null ? (
                 <div className="post-code">
                   <SyntaxHighlighter
                     lineProps={{
@@ -544,7 +544,8 @@ const FeedCard = ({
                       >
                         <div className="reply-message-container">
                           <p id="reply-message">{reply?.replyMessage}</p>
-                          {reply.replyCode != "" || null ? (
+                          {reply?.replyCode !== "" &&
+                          reply?.replyCode !== null ? (
                             <div className="code-container">
                               <SyntaxHighlighter
                                 lineProps={{
