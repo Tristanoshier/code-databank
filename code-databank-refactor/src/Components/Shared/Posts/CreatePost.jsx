@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import { useHistory } from "react-router-dom";
 import {
   Form,
   Input,
@@ -24,17 +23,6 @@ const CreatePost = ({ postOff, getPosts }) => {
   const [postType, setPostType] = useState("Question");
   const [codeType, setCodeType] = useState("JavaScript");
   const [postCodeActive, setPostCodeActive] = useState(false);
-
-  const history = useHistory();
-
-  const location = useLocation();
-  console.log(location);
-  let focusedCreatePost;
-  if (location.state === undefined) {
-    focusedCreatePost = false;
-  } else {
-    focusedCreatePost = location.state.focusedCreatePost;
-  }
 
   const token = useContext(TokenContext);
 

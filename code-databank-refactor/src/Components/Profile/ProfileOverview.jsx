@@ -1,13 +1,17 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../../App";
-import { Card, Collapse, Button, Divider, Input, Form } from "antd";
+import { Card, Collapse, Button, Divider, Input, Form, message } from "antd";
 
 const { Panel } = Collapse;
 
 const ProfileOverview = (props) => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [email, setEmail] = useState("");
+  const [emailConfirm, setEmailConfirm] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const token = useContext(TokenContext);
 
   useEffect(() => {
@@ -25,6 +29,83 @@ const ProfileOverview = (props) => {
         setUser(data.user);
         setLoading(false);
       });
+  };
+
+  const updatePassword = async (loggedInUser) => {
+    // e.preventDefault();
+    if (password !== passwordConfirm) {
+      passwordMatchFailure();
+      setPassword("");
+      setPasswordConfirm("");
+      return;
+    }
+
+    const settings = {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+      body: JSON.stringify({
+        password: password,
+      }),
+    };
+
+    const response = await fetch(
+      `http://localhost:3000/user/loggedInUser/password/${loggedInUser.id}`,
+      settings
+    );
+    const data = await response.json();
+    updatedPasswordConfirm();
+    setPassword("");
+    setPasswordConfirm("");
+    return data;
+  };
+
+  const updateEmail = async (loggedInUser) => {
+    // e.preventDefault();
+    if (email !== emailConfirm) {
+      emailMatchFailure();
+      setEmail("");
+      setEmailConfirm("");
+      return;
+    }
+
+    const settings = {
+      method: "PUT",
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+      body: JSON.stringify({
+        email: email,
+      }),
+    };
+
+    const response = await fetch(
+      `http://localhost:3000/user/loggedInUser/email/${loggedInUser.id}`,
+      settings
+    );
+    const data = await response.json();
+    updatedEmailConfirm();
+    setEmail("");
+    setEmailConfirm("");
+    return data;
+  };
+
+  const passwordMatchFailure = () => {
+    message.error("Passwords do not match");
+  };
+  const emailMatchFailure = () => {
+    message.error("Emails do not match");
+  };
+
+  const updatedEmailConfirm = () => {
+    message.success("Email succesfully changed");
+  };
+
+  const updatedPasswordConfirm = () => {
+    message.success("Password succesfully changed");
   };
 
   const savePostInLocalStorage = (post) => {
@@ -140,13 +221,26 @@ const ProfileOverview = (props) => {
                       <Input type="text" value={loggedInUser.email} />
                     </Form.Item>
                     <Form.Item label="New Email">
-                      <Input type="text" />
+                      <Input
+                        type="text"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
                     </Form.Item>
                     <Form.Item label="Confirm Email">
-                      <Input type="text" />
+                      <Input
+                        type="text"
+                        value={emailConfirm}
+                        onChange={(e) => setEmailConfirm(e.target.value)}
+                      />
                     </Form.Item>
                     <Form.Item>
-                      <Button type="primary">Update</Button>
+                      <Button
+                        type="primary"
+                        onClick={() => updateEmail(loggedInUser)}
+                      >
+                        Update
+                      </Button>
                     </Form.Item>
                   </Form>
                 </Panel>
@@ -163,13 +257,26 @@ const ProfileOverview = (props) => {
                   <Divider />
                   <Form layout="vertical">
                     <Form.Item label="New Password">
-                      <Input type="password" />
+                      <Input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                      />
                     </Form.Item>
                     <Form.Item label="Confirm Password">
-                      <Input type="password" />
+                      <Input
+                        type="password"
+                        value={passwordConfirm}
+                        onChange={(e) => setPasswordConfirm(e.target.value)}
+                      />
                     </Form.Item>
                     <Form.Item>
-                      <Button type="primary">Update</Button>
+                      <Button
+                        type="primary"
+                        onClick={() => updatePassword(loggedInUser)}
+                      >
+                        Update
+                      </Button>
                     </Form.Item>
                   </Form>
                 </Panel>

@@ -26,6 +26,49 @@ router.get("/loggedInUser", validateSession, (req, res) => {
     );
 });
 
+// update password
+router.put("/loggedInUser/password/:id", validateSession, (req, res) => {
+  const updatedUser = {
+    password: bcrypt.hashSync(req.body.password, 13),
+  };
+  User.update(updatedUser, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((user) =>
+      res.status(200).json({
+        user: user,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
+router.put("/loggedInUser/email/:id", validateSession, (req, res) => {
+  const updatedUser = {
+    email: req.body.email,
+  };
+  User.update(updatedUser, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((user) =>
+      res.status(200).json({
+        user: user,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
 router.post("/register", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   try {
