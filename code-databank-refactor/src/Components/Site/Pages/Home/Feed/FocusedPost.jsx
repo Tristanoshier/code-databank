@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { withRouter, useHistory, Redirect } from "react-router-dom";
+import { withRouter, useHistory, Link } from "react-router-dom";
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import {
@@ -27,6 +27,7 @@ import EditPost from "../../../../Shared/Posts/EditPost";
 import EditReply from "../../../../Shared/Replies/EditReply";
 import { TokenContext } from "../../../../../App";
 import "./FeedCard-Styles.css";
+import CreatePost from "../../../../Shared/Posts/CreatePost";
 
 const { Panel } = Collapse;
 
@@ -478,7 +479,7 @@ const FocusedPost = (props) => {
             placement="start"
           >
             <Card
-              className="feed-card"
+              className="feed-card focused-post-card"
               title={[
                 <div className="card-header">
                   <div className="card-header-arrow-container">
@@ -507,7 +508,7 @@ const FocusedPost = (props) => {
                   </div>
                 </div>,
               ]}
-              style={{ width: 600 }}
+              // style={{ width: 600 }}
               extra={[
                 <>
                   <Button type="link" onClick={toggleIcon}>
@@ -691,7 +692,7 @@ const FocusedPost = (props) => {
 
   return (
     <Row justify="center">
-      <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+      <Col xs={24} sm={24} md={16} lg={14} xl={14} xxl={14}>
         {/* <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}> */}
         {displayPost()}
       </Col>
