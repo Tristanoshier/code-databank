@@ -49,8 +49,19 @@ const FeedCard = ({
   const [editPost, setEditPost] = useState({});
   const [editReply, setEditReply] = useState({});
   const [editReplyActive, setEditReplyActive] = useState(false);
+  const [openPanel, setOpenPanel] = useState(0)
 
   const token = useContext(TokenContext);
+
+
+  // toggle antd panel for reply
+  const openCollapsePanel = () => {
+      setOpenPanel(1);
+  }
+
+  const closeCollapsePanel = () => {
+      setOpenPanel(0);
+  }
 
   // edit post -------------------------------------------
 
@@ -614,7 +625,7 @@ const FeedCard = ({
               <h5>Placeholder</h5>
             </div>
             <div className="add-reply-container">
-              <Collapse ghost>
+              <Collapse activeKey={openPanel} ghost>
                 <Panel
                   showArrow={false}
                   key="1"
@@ -622,6 +633,7 @@ const FeedCard = ({
                     <Button
                       type="ghost"
                       onClick={() => {
+                        openCollapsePanel();
                         replyOn();
                         addReply(post);
                       }}
@@ -635,6 +647,7 @@ const FeedCard = ({
                       createReply={createReply}
                       replyOff={replyOff}
                       getPosts={getPosts}
+                      closeCollapsePanel={closeCollapsePanel}
                     />
                   ) : (
                     <></>
