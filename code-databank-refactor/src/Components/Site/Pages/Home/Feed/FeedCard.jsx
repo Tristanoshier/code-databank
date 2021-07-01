@@ -593,6 +593,7 @@ const FeedCard = ({
                       </div>
                     </Col>
                   </Row>
+
                   {editReplyActive ? (
                     <EditReply
                       editReply={editReply}

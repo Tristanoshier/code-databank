@@ -20,14 +20,15 @@ const Nav = ({ clickLogout }) => {
       <div className="container-fluid">
         <div className="header">
           <div className="logo">
-            <img
-              src={mobileShield}
-              alt=""
-              height="25px"
-              style={{ borderRadius: "50%", marginRight: "5px" }}
-            />
-            {/* <RouterLink to="/">EFA</RouterLink> */}
-            EFA
+            <RouterLink to="/">
+              <img
+                src={mobileShield}
+                alt=""
+                height="25px"
+                style={{ borderRadius: "50%", marginRight: "5px" }}
+              />
+              EFA
+            </RouterLink>
           </div>
           <div className="mobileHidden">
             <Anchor targetOffset="65">

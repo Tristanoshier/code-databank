@@ -21,8 +21,8 @@ const FeedIndex = () => {
   const [infiniteScrollLoading, setInfiniteScrollLoading] = useState(true);
   const [hasMore, setHasMore] = useState(false);
   const [pageNumber, setPageNumber] = useState(1);
-  
-  // infinite scroll is currently broken, this var can be toggled to turn it on and off for testing purposes 
+
+  // infinite scroll is currently broken, this var can be toggled to turn it on and off for testing purposes
   let useInfiniteScroll = false;
 
   useEffect(() => {
@@ -31,7 +31,7 @@ const FeedIndex = () => {
 
   useEffect(() => {
     if (!useInfiniteScroll) getPosts(true);
-  }, [])
+  }, []);
 
   // since we are passing down diff fuctions as same prop, have to include scrolling even though its not being used
   const getPosts = async (scrolling) => {
@@ -45,7 +45,7 @@ const FeedIndex = () => {
       })
         .then((res) => res.json())
         .then((postResults) => {
-         setPosts(postResults)
+          setPosts(postResults);
         })
         .then(() => {
           setLoading(false);
@@ -53,7 +53,7 @@ const FeedIndex = () => {
     } catch (error) {
       console.log("error", error);
     }
-  }
+  };
 
   const getPostsInfinite = async (scrolling) => {
     pageNumber <= 1
@@ -65,13 +65,16 @@ const FeedIndex = () => {
     }
 
     try {
-      await fetch(`http://localhost:3000/posts/infinite?page=${pageNumber}&limit=10`, {
-        method: "GET",
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
+      await fetch(
+        `http://localhost:3000/posts/infinite?page=${pageNumber}&limit=10`,
+        {
+          method: "GET",
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: token,
+          }),
+        }
+      )
         .then((res) => res.json())
         .then((postResults) => {
           if (scrolling) {
