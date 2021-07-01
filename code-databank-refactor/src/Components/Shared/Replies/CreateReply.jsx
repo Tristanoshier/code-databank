@@ -12,6 +12,7 @@ const CreateReply = ({
   getFocusedPost,
   focusedReply,
   post,
+  closeCollapsePanel
 }) => {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyCode, setReplyCode] = useState("");
@@ -37,11 +38,13 @@ const CreateReply = ({
           getFocusedPost(post);
           setReplyMessage("");
           setReplyCode("");
+          closeCollapsePanel();
           replyOff();
         } else if (!focusedReply) {
           getPosts(false);
           setReplyMessage("");
           setReplyCode("");
+          closeCollapsePanel();
           replyOff();
         } else return;
       });
