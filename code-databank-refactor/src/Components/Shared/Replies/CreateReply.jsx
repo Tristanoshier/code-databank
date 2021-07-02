@@ -5,15 +5,23 @@ import { TokenContext } from "../../../App";
 const { Panel } = Collapse;
 const { TextArea } = Input;
 
-const CreateReply = ({ createReply, replyOff, getPosts }) => {
+const CreateReply = ({
+  createReply,
+  replyOff,
+  getPosts,
+  getFocusedPost,
+  focusedReply,
+  post,
+  closeCollapsePanel,
+}) => {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyCode, setReplyCode] = useState("");
   const [codeActive, setCodeActive] = useState(false);
 
   const token = useContext(TokenContext);
 
-  const handleSubmit = () => {
-    fetch(`http://localhost:3000/replies/${createReply.id}`, {
+  const handleSubmit = async () => {
+    await fetch(`http://localhost:3000/replies/${createReply.id}`, {
       method: "POST",
       body: JSON.stringify({
         replyMessage: replyMessage,
@@ -26,12 +34,20 @@ const CreateReply = ({ createReply, replyOff, getPosts }) => {
     })
       .then((res) => res.json())
       .then(() => {
-        getPosts(false);
-        setReplyMessage("");
-        setReplyCode("");
-        replyOff();
+        if (focusedReply) {
+          getFocusedPost(post);
+          setReplyMessage("");
+          setReplyCode("");
+          closeCollapsePanel();
+          replyOff();
+        } else if (!focusedReply) {
+          getPosts(false);
+          setReplyMessage("");
+          setReplyCode("");
+          closeCollapsePanel();
+          replyOff();
+        } else return;
       });
-      getPosts(false);
   };
 
   const codeOn = () => {

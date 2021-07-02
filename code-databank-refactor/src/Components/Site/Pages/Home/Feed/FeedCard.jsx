@@ -49,8 +49,18 @@ const FeedCard = ({
   const [editPost, setEditPost] = useState({});
   const [editReply, setEditReply] = useState({});
   const [editReplyActive, setEditReplyActive] = useState(false);
+  const [openPanel, setOpenPanel] = useState(0);
 
   const token = useContext(TokenContext);
+
+  // toggle antd panel for reply
+  const openCollapsePanel = () => {
+    setOpenPanel(1);
+  };
+
+  const closeCollapsePanel = () => {
+    setOpenPanel(0);
+  };
 
   // edit post -------------------------------------------
 
@@ -121,7 +131,7 @@ const FeedCard = ({
   const upVotePost = (post) => {
     let newUpVotes = post?.upVotes + 1;
     try {
-      fetch(`http://localhost:3000/posts/${post.id}`, {
+      fetch(`http://localhost:3000/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -139,13 +149,12 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
-    getPosts(false);
   };
 
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
     try {
-      fetch(`http://localhost:3000/posts/${post.id}`, {
+      fetch(`http://localhost:3000/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -163,13 +172,12 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
-    getPosts(false);
   };
 
   const upVoteReply = (reply) => {
     let newUpVotes = reply.upVotes + 1;
     try {
-      fetch(`http://localhost:3000/replies/${reply.id}`, {
+      fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -193,7 +201,7 @@ const FeedCard = ({
   const downVoteReply = (reply) => {
     let newUpVotes = reply.upVotes - 1;
     try {
-      fetch(`http://localhost:3000/replies/${reply.id}`, {
+      fetch(`http://localhost:3000/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -212,7 +220,6 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
-    getPosts(false);
   };
 
   const DeletePost = (post) => {
@@ -232,7 +239,6 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
-    getPosts(false);
   };
 
   const deleteReply = (reply) => {
@@ -252,7 +258,6 @@ const FeedCard = ({
     } catch {
       console.log("throw error");
     }
-    getPosts(false);
   };
 
   const savePostInLocalStorage = (post) => {
@@ -269,6 +274,7 @@ const FeedCard = ({
           postCode: post.postCode,
           postType: post.postType,
           codeType: post.codeType,
+          upVotes: post.upVotes,
         }),
         headers: new Headers({
           "Content-Type": "application/json",
@@ -423,7 +429,7 @@ const FeedCard = ({
 
   return (
     <div>
-      <div key={post?.id}>
+      <div>
         <Badge.Ribbon
           className="badge"
           text={
@@ -482,10 +488,11 @@ const FeedCard = ({
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              {post?.postMessage.split("\n").map((message) => (
-                <p>{message}</p>
-              ))}
-              {post.postCode != "" || null ? (
+              {/* {post?.postMessage.split("\n").map((message) => (
+                <p key={post.id}>{message}</p>
+              ))} */}
+              <p>{post?.postMessage}</p>
+              {post.postCode !== "" && post?.postCode !== null ? (
                 <div className="post-code">
                   <SyntaxHighlighter
                     lineProps={{
@@ -521,8 +528,8 @@ const FeedCard = ({
                 return b.upVotes - a.upVotes;
               })
               .slice(0, 4)
-              .map((reply, index) => (
-                <div key={index} className="reply-container" key={reply.id}>
+              .map((reply) => (
+                <div key={reply.id} className="reply-container">
                   <Row justify="center" align="start">
                     <Col span={2}>
                       <div>
@@ -547,7 +554,8 @@ const FeedCard = ({
                       >
                         <div className="reply-message-container">
                           <p id="reply-message">{reply?.replyMessage}</p>
-                          {reply.replyCode != "" || null ? (
+                          {reply?.replyCode !== "" &&
+                          reply?.replyCode !== null ? (
                             <div className="code-container">
                               <SyntaxHighlighter
                                 lineProps={{
@@ -584,6 +592,7 @@ const FeedCard = ({
                       </div>
                     </Col>
                   </Row>
+
                   {editReplyActive ? (
                     <EditReply
                       editReply={editReply}
@@ -616,7 +625,7 @@ const FeedCard = ({
               <h5>Placeholder</h5>
             </div>
             <div className="add-reply-container">
-              <Collapse ghost>
+              <Collapse activeKey={openPanel} ghost>
                 <Panel
                   showArrow={false}
                   key="1"
@@ -624,6 +633,11 @@ const FeedCard = ({
                     <Button
                       type="ghost"
                       onClick={() => {
+                        if (openPanel === 0) {
+                          openCollapsePanel();
+                        } else {
+                          closeCollapsePanel();
+                        }
                         replyOn();
                         addReply(post);
                       }}
@@ -637,6 +651,7 @@ const FeedCard = ({
                       createReply={createReply}
                       replyOff={replyOff}
                       getPosts={getPosts}
+                      closeCollapsePanel={closeCollapsePanel}
                     />
                   ) : (
                     <></>

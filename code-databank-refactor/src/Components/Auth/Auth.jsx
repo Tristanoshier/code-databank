@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, Avatar, Input, Button, Spin, message } from "antd";
-import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
 import "./Auth.css";
 
 const Auth = (props) => {
@@ -8,14 +8,26 @@ const Auth = (props) => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [login, setLogin] = useState(true);
   const [loading, setLoading] = useState(false);
   const [loginAlert, setLoginAlert] = useState(false);
 
   const { Meta } = Card;
+  const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    if (!login && password !== passwordConfirm) {
+      passwordMatchFailure();
+      setPassword("");
+      setPasswordConfirm("");
+      setLoading(false);
+
+      return;
+    }
+
     const url = login
       ? "http://localhost:3000/user/login"
       : "http://localhost:3000/user/register";
@@ -44,6 +56,7 @@ const Auth = (props) => {
           loginFailed();
           setEmail("");
           setPassword("");
+          setPasswordConfirm("");
           setLoading(false);
         }
         return res.json();
@@ -66,6 +79,10 @@ const Auth = (props) => {
     message.error("Login failed");
   };
 
+  const passwordMatchFailure = () => {
+    message.error("Passwords do not match");
+  };
+
   const loginToggle = (e) => {
     e.preventDefault();
     setLogin(!login);
@@ -76,14 +93,14 @@ const Auth = (props) => {
   };
 
   const authButtonToggle = () => {
-    return registerFields ? (
+    return login ? (
       <div>
         <Button type="primary" danger onClick={loginToggle}>
           Need to Register?
         </Button>
       </div>
     ) : (
-      <Button type="primary" danger>
+      <Button type="primary" danger onClick={loginToggle}>
         Need to Login?
       </Button>
     );
@@ -149,6 +166,23 @@ const Auth = (props) => {
             onChange={(e) => setPassword(e.target.value)}
             prefix={<LockOutlined />}
           />
+          {!login && (
+            <>
+              <br />
+
+              <label htmlFor="passwordConfirm" style={{ fontSize: "1rem" }}>
+                Confirm Password:
+              </label>
+              <br />
+              <Input
+                type="password"
+                id="passwordConfirm"
+                value={passwordConfirm}
+                onChange={(e) => setPasswordConfirm(e.target.value)}
+                prefix={<LockOutlined />}
+              />
+            </>
+          )}
           <br />
           <br />
           <div>
@@ -157,7 +191,7 @@ const Auth = (props) => {
                 {authTitle()}
               </Button>
             ) : (
-              <Spin />
+              <Spin indicator={loadingIcon} />
             )}
           </div>
           <br />
@@ -170,7 +204,6 @@ const Auth = (props) => {
   return (
     <div className="auth">
       <Card
-        style={{ width: 500 }}
         cover={
           <img
             alt="mobile-shield"

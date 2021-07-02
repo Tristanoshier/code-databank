@@ -26,6 +26,49 @@ router.get("/loggedInUser", validateSession, (req, res) => {
     );
 });
 
+// update password
+router.put("/loggedInUser/password/:id", validateSession, (req, res) => {
+  const updatedUser = {
+    password: bcrypt.hashSync(req.body.password, 13),
+  };
+  User.update(updatedUser, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((user) =>
+      res.status(200).json({
+        user: user,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
+router.put("/loggedInUser/email/:id", validateSession, (req, res) => {
+  const updatedUser = {
+    email: req.body.email,
+  };
+  User.update(updatedUser, {
+    where: {
+      id: req.params.id,
+    },
+  })
+    .then((user) =>
+      res.status(200).json({
+        user: user,
+      })
+    )
+    .catch((err) =>
+      res.status(500).json({
+        error: err,
+      })
+    );
+});
+
 router.post("/register", async (req, res) => {
   let { firstName, lastName, email, password } = req.body;
   try {
@@ -94,5 +137,85 @@ router.post("/login", async (req, res) => {
     });
   }
 });
+
+// router.get("/savePost", (req, res) => {
+// const postQuery = Posts.findOne({
+//   where: {
+//     id: req.params.id,
+//   },
+// })
+//   .then((post) => res.status(200).json(post))
+//   .catch((err) => res.status(500).json(err));
+
+// User.findAll({
+//   where: {
+//     id: req.user.id,
+//   },
+// })
+//   .then((user) =>
+//     res.status(200).json({
+//       user: user,
+//     })
+//   )
+//   .catch((err) =>
+//     res.status(500).json({
+//       error: err,
+//     })
+//   );
+
+// let savedPost = {
+//   savedPosts: postQuery,
+// };
+
+// User.update(userQuery, savedPost)
+//   .then(
+//     res.status(200).json({
+//       message: "success",
+//     })
+//   )
+//   .catch((err) =>
+//     res.status(500).json({
+//       message: "failed",
+//     })
+//   );
+// .then((data) => console.log(data));
+// console.log(postQuery);
+// console.log(postQuery);
+
+// const userQuery = User.findOne({
+//   id: req.user.id,
+// });
+// const savedPost = {
+//   savedPosts: query,
+// };
+// try {
+//   User.update(savedPost, userQuery, postQuery).then(
+//     res.status(200).json({
+//       message: "Post saved",
+//     })
+//   );
+// } catch (error) {
+//   console.log(error);
+//   res.status(500).json({
+//     message: "Failed to save post",
+//   });
+// }
+// try {
+//   User.update({
+//     where: Posts.findOne({
+//       id: req.params.id,
+//     }),
+//   }).then(
+//     res.status(200).json({
+//       message: "Saved post!",
+//     })
+//   );
+// } catch (error) {
+//   res.status(500).json({
+//     message: "Failed to save post.",
+//     error,
+//   });
+// }
+// });
 
 module.exports = router;

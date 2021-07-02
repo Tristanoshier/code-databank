@@ -20,29 +20,58 @@ const Nav = ({ clickLogout }) => {
       <div className="container-fluid">
         <div className="header">
           <div className="logo">
-            <img
-              src={mobileShield}
-              alt=""
-              height="25px"
-              style={{ borderRadius: "50%", marginRight: "5px" }}
-            />
-            <RouterLink to="/">EFA</RouterLink>
+            <RouterLink to="/">
+              <img
+                src={mobileShield}
+                alt=""
+                height="25px"
+                style={{ borderRadius: "50%", marginRight: "5px" }}
+              />
+              EFA
+            </RouterLink>
           </div>
           <div className="mobileHidden">
             <Anchor targetOffset="65">
-              <RouterLink to="/">
-                <Link href="/" title="Dashboard" />
+              <RouterLink to="/" className="ant-anchor-link" onClick={onClose}>
+                {/* <Link href="/" title="Dashboard" /> */}
+                Dashboard
               </RouterLink>
-              <RouterLink to="/popular">
-                <Link href="/" title="Popular" />
+              <RouterLink
+                to="/popular"
+                className="ant-anchor-link"
+                onClick={onClose}
+              >
+                {/* <Link href="/" title="Popular" /> */}
+                Popular
               </RouterLink>
-              <RouterLink to="/search">
-                <Link href="/" title="Search" />
+              <RouterLink
+                to="/profile"
+                className="ant-anchor-link"
+                onClick={onClose}
+              >
+                {/* <Link href="/" title="Popular" /> */}
+                Profile
               </RouterLink>
-              <RouterLink to="/">
-                <a onClick={clickLogout}>
-                  <Link href="/" title="Logout" />
-                </a>
+              <RouterLink
+                to="/search"
+                className="ant-anchor-link"
+                onClick={onClose}
+              >
+                {/* <Link href="/" title="Search" /> */}
+                Search
+              </RouterLink>
+              <RouterLink
+                to="/"
+                className="ant-anchor-link"
+                onClick={() => {
+                  clickLogout();
+                  onClose();
+                }}
+              >
+                {/* <a onClick={clickLogout}> */}
+                {/* <Link href="/" title="Logout" /> */}
+                Logout
+                {/* </a> */}
               </RouterLink>
             </Anchor>
           </div>
@@ -57,19 +86,49 @@ const Nav = ({ clickLogout }) => {
               visible={visible}
             >
               <Anchor targetOffset="65">
-                <RouterLink to="/">
-                  <Link href="/" title="Dashboard" />
+                <RouterLink
+                  to="/"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  {/* <Link href="/" title="Dashboard" /> */}
+                  Dashboard
                 </RouterLink>
-                <RouterLink to="/popular">
-                  <Link href="/" title="Popular" />
+                <RouterLink
+                  to="/popular"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  {/* <Link href="/" title="Popular" /> */}
+                  Popular
                 </RouterLink>
-                <RouterLink to="/search">
-                  <Link href="/" title="Search" />
+                <RouterLink
+                  to="/profile"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  {/* <Link href="/" title="Popular" /> */}
+                  Profile
                 </RouterLink>
-                <RouterLink to="/">
-                  <a onClick={clickLogout}>
-                    <Link href="#" title="Logout" />
-                  </a>
+                <RouterLink
+                  to="/search"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  {/* <Link href="/" title="Search" /> */}
+                  Search
+                </RouterLink>
+                <RouterLink
+                  to="/"
+                  className="ant-anchor-link"
+                  onClick={() => {
+                    clickLogout();
+                    onClose();
+                  }}
+                >
+                  {/* <a onClick={clickLogout}>Logout</a> */}
+                  {/* <Link href="/" title="Logout" /> */}
+                  Logout
                 </RouterLink>
               </Anchor>
             </Drawer>

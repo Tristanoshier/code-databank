@@ -24,6 +24,9 @@ const Post = db.define("post", {
   },
   upVotes: {
     type: DataTypes.INTEGER,
+    // validate: {
+    //   isIn: [[-1, 0, 1]],
+    // },
   },
   ownerId: {
     type: DataTypes.INTEGER,

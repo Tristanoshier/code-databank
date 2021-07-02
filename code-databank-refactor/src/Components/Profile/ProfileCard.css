@@ -1,0 +1,14 @@
+.profile-container {
+  padding: 0 10px 0 10px;
+}
+
+.profile-overview-footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* .profile-overview-footer div {
+  padding: 0 20px;
+} */

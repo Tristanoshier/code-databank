@@ -5,6 +5,7 @@ import ProfileIndex from "../Profile/ProfileIndex";
 import { Home } from "./Pages/Home/Home";
 import { Popular } from "./Pages/Popular/Popular";
 import { Search } from "./Pages/Search/Search";
+import CreatePost from "../Shared/Posts/CreatePost";
 
 export const Routes = () => {
   return (

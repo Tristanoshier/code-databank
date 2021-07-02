@@ -21,8 +21,8 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
       .then((res) => res.json())
       .then((data) => {
         setUser(data.user);
+        setLoading(false);
       });
-    setLoading(false);
   };
 
   // const getUser = async () => {

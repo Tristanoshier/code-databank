@@ -89,3 +89,38 @@
 
 - Fixed Edit Reply Modal ghosting
 - Fixed empty Syntax highlighter displaying if no postCode (this might be a future issue with null or empty string on FeedCard (@ Line 488 6/11/2021)
+
+6/14/2021 - Hustin
+
+- Profile now responsive
+- Fixed CreatePost card extending out of modal, changed width: 500 to width: 100%
+- Font size 12px media query for 480px
+
+6/22/2021 - Hustin
+
+- Fixed key warnings, link nesting warning
+- Fixed navbar styling
+- Fixed drawer not closing when clicking links
+
+6/23/2021 - Hustin
+
+- Created a hook to check for window resize, if under 768px dashboard and emotion will be on top of feed instead of bottom
+- Dashboard/Emotion tabs
+- Added profile to nav
+- Fixed focused post styling being narrow, duplicate container divs from MainLayout
+
+6/24/2021 - Hustin
+
+- Fixed saved posts displaying for all users in profile
+- Updated profile styling
+- Add enter key press for search
+- Styled search
+
+6/28/2021 - Hustin
+
+- localStorage should clear now after 24 hours.
+- Password confirm on register
+
+6/29/2021 - Hustin
+
+- Added focusedPost post message syntax highlighter

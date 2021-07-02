@@ -1,6 +1,16 @@
 import React, { useState, useContext } from "react";
-import { Form, Input, Card, Select, Modal, Collapse, Button, notification } from "antd";
+import {
+  Form,
+  Input,
+  Card,
+  Select,
+  Modal,
+  Collapse,
+  Button,
+  notification,
+} from "antd";
 import { TokenContext } from "../../../App";
+import { useLocation } from "react-router";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -21,56 +31,90 @@ const CreatePost = ({ postOff, getPosts }) => {
       message: "Success!",
       description: "Your post has been created!",
       duration: 1,
-    }
+    };
     notification.open(args);
-  }
+  };
 
   const codeOn = () => {
     setPostCodeActive(true);
-  }
-
+  };
 
   const handleCancel = () => {
     postOff();
-  }
+  };
 
   const codeOff = () => {
     setPostCodeActive(false);
   };
 
+  // const handleSubmit = () => {
+  //   try {
+  //     fetch("http://localhost:3000/posts", {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         postTitle: postTitle,
+  //         postMessage: postMessage,
+  //         postCode: postCode,
+  //         postType: postType,
+  //         codeType: codeType,
+  //       }),
+  //       headers: new Headers({
+  //         "Content-Type": "application/json",
+  //         Authorization: token,
+  //       }),
+  //     })
+  //       .then((res) => res.json())
+  //       .then(() => {
+  //         postOff();
+  //         codeOff();
+  //         openCreatedPostNotification();
+  //         getPosts(false);
+  //         setPostTitle("");
+  //         setPostMessage("");
+  //         setPostCode("");
+  //         setPostType("");
+  //         setCodeType("");
+  //       });
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const handleSubmit = async () => {
+    const settings = {
+      method: "POST",
+      body: JSON.stringify({
+        postTitle: postTitle,
+        postMessage: postMessage,
+        postCode: postCode,
+        postType: postType,
+        codeType: codeType,
+      }),
+      headers: new Headers({
+        "Content-Type": "application/json",
+        Authorization: token,
+      }),
+    };
+
     try {
-      fetch("http://localhost:3000/posts", {
-        method: "POST",
-        body: JSON.stringify({
-          postTitle: postTitle,
-          postMessage: postMessage,
-          postCode: postCode,
-          postType: postType,
-          codeType: codeType,
-        }),
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
-        .then((res) => res.json())
-        .then(() => {
-          postOff();
-          codeOff();
-          openCreatedPostNotification();
-          getPosts(false);  
-          setPostTitle("");
-          setPostMessage("");
-          setPostCode("");
-          setPostType("");
-          setCodeType("");
-        });
+      const response = await fetch("http://localhost:3000/posts", settings);
+      const data = await response.json();
+
+      postOff();
+      codeOff();
+      openCreatedPostNotification();
+      getPosts(false);
+      setPostTitle("");
+      setPostMessage("");
+      setPostCode("");
+      setPostType("");
+      setCodeType("");
+
+      return data;
     } catch (error) {
       console.log(error);
     }
-    getPosts(false);  
-  }
+  };
 
   return (
     <Modal
@@ -80,7 +124,7 @@ const CreatePost = ({ postOff, getPosts }) => {
       onCancel={handleCancel}
       okText="Submit"
     >
-      <Card style={{ width: 500 }} bordered={false}>
+      <Card style={{ width: "100%" }} bordered={false}>
         <Form
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
