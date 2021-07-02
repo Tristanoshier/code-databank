@@ -126,6 +126,9 @@ const CreateReply = ({
         <Button type="ghost" htmlType="submit">
           Submit
         </Button>
+        <Button onClick={() => closeCollapsePanel()} danger>
+          Cancel
+        </Button>
       </Form.Item>
     </Form>
   );
