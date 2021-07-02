@@ -49,19 +49,18 @@ const FeedCard = ({
   const [editPost, setEditPost] = useState({});
   const [editReply, setEditReply] = useState({});
   const [editReplyActive, setEditReplyActive] = useState(false);
-  const [openPanel, setOpenPanel] = useState(0)
+  const [openPanel, setOpenPanel] = useState(0);
 
   const token = useContext(TokenContext);
 
-
   // toggle antd panel for reply
   const openCollapsePanel = () => {
-      setOpenPanel(1);
-  }
+    setOpenPanel(1);
+  };
 
   const closeCollapsePanel = () => {
-      setOpenPanel(0);
-  }
+    setOpenPanel(0);
+  };
 
   // edit post -------------------------------------------
 
@@ -634,7 +633,11 @@ const FeedCard = ({
                     <Button
                       type="ghost"
                       onClick={() => {
-                        openCollapsePanel();
+                        if (openPanel === 0) {
+                          openCollapsePanel();
+                        } else {
+                          closeCollapsePanel();
+                        }
                         replyOn();
                         addReply(post);
                       }}

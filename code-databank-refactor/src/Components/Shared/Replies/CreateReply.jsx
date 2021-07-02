@@ -12,7 +12,7 @@ const CreateReply = ({
   getFocusedPost,
   focusedReply,
   post,
-  closeCollapsePanel
+  closeCollapsePanel,
 }) => {
   const [replyMessage, setReplyMessage] = useState("");
   const [replyCode, setReplyCode] = useState("");
@@ -125,9 +125,6 @@ const CreateReply = ({
       <Form.Item>
         <Button type="ghost" htmlType="submit">
           Submit
-        </Button>
-        <Button onClick={() => closeCollapsePanel()} danger>
-          Cancel
         </Button>
       </Form.Item>
     </Form>
