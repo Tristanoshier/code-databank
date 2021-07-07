@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Card, Avatar, Input, Button, Spin, message } from "antd";
+import { Card, Input, Button, Spin, message, Form } from "antd";
 import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
+import sitelogo from "../Site/assets/efa-site-logo.jpeg";
 import "./Auth.css";
 
 const Auth = (props) => {
@@ -14,10 +15,10 @@ const Auth = (props) => {
   const [loginAlert, setLoginAlert] = useState(false);
 
   const { Meta } = Card;
+
   const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  const handleSubmit = () => {
 
     if (!login && password !== passwordConfirm) {
       passwordMatchFailure();
@@ -34,15 +35,15 @@ const Auth = (props) => {
 
     const authBodyObj = login
       ? {
-          email: email,
-          password: password,
-        }
+        email: email,
+        password: password,
+      }
       : {
-          firstName: firstName,
-          lastName: lastName,
-          email: email,
-          password: password,
-        };
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        password: password,
+      };
 
     fetch(url, {
       method: "POST",
@@ -66,12 +67,6 @@ const Auth = (props) => {
         props.updatedFirstName(data.user.firstName);
         props.updatedUserId(data.user.id);
       });
-    // .catch((err) => {
-    //   console.log(err);
-    //   setEmail("");
-    //   setPassword("");
-    //   setLoading(false);
-    // });
     setLoading(true);
   };
 
@@ -92,111 +87,122 @@ const Auth = (props) => {
     return login ? "Login" : "Register";
   };
 
-  const authButtonToggle = () => {
-    return login ? (
-      <div>
-        <Button type="primary" danger onClick={loginToggle}>
-          Need to Register?
-        </Button>
-      </div>
-    ) : (
-      <Button type="primary" danger onClick={loginToggle}>
-        Need to Login?
-      </Button>
-    );
-  };
+  const authButtonTitle = () => {
+    return login ? "Need to Register?" : "Need to Login?";
+  }
 
   const registerFields = () => {
     return !login ? (
       <div>
-        <label htmlFor="firstName" style={{ fontSize: "1rem" }}>
-          First Name
-        </label>
-        <br />
-        <Input
-          type="text"
-          id="firstName"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-        />
-        <br />
-        <label htmlFor="lastName" style={{ fontSize: "1rem" }}>
-          Last Name
-        </label>
-        <br />
-        <Input
-          type="text"
-          id="lastName"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-        />
+        {/* First Name */}
+        <Form.Item
+          label="First Name"
+          name="firstName"
+          rules={[{ required: true, message: 'Please input your first name.' }]}
+        >
+          <Input
+            type="text"
+            id="firstName"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </Form.Item>
+
+        {/* Last Name */}
+        <Form.Item
+          label="Last Name"
+          name="lastName"
+          rules={[{ required: true, message: 'Please input your last name.' }]}
+        >
+          <Input
+            type="text"
+            id="lastName"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+        </Form.Item>
       </div>
-    ) : null;
+    ) : <></>
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log('Failed:', errorInfo);
   };
 
   const authForm = () => {
     return (
       <div>
-        <form onSubmit={handleSubmit}>
+        <Form
+          name="basic"
+          labelCol={login ? { span: 7 } : {span: 9}}
+          wrapperCol={{ span: 14 }}
+          onFinish={handleSubmit}
+          onFinishFailed={onFinishFailed}>
+
           {registerFields()}
-          <label
-            htmlFor="email"
-            style={{ fontSize: "1rem", paddingRight: "1rem" }}
+
+          {/* Email */}
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[{ required: true, message: 'Please input your email.' }]}
           >
-            Email:
-          </label>
-          {/* <br /> */}
-          <Input
-            type="text"
-            id="email"
-            value={email}
-            placeholder="email@email.com"
-            onChange={(e) => setEmail(e.target.value)}
-            prefix={<UserOutlined />}
-          />
-          <br />
-          <label htmlFor="password" style={{ fontSize: "1rem" }}>
-            Password:
-          </label>
-          <br />
-          <Input
-            type="password"
-            id="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            prefix={<LockOutlined />}
-          />
+            <Input
+              type="text"
+              id="email"
+              value={email}
+              placeholder="email@email.com"
+              onChange={(e) => setEmail(e.target.value)}
+              prefix={<UserOutlined />}
+            />
+          </Form.Item>
+
+          {/* Password */}
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[{ required: true, message: 'Please input your password.' }]}
+          >
+            <Input.Password value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              prefix={<LockOutlined />} />
+          </Form.Item>
+
+          {/* Confirm Password */}
           {!login && (
             <>
-              <br />
-
-              <label htmlFor="passwordConfirm" style={{ fontSize: "1rem" }}>
-                Confirm Password:
-              </label>
-              <br />
-              <Input
-                type="password"
-                id="passwordConfirm"
-                value={passwordConfirm}
-                onChange={(e) => setPasswordConfirm(e.target.value)}
-                prefix={<LockOutlined />}
-              />
+              <Form.Item
+                label="Confirm Password"
+                name="passwordConfirm"
+                rules={[{ required: true, message: 'Please input your password.' }]}
+              >
+                <Input.Password
+                  value={passwordConfirm}
+                  onChange={(e) => setPasswordConfirm(e.target.value)}
+                  prefix={<LockOutlined />}
+                />
+              </Form.Item>
             </>
           )}
-          <br />
-          <br />
-          <div>
-            {!loading ? (
-              <Button htmlType="submit" type="primary" danger>
-                {authTitle()}
-              </Button>
-            ) : (
-              <Spin indicator={loadingIcon} />
-            )}
-          </div>
-          <br />
-          {authButtonToggle()}
-        </form>
+
+          {/* Buttons */}
+          <Form.Item wrapperCol={{ offset: 7, span: 16 }}>
+            <div>
+              {!loading ? (
+                <div>
+                  <Button type="primary" htmlType="submit" danger>
+                    {authTitle()}
+                  </Button>
+                  <Button type="link" htmlType="button" onClick={loginToggle}>
+                    {authButtonTitle()}
+                  </Button>
+                </div>
+              ) : (
+                <Spin indicator={loadingIcon} />
+              )}
+            </div>
+          </Form.Item>
+        </Form>
       </div>
     );
   };
@@ -204,22 +210,19 @@ const Auth = (props) => {
   return (
     <div className="auth">
       <Card
+        className="auth-card"
         cover={
           <img
             alt="mobile-shield"
-            src="https://elevenfifty.org/wp-content/uploads/2019/03/mobile-shield.png"
+            src={sitelogo}
           />
         }
         actions={[
           <p>Forgot Password?</p>,
-          <a href="https://learninggym-3a62e.web.app/">Learning Gym</a>,
+          <a href="https://learninggym-3a62e.web.app/" target="_blank">Learning Gym</a>,
         ]}
       >
         <Meta
-          avatar={
-            <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-          }
-          title={authTitle()}
           description={authForm()}
         />
       </Card>
