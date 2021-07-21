@@ -56,7 +56,7 @@ const ProfileCard = ({ post, getPosts }) => {
             ? "1k+"
             : post?.upVotes
         }
-        color="#f50"
+        color="#ff4d4f"
         placement="start"
       >
         <Card

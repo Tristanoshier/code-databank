@@ -76,7 +76,7 @@ const GettingStarted = () => {
       <div>
         <Badge.Ribbon
           text="8"
-          color="#f50"
+          color="#ff4d4f"
           placement="start"
           style={{ fontWeight: "400" }}
         >
@@ -136,7 +136,7 @@ const GettingStarted = () => {
                 <Col span={22}>
                   <Badge.Ribbon
                     text="10"
-                    color="#f50"
+                    color="#ff4d4f"
                     placement="start"
                     style={{ fontWeight: "400" }}
                   >

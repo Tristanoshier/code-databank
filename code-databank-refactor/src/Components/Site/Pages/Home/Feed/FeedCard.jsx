@@ -439,7 +439,7 @@ const FeedCard = ({
               ? "1k+"
               : post?.upVotes
           }
-          color="#f50"
+          color="#ff4d4f"
           placement="start"
         >
           <Card
@@ -549,7 +549,7 @@ const FeedCard = ({
                       <Badge.Ribbon
                         className="badge"
                         text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
-                        color="#f50"
+                        color="#ff4d4f"
                         placement="start"
                       >
                         <div className="reply-message-container">
