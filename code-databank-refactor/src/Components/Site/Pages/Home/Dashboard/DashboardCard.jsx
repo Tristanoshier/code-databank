@@ -124,7 +124,6 @@ const DashboardCard = ({
           <Link to="/profile">
             <h5>Profile</h5>
           </Link>
-          <h5>Placeholder</h5>
         </div>
         <div className="dashboard-post-button">
           <Button type="default" onClick={() => postOn()}>

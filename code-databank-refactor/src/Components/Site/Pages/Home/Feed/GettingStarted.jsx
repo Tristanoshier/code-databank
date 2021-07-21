@@ -183,8 +183,6 @@ const GettingStarted = () => {
 
                 <h5 id="view-replies">View Replies (1)</h5>
               </div>
-              <h5>Placeholder</h5>
-              <h5>Placeholder</h5>
             </div>
             <div className="add-reply-container">
               <Collapse ghost>

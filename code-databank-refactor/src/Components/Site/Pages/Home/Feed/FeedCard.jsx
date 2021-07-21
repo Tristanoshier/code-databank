@@ -621,8 +621,6 @@ const FeedCard = ({
                   </h5>
                 </Link>
               </div>
-              <h5>Placeholder</h5>
-              <h5>Placeholder</h5>
             </div>
             <div className="add-reply-container">
               <Collapse activeKey={openPanel} ghost>
