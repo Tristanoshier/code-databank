@@ -439,7 +439,7 @@ const FeedCard = ({
               ? "1k+"
               : post?.upVotes
           }
-          color="#f50"
+          color="#ff4d4f"
           placement="start"
         >
           <Card
@@ -549,7 +549,7 @@ const FeedCard = ({
                       <Badge.Ribbon
                         className="badge"
                         text={reply?.upVotes === null || 0 ? 0 : reply?.upVotes}
-                        color="#f50"
+                        color="#ff4d4f"
                         placement="start"
                       >
                         <div className="reply-message-container">
@@ -621,8 +621,6 @@ const FeedCard = ({
                   </h5>
                 </Link>
               </div>
-              <h5>Placeholder</h5>
-              <h5>Placeholder</h5>
             </div>
             <div className="add-reply-container">
               <Collapse activeKey={openPanel} ghost>

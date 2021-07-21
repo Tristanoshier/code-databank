@@ -1,13 +1,10 @@
 table {
   text-align: center;
-  border: 1px solid gray;
 }
 
 th {
   padding: 0px 15px 0px 15px;
-  border: 1px solid rgb(179, 179, 179);
-  border-bottom: #263238;
-  background-color: #2dbe8e;
+  background-color: #70b6f8;
   color: white;
 }
 
@@ -15,7 +12,7 @@ td {
   /* color: rgb(18, 209, 129); */
   color: #ffff;
   font-weight: 600;
-  background-color: #263238;
+  background-color: rgb(197, 197, 197);
   opacity: 0.8;
 }
 
@@ -38,7 +35,7 @@ td {
 }
 
 #popular-topics-title:hover {
-  color: lightgray;
+  color: rgb(116, 115, 115);
 }
 
 .popular-topics-container {
@@ -55,9 +52,9 @@ td {
 }
 
 .post-badge {
-  background-color: rgb(238, 135, 97);
+  background-color: #ff4d4f;
   padding: 0 5px 0 5px;
-  border-radius: 20%;
+  border-radius: 10%;
   min-width: 25px;
   text-align: center;
   color: white;

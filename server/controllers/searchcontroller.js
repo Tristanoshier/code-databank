@@ -4,50 +4,53 @@ const { Posts, Replies } = require("../models");
 const Sequelize = require("sequelize");
 const Op = Sequelize.Op;
 
-// Multi String Search Algorithm
-// O(bns) time complexity | O(n) space complexity
+// Complexity Analysis: O(ns + bs) Time | O(ns) Space
 // - where n is the number of words in the search, s is the length of the longest word, and b is the length of the title
-
-// var bigString is the field being searched
-// var smallStrings is an array of each word in the user's search
-function multiStringSearch(bigString, smallStrings) {
-  return smallStrings.map((smallString) =>
-    isInBigString(bigString, smallString)
-  );
-}
-
-function isInBigString(bigString, smallString) {
-  for (let i = 0; i < bigString.length; i++) {
-    if (i + smallString.length > bigString.length) break;
-    if (isInBigStringHelper(bigString, smallString, i)) return true;
+class Trie {
+  constructor() {
+    this.root = {}
+    this.endSymbol = '*'
   }
-  return false;
-}
 
-function isInBigStringHelper(bigString, smallString, startIdx) {
-  let leftBigIdx = startIdx;
-  let rightBigIdx = startIdx + smallString.length - 1;
-  let leftSmallIdx = 0;
-  let rightSmallIdx = smallString.length - 1;
-  while (leftBigIdx <= rightBigIdx) {
-    if (
-      bigString[leftBigIdx] != smallString[leftSmallIdx] ||
-      bigString[rightBigIdx] != smallString[rightSmallIdx]
-    ) {
-      return false;
+  add(string) {
+    let currentNode = this.root
+    for (const letter of string) {
+      if (!(letter in currentNode)) currentNode[letter] = {}
+      currentNode = currentNode[letter]
     }
-    leftBigIdx++;
-    rightBigIdx--;
-    leftSmallIdx++;
-    rightSmallIdx--;
+    currentNode[this.endSymbol] = string
   }
-  return true;
 }
 
-// O(bns * p) time - where p is number of posts
-// O(p) space - where p is number of posts that return more true values than false values that we store in results array
-// * O(p) space should never really occur since the user input would have to cause all posts in db to pass the more true than false test but O(p) is worst case space complexity
+// varirable bigString is the field being searched
+// variable smallStrings is an array of each word in the user's search
 
+function multiStringSearch(bigString, smallStrings) {
+    const trie = new Trie()
+    for (const string of smallStrings) {
+        trie.add(string)
+    }
+
+    const containedStrings = {}
+    for (let i = 0; i < bigString.length; i++) {
+      findSmallStringsIn(bigString, i, trie, containedStrings)
+    }
+
+    return smallStrings.map(string => string in containedStrings)
+}
+
+function findSmallStringsIn(string, startIdx, trie, containedStrings) {
+    let currentNode = trie.root
+
+    for (let i = startIdx; i < string.length; i++) {
+      const currentChar = string[i]
+      if (!(currentChar in currentNode)) break
+      currentNode = currentNode[currentChar]
+      if (trie.endSymbol in currentNode) {
+          containedStrings[currentNode[trie.endSymbol]] = true
+      }
+    }
+}
 // this complexity applies for all functions below
 
 // search all posts by title
