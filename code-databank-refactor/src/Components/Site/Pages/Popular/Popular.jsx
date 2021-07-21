@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext, useRef, useCallback } from "react";
-import { Spin } from "antd";
 import { TokenContext } from "../../../../App";
 import FeedDisplay from "../Home/Feed/FeedDisplay";
 
@@ -113,9 +112,10 @@ export const Popular = () => {
 
   return (
     <div>
-      {!loading || !infiniteScrollLoading ? (
         <FeedDisplay
           posts={popularPosts}
+          loading={loading}
+          infiniteScrollLoading={infiniteScrollLoading}
           replyActive={replyActive}
           postActive={postActive}
           addPost={addPost}
@@ -129,9 +129,6 @@ export const Popular = () => {
           lastPostOnScreen={lastPopularPostOnScreen}
           isPopularPage={true}
         />
-      ) : (
-        <Spin />
-      )}
     </div>
   );
 };
