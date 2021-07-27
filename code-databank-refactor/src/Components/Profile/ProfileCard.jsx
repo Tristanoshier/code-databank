@@ -29,6 +29,10 @@ const ProfileCard = ({ post, getPosts }) => {
     }
   };
 
+  const savePostInLocalStorage = (post) => {
+    localStorage.setItem("post", JSON.stringify(post));
+  };
+
   const iconType = () => {
     if (post?.codeType === "React") {
       return <i className="fab fa-react"></i>;
@@ -60,7 +64,7 @@ const ProfileCard = ({ post, getPosts }) => {
         placement="start"
       >
         <Card
-          className="feed-card"
+          className="feed-card profile-feed-card"
           title={[
             <div className="card-header">
               <div className="container-sub">
@@ -114,7 +118,7 @@ const ProfileCard = ({ post, getPosts }) => {
             <h5>Posted by: {post?.posterName}</h5>
           </div>
 
-          <Divider />
+          {/* <Divider /> */}
         </Card>
       </Badge.Ribbon>
     </div>
