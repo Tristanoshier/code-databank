@@ -20,15 +20,22 @@ const FeedDisplay = (props) => {
             <>
               <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
                 {props.loading ? (
-                  <Card>
-                    <Skeleton active paragraph={{ rows: 12 }} />
-                  </Card>
+                  <div>
+                    <Card>
+                      <Skeleton active paragraph={{ rows: 10 }} />
+                    </Card>
+                    <br />
+                    <br />
+                    <Card>
+                      <Skeleton active paragraph={{ rows: 10 }} />
+                    </Card>
+                  </div>
                 ) : (
                   props.posts
                     ?.filter((v, i, a) => a.indexOf(v) == i)
                     .map((post, index) =>
                       props.posts.length === index + 1 &&
-                      props.lastPostOnScreen !== null ? (
+                        props.lastPostOnScreen !== null ? (
                         <div ref={props.lastPostOnScreen} key={post.id}>
                           <FeedCard
                             post={post}
@@ -74,15 +81,22 @@ const FeedDisplay = (props) => {
           <Row justify="center">
             <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
               {props.loading ? (
-                <Card>
-                  <Skeleton active paragraph={{ rows: 12 }} />
-                </Card>
+                <div>
+                  <Card>
+                    <Skeleton active paragraph={{ rows: 10 }} />
+                  </Card>
+                  <br />
+                  <br />
+                  <Card>
+                    <Skeleton active paragraph={{ rows: 10 }} />
+                  </Card>
+                </div>
               ) : (
                 props.posts
                   ?.filter((v, i, a) => a.indexOf(v) == i)
                   .map((post, index) =>
                     props.posts.length === index + 1 &&
-                    props.lastPostOnScreen !== null ? (
+                      props.lastPostOnScreen !== null ? (
                       <div ref={props.lastPostOnScreen} key={post.id}>
                         <FeedCard
                           post={post}
@@ -154,7 +168,7 @@ const FeedDisplay = (props) => {
                     ?.filter((v, i, a) => a.indexOf(v) == i)
                     .map((post, index) =>
                       props.posts.length === index + 1 &&
-                      props.lastPostOnScreen !== null ? (
+                        props.lastPostOnScreen !== null ? (
                         <div ref={props.lastPostOnScreen} key={post.id}>
                           <FeedCard
                             post={post}
@@ -196,7 +210,7 @@ const FeedDisplay = (props) => {
                   ?.filter((v, i, a) => a.indexOf(v) == i)
                   .map((post, index) =>
                     props.posts.length === index + 1 &&
-                    props.lastPostOnScreen !== null ? (
+                      props.lastPostOnScreen !== null ? (
                       <div ref={props.lastPostOnScreen} key={post.id}>
                         <FeedCard
                           post={post}

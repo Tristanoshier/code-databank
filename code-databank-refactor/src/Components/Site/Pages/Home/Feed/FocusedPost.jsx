@@ -475,7 +475,7 @@ const FocusedPost = (props) => {
           <Badge.Ribbon
             className="badge"
             text={focusedPost?.upVotes === null || 0 ? 0 : focusedPost?.upVotes}
-            color="#f50"
+            color="#ff4d4f"
             placement="start"
           >
             <Card
@@ -583,7 +583,7 @@ const FocusedPost = (props) => {
                           text={
                             reply?.upVotes === null || 0 ? 0 : reply?.upVotes
                           }
-                          color="#f50"
+                          color="#ff4d4f"
                           placement="start"
                         >
                           <div className="reply-message-container">

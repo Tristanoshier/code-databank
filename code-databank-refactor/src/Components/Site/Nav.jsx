@@ -27,7 +27,7 @@ const Nav = ({ clickLogout }) => {
                 height="25px"
                 style={{ borderRadius: "50%", marginRight: "5px" }}
               />
-              EFA
+              Code Databank
             </RouterLink>
           </div>
           <div className="mobileHidden">

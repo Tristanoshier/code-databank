@@ -5,7 +5,6 @@ import React, {
   useRef,
   useCallback,
 } from "react";
-import { Spin } from "antd";
 import { TokenContext } from "../../../../../App";
 import FeedDisplay from "./FeedDisplay";
 
@@ -177,9 +176,9 @@ const FeedIndex = () => {
 
   return (
     <div>
-      {!loading || !infiniteScrollLoading ? (
         <FeedDisplay
           loading={loading}
+          infiniteScrollLoading={infiniteScrollLoading}
           posts={posts}
           replyActive={replyActive}
           postActive={postActive}
@@ -194,9 +193,6 @@ const FeedIndex = () => {
           lastPostOnScreen={lastPostOnScreen}
           isPopularPage={false}
         />
-      ) : (
-        <Spin />
-      )}
     </div>
   );
 };

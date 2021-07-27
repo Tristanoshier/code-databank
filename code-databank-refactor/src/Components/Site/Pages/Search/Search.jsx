@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Skeleton, Spin, Input, Select, Button, Row, Col } from "antd";
+import { Skeleton, Card, Input, Select, Button, Row, Col } from "antd";
 import { TokenContext } from "../../../../App";
 import { SearchDisplay } from "./SearchDisplay";
 import "./Search.css";
@@ -108,11 +108,20 @@ export const Search = () => {
       </Row>
       <br />
       {loading ? (
-        <Row justify="end">
-          <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={12}>
-            <Spin />
-          </Col>
-        </Row>
+        <div>
+          <Row justify="center">
+            <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
+              <Card>
+                <Skeleton active paragraph={{ rows: 10 }} />
+              </Card>
+              <br />
+              <br />
+              <Card>
+                <Skeleton active paragraph={{ rows: 10 }} />
+              </Card>
+            </Col>
+          </Row>
+        </div>
       ) : showSearchMessage ? (
         <Row justify="center">
           <Col xs={24} sm={24} md={16} lg={12} xl={12} xxl={12}>
