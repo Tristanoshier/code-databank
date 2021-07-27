@@ -81,7 +81,7 @@ const DashboardCard = ({
                 <tr>
                   <th>Posts</th>
                   <th>Replies</th>
-                  <th>Score</th>
+                  <th>Rep</th>
                 </tr>
               </thead>
               <tbody>

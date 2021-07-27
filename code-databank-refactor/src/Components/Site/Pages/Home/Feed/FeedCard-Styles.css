@@ -147,3 +147,14 @@ i {
 .post-footer h5:hover {
   color: #1890ff;
 }
+
+/* .profile-feed-card {
+  height: 350px;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.profile-feed-card::-webkit-scrollbar {
+  display: none;
+} */

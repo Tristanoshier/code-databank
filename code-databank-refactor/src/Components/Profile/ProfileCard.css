@@ -12,3 +12,14 @@
 /* .profile-overview-footer div {
   padding: 0 20px;
 } */
+
+.profile-feed-card {
+  height: 350px;
+  overflow: auto;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.profile-feed-card::-webkit-scrollbar {
+  display: none;
+}
