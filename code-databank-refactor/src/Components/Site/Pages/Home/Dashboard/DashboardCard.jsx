@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
+import Auth from "../../../../Auth/Auth";
 import CreatePost from "../../../../Shared/Posts/CreatePost";
 import { Card, Divider, Button, Skeleton } from "antd";
 import { Link } from "react-router-dom";
@@ -12,6 +13,8 @@ const DashboardCard = ({
   loggedInUser,
   loading,
   posts,
+  // isAuth,
+  // setIsAuth,
 }) => {
   const firstName = localStorage.getItem("firstName");
   const token = useContext(TokenContext);
@@ -27,7 +30,7 @@ const DashboardCard = ({
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
-          Authorization: token,
+          // Authorization: token,
         }),
       })
         .then((res) => res.json())
@@ -42,23 +45,29 @@ const DashboardCard = ({
 
   // dashboard counts ---------------
 
-  let totalPostUpvotes = loggedInUser?.posts.reduce(function (a, b) {
-    let total = 0;
-    total = a + b.upVotes;
-    return total;
-  }, 0);
+  let totalPostUpvotes =
+    loggedInUser &&
+    loggedInUser?.posts.reduce(function (a, b) {
+      let total = 0;
+      total = a + b.upVotes;
+      return total;
+    }, 0);
 
-  let totalPosts = loggedInUser?.posts.length;
+  let totalPosts = loggedInUser && loggedInUser?.posts.length;
 
-  let totalReplies = loggedInUser?.posts.map((post) => {
-    return post.replies.length;
-  });
+  let totalReplies =
+    loggedInUser &&
+    loggedInUser?.posts.map((post) => {
+      return post.replies.length;
+    });
 
-  let totalRepliesReduced = totalReplies.reduce(function (a, b) {
-    let total = 0;
-    total = a + Number(b);
-    return total;
-  }, 0);
+  let totalRepliesReduced =
+    loggedInUser &&
+    totalReplies.reduce(function (a, b) {
+      let total = 0;
+      total = a + Number(b);
+      return total;
+    }, 0);
 
   // focused post from dashboard ---------------
   const savePostInLocalStorage = (post) => {
@@ -70,29 +79,32 @@ const DashboardCard = ({
       <Card
         title={[
           <i className="fas fa-portrait" style={{ paddingRight: "10px" }}></i>,
-          `${firstName}'s Dashboard`,
-          ,
+          loggedInUser ? `${firstName}'s Dashboard` : "Login to contribute",
         ]}
       >
         <div className="dashboard-content">
-          <div className="dashboard-stats">
-            <table>
-              <thead>
-                <tr>
-                  <th>Posts</th>
-                  <th>Replies</th>
-                  <th>Rep</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>{totalPosts}</td>
-                  <td>{totalRepliesReduced}</td>
-                  <td>{totalPostUpvotes}</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+          {loggedInUser ? (
+            <div className="dashboard-stats">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Posts</th>
+                    <th>Replies</th>
+                    <th>Rep</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{totalPosts}</td>
+                    <td>{totalRepliesReduced}</td>
+                    <td>{totalPostUpvotes}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          ) : (
+            <Auth />
+          )}
           <Divider orientation="left">
             <h5>Popular Posts</h5>
           </Divider>
@@ -121,17 +133,39 @@ const DashboardCard = ({
         </div>
         <Divider />
         <div className="dashboard-footer">
-          <Link to="/profile">
-            <h5>Profile</h5>
-          </Link>
-          <Link to="/popular">
-            <h5>Popular</h5>
-          </Link>
+          {loggedInUser ? (
+            <>
+              <Link to="/profile">
+                <h5>Profile</h5>
+              </Link>
+              <Link to="/search">
+                <h5>Search</h5>
+              </Link>
+              <Link to="/popular">
+                <h5>Popular</h5>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link to="/search">
+                <h5>Search</h5>
+              </Link>
+              <Link to="/popular">
+                <h5>Popular</h5>
+              </Link>
+            </>
+          )}
         </div>
         <div className="dashboard-post-button">
-          <Button type="default" onClick={() => postOn()}>
-            Create a post
-          </Button>
+          {loggedInUser ? (
+            <Button type="default" onClick={() => postOn()}>
+              Create a post
+            </Button>
+          ) : (
+            <Button type="default" disabled onClick={() => postOn()}>
+              Create a post
+            </Button>
+          )}
         </div>
         {postActive ? (
           <CreatePost postOff={postOff} getPosts={getPosts} />

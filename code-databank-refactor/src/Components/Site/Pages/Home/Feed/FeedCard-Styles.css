@@ -43,6 +43,10 @@ i {
   max-height: 20px;
 }
 
+.arrow:hover {
+  color: #fa541c;
+}
+
 .arrow-up .arrow-down {
   font-size: 15px;
 }

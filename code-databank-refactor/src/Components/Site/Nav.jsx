@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import { TokenContext } from "../../App";
 import { Link as RouterLink } from "react-router-dom";
 import { Anchor, Drawer, Button } from "antd";
 import mobileShield from "./assets/mobile-shield.png";
@@ -6,6 +7,8 @@ import mobileShield from "./assets/mobile-shield.png";
 const { Link } = Anchor;
 
 const Nav = ({ clickLogout }) => {
+  const token = useContext(TokenContext);
+
   const [visible, setVisible] = useState(false);
 
   const showDrawer = () => {
@@ -33,7 +36,6 @@ const Nav = ({ clickLogout }) => {
           <div className="mobileHidden">
             <Anchor targetOffset="65">
               <RouterLink to="/" className="ant-anchor-link" onClick={onClose}>
-                {/* <Link href="/" title="Dashboard" /> */}
                 Dashboard
               </RouterLink>
               <RouterLink
@@ -41,38 +43,36 @@ const Nav = ({ clickLogout }) => {
                 className="ant-anchor-link"
                 onClick={onClose}
               >
-                {/* <Link href="/" title="Popular" /> */}
                 Popular
               </RouterLink>
-              <RouterLink
-                to="/profile"
-                className="ant-anchor-link"
-                onClick={onClose}
-              >
-                {/* <Link href="/" title="Popular" /> */}
-                Profile
-              </RouterLink>
+              {token && (
+                <RouterLink
+                  to="/profile"
+                  className="ant-anchor-link"
+                  onClick={onClose}
+                >
+                  Profile
+                </RouterLink>
+              )}
               <RouterLink
                 to="/search"
                 className="ant-anchor-link"
                 onClick={onClose}
               >
-                {/* <Link href="/" title="Search" /> */}
                 Search
               </RouterLink>
-              <RouterLink
-                to="/"
-                className="ant-anchor-link"
-                onClick={() => {
-                  clickLogout();
-                  onClose();
-                }}
-              >
-                {/* <a onClick={clickLogout}> */}
-                {/* <Link href="/" title="Logout" /> */}
-                Logout
-                {/* </a> */}
-              </RouterLink>
+              {token && (
+                <RouterLink
+                  to="/"
+                  className="ant-anchor-link"
+                  onClick={() => {
+                    clickLogout();
+                    onClose();
+                  }}
+                >
+                  Logout
+                </RouterLink>
+              )}
             </Anchor>
           </div>
           <div className="mobileVisible">
@@ -91,7 +91,6 @@ const Nav = ({ clickLogout }) => {
                   className="ant-anchor-link"
                   onClick={onClose}
                 >
-                  {/* <Link href="/" title="Dashboard" /> */}
                   Dashboard
                 </RouterLink>
                 <RouterLink
@@ -99,37 +98,36 @@ const Nav = ({ clickLogout }) => {
                   className="ant-anchor-link"
                   onClick={onClose}
                 >
-                  {/* <Link href="/" title="Popular" /> */}
                   Popular
                 </RouterLink>
-                <RouterLink
-                  to="/profile"
-                  className="ant-anchor-link"
-                  onClick={onClose}
-                >
-                  {/* <Link href="/" title="Popular" /> */}
-                  Profile
-                </RouterLink>
+                {token && (
+                  <RouterLink
+                    to="/profile"
+                    className="ant-anchor-link"
+                    onClick={onClose}
+                  >
+                    Profile
+                  </RouterLink>
+                )}
                 <RouterLink
                   to="/search"
                   className="ant-anchor-link"
                   onClick={onClose}
                 >
-                  {/* <Link href="/" title="Search" /> */}
                   Search
                 </RouterLink>
-                <RouterLink
-                  to="/"
-                  className="ant-anchor-link"
-                  onClick={() => {
-                    clickLogout();
-                    onClose();
-                  }}
-                >
-                  {/* <a onClick={clickLogout}>Logout</a> */}
-                  {/* <Link href="/" title="Logout" /> */}
-                  Logout
-                </RouterLink>
+                {token && (
+                  <RouterLink
+                    to="/"
+                    className="ant-anchor-link"
+                    onClick={() => {
+                      clickLogout();
+                      onClose();
+                    }}
+                  >
+                    Logout
+                  </RouterLink>
+                )}
               </Anchor>
             </Drawer>
           </div>

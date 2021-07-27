@@ -26,11 +26,11 @@ const FeedIndex = () => {
 
   useEffect(() => {
     if (useInfiniteScroll) getPostsInfinite(true);
-  }, [pageNumber]);
+  }, [pageNumber, token]);
 
   useEffect(() => {
     if (!useInfiniteScroll) getPosts(true);
-  }, []);
+  }, [token]);
 
   // since we are passing down diff fuctions as same prop, have to include scrolling even though its not being used
   const getPosts = async (scrolling) => {
@@ -176,23 +176,23 @@ const FeedIndex = () => {
 
   return (
     <div>
-        <FeedDisplay
-          loading={loading}
-          infiniteScrollLoading={infiniteScrollLoading}
-          posts={posts}
-          replyActive={replyActive}
-          postActive={postActive}
-          addPost={addPost}
-          postOn={postOn}
-          postOff={postOff}
-          createReply={createReply}
-          addReply={addReply}
-          replyOn={replyOn}
-          replyOff={replyOff}
-          getPosts={useInfiniteScroll ? getPostsInfinite : getPosts}
-          lastPostOnScreen={lastPostOnScreen}
-          isPopularPage={false}
-        />
+      <FeedDisplay
+        loading={loading}
+        infiniteScrollLoading={infiniteScrollLoading}
+        posts={posts}
+        replyActive={replyActive}
+        postActive={postActive}
+        addPost={addPost}
+        postOn={postOn}
+        postOff={postOff}
+        createReply={createReply}
+        addReply={addReply}
+        replyOn={replyOn}
+        replyOff={replyOff}
+        getPosts={useInfiniteScroll ? getPostsInfinite : getPosts}
+        lastPostOnScreen={lastPostOnScreen}
+        isPopularPage={false}
+      />
     </div>
   );
 };

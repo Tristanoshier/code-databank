@@ -1,4 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
+import {
+  UpdateTokenContext,
+  FirstNameContext,
+  UpdatedUserIdContext,
+} from "../../App";
 import { Card, Input, Button, Spin, message, Form } from "antd";
 import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
 import sitelogo from "../Site/assets/efa-site-logo.jpeg";
@@ -14,12 +19,15 @@ const Auth = (props) => {
   const [loading, setLoading] = useState(false);
   const [loginAlert, setLoginAlert] = useState(false);
 
+  const updateToken = useContext(UpdateTokenContext);
+  const updatedFirstName = useContext(FirstNameContext);
+  const updatedUserId = useContext(UpdatedUserIdContext);
+
   const { Meta } = Card;
 
   const loadingIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
   const handleSubmit = () => {
-
     if (!login && password !== passwordConfirm) {
       passwordMatchFailure();
       setPassword("");
@@ -35,15 +43,15 @@ const Auth = (props) => {
 
     const authBodyObj = login
       ? {
-        email: email,
-        password: password,
-      }
+          email: email,
+          password: password,
+        }
       : {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        password: password,
-      };
+          firstName: firstName,
+          lastName: lastName,
+          email: email,
+          password: password,
+        };
 
     fetch(url, {
       method: "POST",
@@ -59,13 +67,17 @@ const Auth = (props) => {
           setPassword("");
           setPasswordConfirm("");
           setLoading(false);
+          // props.setIsAuth(true);
         }
         return res.json();
       })
       .then((data) => {
-        props.updateToken(data.token);
-        props.updatedFirstName(data.user.firstName);
-        props.updatedUserId(data.user.id);
+        // props.updateToken(data.token);
+        updateToken(data.token);
+        // props.updatedFirstName(data.user.firstName);
+        updatedFirstName(data.user.firstName);
+        // props.updatedUserId(data.user.id);
+        updatedUserId(data.user.id);
       });
     setLoading(true);
   };
@@ -89,18 +101,19 @@ const Auth = (props) => {
 
   const authButtonTitle = () => {
     return login ? "Need to Register?" : "Need to Login?";
-  }
+  };
 
   const registerFields = () => {
     return !login ? (
-      <div>
+      <div className="auth-switch">
         {/* First Name */}
         <Form.Item
-          label="First Name"
+          // label="First Name"
           name="firstName"
-          rules={[{ required: true, message: 'Please input your first name.' }]}
+          rules={[{ required: true, message: "Please input your first name." }]}
         >
           <Input
+            placeholder="First Name"
             type="text"
             id="firstName"
             value={firstName}
@@ -110,11 +123,12 @@ const Auth = (props) => {
 
         {/* Last Name */}
         <Form.Item
-          label="Last Name"
+          // label="Last Name"
           name="lastName"
-          rules={[{ required: true, message: 'Please input your last name.' }]}
+          rules={[{ required: true, message: "Please input your last name." }]}
         >
           <Input
+            placeholder="Last Name"
             type="text"
             id="lastName"
             value={lastName}
@@ -122,11 +136,13 @@ const Auth = (props) => {
           />
         </Form.Item>
       </div>
-    ) : <></>
+    ) : (
+      <></>
+    );
   };
 
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
 
   const authForm = () => {
@@ -134,18 +150,18 @@ const Auth = (props) => {
       <div>
         <Form
           name="basic"
-          labelCol={login ? { span: 7 } : {span: 9}}
-          wrapperCol={{ span: 14 }}
+          // labelCol={login ? { span: 7 } : { span: 9 }}
+          // wrapperCol={{ span: 14 }}
           onFinish={handleSubmit}
-          onFinishFailed={onFinishFailed}>
-
+          onFinishFailed={onFinishFailed}
+        >
           {registerFields()}
 
           {/* Email */}
           <Form.Item
-            label="Email"
+            // label="Email"
             name="email"
-            rules={[{ required: true, message: 'Please input your email.' }]}
+            rules={[{ required: true, message: "Please input your email." }]}
           >
             <Input
               type="text"
@@ -159,24 +175,31 @@ const Auth = (props) => {
 
           {/* Password */}
           <Form.Item
-            label="Password"
+            // label="Password"
             name="password"
-            rules={[{ required: true, message: 'Please input your password.' }]}
+            rules={[{ required: true, message: "Please input your password." }]}
           >
-            <Input.Password value={password}
+            <Input.Password
+              placeholder="Password"
+              value={password}
               onChange={(e) => setPassword(e.target.value)}
-              prefix={<LockOutlined />} />
+              prefix={<LockOutlined />}
+            />
           </Form.Item>
 
           {/* Confirm Password */}
           {!login && (
             <>
               <Form.Item
-                label="Confirm Password"
+                // label="Confirm Password"
+
                 name="passwordConfirm"
-                rules={[{ required: true, message: 'Please input your password.' }]}
+                rules={[
+                  { required: true, message: "Please input your password." },
+                ]}
               >
                 <Input.Password
+                  placeholder="Confirm Password"
                   value={passwordConfirm}
                   onChange={(e) => setPasswordConfirm(e.target.value)}
                   prefix={<LockOutlined />}
@@ -185,23 +208,62 @@ const Auth = (props) => {
             </>
           )}
 
-          {/* Buttons */}
-          <Form.Item wrapperCol={{ offset: 7, span: 16 }}>
-            <div>
-              {!loading ? (
-                <div>
-                  <Button type="primary" htmlType="submit" danger>
+          {/* <Form.Item wrapperCol={{ offset: 7, span: 16 }}> */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              // maxWidth: "100%",
+            }}
+          >
+            {!loading ? (
+              <div
+              // style={{
+              //   display: "flex",
+              //   flexDirection: "column",
+              //   justifyContent: "center",
+              // }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <Button
+                    type="primary"
+                    htmlType="submit"
+                    size="small"
+                    danger
+                    // style={{ maxWidth: "70%" }}
+                  >
                     {authTitle()}
                   </Button>
-                  <Button type="link" htmlType="button" onClick={loginToggle}>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    marginBottom: "5px",
+                  }}
+                >
+                  <Button
+                    className="authButtonTitle"
+                    type="link"
+                    htmlType="button"
+                    size="small"
+                    onClick={loginToggle}
+                  >
                     {authButtonTitle()}
                   </Button>
                 </div>
-              ) : (
-                <Spin indicator={loadingIcon} />
-              )}
-            </div>
-          </Form.Item>
+              </div>
+            ) : (
+              <Spin indicator={loadingIcon} />
+            )}
+          </div>
         </Form>
       </div>
     );
@@ -209,7 +271,8 @@ const Auth = (props) => {
 
   return (
     <div className="auth">
-      <Card
+      {/* <Card
+        bordered={false}
         className="auth-card"
         cover={
           <img
@@ -219,13 +282,13 @@ const Auth = (props) => {
         }
         actions={[
           <p>Forgot Password?</p>,
-          <a href="https://learninggym-3a62e.web.app/" target="_blank">Learning Gym</a>,
+          <a href="https://learninggym-3a62e.web.app/" target="_blank">
+            Learning Gym
+          </a>,
         ]}
-      >
-        <Meta
-          description={authForm()}
-        />
-      </Card>
+      > */}
+      <Meta description={authForm()} />
+      {/* </Card> */}
     </div>
   );
 };

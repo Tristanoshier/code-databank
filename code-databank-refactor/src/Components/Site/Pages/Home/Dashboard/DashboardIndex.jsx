@@ -6,11 +6,16 @@ import DashboardDisplay from "./DashboardDisplay";
 const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   const [user, setUser] = useState([]);
   const [loading, setLoading] = useState(true);
+  // const [isAuth, setIsAuth] = useState(false);
   const token = useContext(TokenContext);
 
   useEffect(() => {
-    getUser();
-  }, []);
+    if (token) {
+      getUser();
+    } else {
+      setLoading(false);
+    }
+  }, [token]);
 
   const getUser = () => {
     fetch("http://localhost:3000/user/loggedInUser", {
@@ -22,6 +27,7 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
       .then((data) => {
         setUser(data.user);
         setLoading(false);
+        // setIsAuth(true);
       });
   };
 
@@ -46,6 +52,8 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   return (
     <div>
       <DashboardDisplay
+        // isAuth={isAuth}
+        // setIsAuth={setIsAuth}
         loading={loading}
         user={user}
         postActive={postActive}

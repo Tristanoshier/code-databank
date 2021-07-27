@@ -93,7 +93,7 @@ const FocusedPost = (props) => {
         <a
           onClick={() => {
             addToSaved(post);
-            openSavedPostNotifiction();
+            openSavedPostNotification();
           }}
         >
           <i className="far fa-bookmark"></i>
@@ -137,7 +137,7 @@ const FocusedPost = (props) => {
   const icon = unSaved ? (
     <a
       onClick={() => {
-        openUnSavedPostNotifiction();
+        openUnSavedPostNotification();
       }}
     >
       <i key={unSaved} className="fas fa-bookmark"></i>
@@ -146,7 +146,7 @@ const FocusedPost = (props) => {
     <a
       onClick={() => {
         addToSaved(post);
-        openSavedPostNotifiction();
+        openSavedPostNotification();
       }}
     >
       <i key={unSaved} className="far fa-bookmark"></i>
@@ -250,20 +250,25 @@ const FocusedPost = (props) => {
     notification.open(args);
   };
 
-  const openSavedPostNotifiction = () => {
-    const args = {
+  const openSavedPostNotification = () => {
+    const authArgs = {
       message: "Post Saved!",
       duration: 1,
     };
-    notification.open(args);
+
+    const args = {
+      message: "Must be logged in to do that!",
+      duration: 1,
+    };
+    token ? notification.open(authArgs) : notification.open(args);
   };
 
-  const openUnSavedPostNotifiction = () => {
+  const openUnSavedPostNotification = () => {
     const args = {
       message: "Post Unsaved!",
       duration: 1,
     };
-    notification.open(args);
+    token && notification.open(args);
   };
 
   const getSpecificPost = (post) => {
@@ -441,25 +446,26 @@ const FocusedPost = (props) => {
 
   const addToSaved = async (post) => {
     try {
-      fetch("http://localhost:3000/profile", {
-        method: "POST",
-        body: JSON.stringify({
-          postTitle: post.postTitle,
-          postMessage: post.postMessage,
-          postCode: post.postCode,
-          postType: post.postType,
-          codeType: post.codeType,
-          upVotes: post.upVotes,
-        }),
-        headers: new Headers({
-          "Content-Type": "application/json",
-          Authorization: token,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log(data);
-        });
+      token &&
+        fetch("http://localhost:3000/profile", {
+          method: "POST",
+          body: JSON.stringify({
+            postTitle: post.postTitle,
+            postMessage: post.postMessage,
+            postCode: post.postCode,
+            postType: post.postType,
+            codeType: post.codeType,
+            upVotes: post.upVotes,
+          }),
+          headers: new Headers({
+            "Content-Type": "application/json",
+            Authorization: token,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+          });
     } catch (error) {
       console.log(error);
     }
@@ -645,15 +651,28 @@ const FocusedPost = (props) => {
                   showArrow={false}
                   key="1"
                   extra={
-                    <Button
-                      type="ghost"
-                      onClick={() => {
-                        replyOn();
-                        addReply(focusedPost);
-                      }}
-                    >
-                      Add Reply
-                    </Button>
+                    token ? (
+                      <Button
+                        type="ghost"
+                        onClick={() => {
+                          replyOn();
+                          addReply(focusedPost);
+                        }}
+                      >
+                        Add Reply
+                      </Button>
+                    ) : (
+                      <Button
+                        type="ghost"
+                        disabled
+                        onClick={() => {
+                          replyOn();
+                          addReply(focusedPost);
+                        }}
+                      >
+                        Add Reply
+                      </Button>
+                    )
                   }
                 >
                   {replyActive ? (
