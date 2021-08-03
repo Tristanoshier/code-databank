@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Posts, Replies } = require("../models");
 const Sequelize = require("sequelize");
+const validateSession = require("../middleware/validate-session");
 const Op = Sequelize.Op;
 
 // RECENT ON DASHBOARD
@@ -126,7 +127,7 @@ router.get("/:id", (req, res) => {
     );
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateSession, (req, res) => {
   try {
     Posts.create({
       postTitle: req.body.postTitle,
@@ -150,7 +151,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateSession, (req, res) => {
   const query = {
     where: {
       id: req.params.id,
@@ -179,7 +180,7 @@ router.put("/:id", (req, res) => {
     );
 });
 
-router.put("/vote/:id", (req, res) => {
+router.put("/vote/:id", validateSession, (req, res) => {
   const query = {
     where: {
       id: req.params.id,
@@ -201,7 +202,7 @@ router.put("/vote/:id", (req, res) => {
     );
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateSession, (req, res) => {
   Posts.destroy({
     where: {
       id: req.params.id,

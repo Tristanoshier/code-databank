@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Posts, Replies, PostVote } = require("../models");
+const validateSession = require("../middleware/validate-session");
 
 // router.post("/:pId", (req, res) => {
 //   try {
@@ -21,7 +22,7 @@ const { Posts, Replies, PostVote } = require("../models");
 //   }
 // });
 
-router.put("/:pId", (req, res) => {
+router.put("/:pId", validateSession, (req, res) => {
   const query = {
     where: {
       postId: req.params.pId,

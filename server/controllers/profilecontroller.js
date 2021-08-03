@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const { Profile, Replies } = require("../models");
+const validateSession = require("../middleware/validate-session");
 
-router.get("/", (req, res) => {
+router.get("/", validateSession, (req, res) => {
   Profile.findAll({
     where: {
       ownerId: req.user.id,
@@ -16,7 +17,7 @@ router.get("/", (req, res) => {
     );
 });
 
-router.post("/", (req, res) => {
+router.post("/", validateSession, (req, res) => {
   try {
     Profile.create({
       postTitle: req.body.postTitle,
@@ -40,7 +41,7 @@ router.post("/", (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateSession, (req, res) => {
   Profile.destroy({
     where: {
       id: req.params.id,

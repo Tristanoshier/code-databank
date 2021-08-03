@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Posts, Replies } = require("../models");
+const validateSession = require("../middleware/validate-session");
 
 router.get("/", (req, res) => {
   Replies.findAll({
@@ -14,7 +15,7 @@ router.get("/", (req, res) => {
     );
 });
 
-router.post("/:pId", (req, res) => {
+router.post("/:pId", validateSession, (req, res) => {
   try {
     Replies.create({
       replyMessage: req.body.replyMessage,
@@ -36,7 +37,7 @@ router.post("/:pId", (req, res) => {
   }
 });
 
-router.put("/:id", (req, res) => {
+router.put("/:id", validateSession, (req, res) => {
   const query = { where: { id: req.params.id, ownerId: req.user.id } };
   const updateReply = {
     replyMessage: req.body.replyMessage,
@@ -57,7 +58,7 @@ router.put("/:id", (req, res) => {
     );
 });
 
-router.put("/vote/:id", (req, res) => {
+router.put("/vote/:id", validateSession, (req, res) => {
   const query = { where: { id: req.params.id } };
   const updateReply = {
     upVotes: req.body.upVotes,
@@ -75,7 +76,7 @@ router.put("/vote/:id", (req, res) => {
     );
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", validateSession, (req, res) => {
   Replies.destroy({
     where: {
       id: req.params.id,
