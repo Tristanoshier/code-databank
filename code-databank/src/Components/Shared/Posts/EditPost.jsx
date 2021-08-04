@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Card, Select, Modal, notification } from "antd";
 import { TokenContext } from "../../../App";
+import APIURL from "../../../helpers/environment";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -28,7 +29,7 @@ const EditPost = (props) => {
 
   const handleSubmit = () => {
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/${props.editPost.id}`, {
+      fetch(`${APIURL}/posts/${props.editPost.id}`, {
         method: "PUT",
         body: JSON.stringify({
           postTitle: postTitle,

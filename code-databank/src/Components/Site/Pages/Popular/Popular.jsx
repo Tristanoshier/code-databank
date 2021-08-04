@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { TokenContext } from "../../../../App";
 import FeedDisplay from "../Home/Feed/FeedDisplay";
+import APIURL from "../../../../helpers/environment";
 
 export const Popular = () => {
   const token = useContext(TokenContext);
@@ -34,7 +35,7 @@ export const Popular = () => {
   // since we are passing down diff fuctions as same prop, have to include scrolling even though its not being used
   const getPopularPosts = (scrolling) => {
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/popular`, {
+      fetch(`${APIURL}/posts/popular`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -57,7 +58,7 @@ export const Popular = () => {
       : setInfiniteScrollLoading(true);
     try {
       fetch(
-        `https://cd-server.herokuapp.com/posts/popular/infinite?page=${popularPageNumber}&limit=10`,
+        `${APIURL}/posts/popular/infinite?page=${popularPageNumber}&limit=10`,
         {
           method: "GET",
           headers: new Headers({

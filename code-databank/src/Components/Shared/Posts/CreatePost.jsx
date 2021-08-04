@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { TokenContext } from "../../../App";
 import { useLocation } from "react-router";
+import APIURL from "../../../helpers/environment";
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -49,7 +50,7 @@ const CreatePost = ({ postOff, getPosts }) => {
 
   // const handleSubmit = () => {
   //   try {
-  //     fetch("https://cd-server.herokuapp.com/posts", {
+  //     fetch("${APIURL}/posts", {
   //       method: "POST",
   //       body: JSON.stringify({
   //         postTitle: postTitle,
@@ -97,10 +98,7 @@ const CreatePost = ({ postOff, getPosts }) => {
     };
 
     try {
-      const response = await fetch(
-        "https://cd-server.herokuapp.com/posts",
-        settings
-      );
+      const response = await fetch(`${APIURL}/posts`, settings);
       const data = await response.json();
 
       postOff();

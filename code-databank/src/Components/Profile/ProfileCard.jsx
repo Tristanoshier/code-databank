@@ -6,13 +6,14 @@ import SyntaxHighlighter from "react-syntax-highlighter";
 import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import { TokenContext } from "../../App";
 import "./ProfileCard.css";
+import APIURL from "../../helpers/environment";
 
 const ProfileCard = ({ post, getPosts }) => {
   const token = useContext(TokenContext);
 
   const removeSavedPost = (post) => {
     try {
-      fetch(`https://cd-server.herokuapp.com/profile/${post.id}`, {
+      fetch(`${APIURL}/profile/${post.id}`, {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",

@@ -8,6 +8,7 @@ import { Card, Input, Button, Spin, message, Form } from "antd";
 import { UserOutlined, LockOutlined, LoadingOutlined } from "@ant-design/icons";
 import sitelogo from "../Site/assets/efa-site-logo.jpeg";
 import "./Auth.css";
+import APIURL from "../../helpers/environment";
 
 const Auth = (props) => {
   const [firstName, setFirstName] = useState("");
@@ -37,9 +38,7 @@ const Auth = (props) => {
       return;
     }
 
-    const url = login
-      ? "https://cd-server.herokuapp.com/user/login"
-      : "https://cd-server.herokuapp.com/user/register";
+    const url = login ? `${APIURL}/user/login` : `${APIURL}/user/register`;
 
     const authBodyObj = login
       ? {

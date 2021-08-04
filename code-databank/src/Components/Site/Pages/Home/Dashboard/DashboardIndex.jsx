@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { TokenContext } from "../../../../../App";
 import "./Dashboard-Styles.css";
 import DashboardDisplay from "./DashboardDisplay";
+import APIURL from "../../../../../helpers/environment";
 
 const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   const [user, setUser] = useState([]);
@@ -18,7 +19,7 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   }, [token]);
 
   const getUser = () => {
-    fetch("https://cd-server.herokuapp.com/user/loggedInUser", {
+    fetch(`${APIURL}/user/loggedInUser`, {
       headers: {
         Authorization: token,
       },
@@ -34,7 +35,7 @@ const DashboardIndex = ({ postActive, postOn, postOff, getPosts, posts }) => {
   // const getUser = async () => {
   //   try {
   //     const data = await axios
-  //       .get("https://cd-server.herokuapp.com/user/loggedInUser", {
+  //       .get("${APIURL}/user/loggedInUser", {
   //         headers: {
   //           Authorization: token,
   //         },

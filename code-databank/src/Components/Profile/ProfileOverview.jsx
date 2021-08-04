@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../../App";
 import { Card, Collapse, Button, Divider, Input, Form, message } from "antd";
+import APIURL from "../../helpers/environment";
 
 const { Panel } = Collapse;
 
@@ -19,7 +20,7 @@ const ProfileOverview = (props) => {
   }, []);
 
   const getUser = () => {
-    fetch("https://cd-server.herokuapp.com/user/loggedInUser", {
+    fetch(`${APIURL}/user/loggedInUser`, {
       headers: {
         Authorization: token,
       },
@@ -52,7 +53,7 @@ const ProfileOverview = (props) => {
     };
 
     const response = await fetch(
-      `https://cd-server.herokuapp.com/user/loggedInUser/password/${loggedInUser.id}`,
+      `${APIURL}/user/loggedInUser/password/${loggedInUser.id}`,
       settings
     );
     const data = await response.json();
@@ -83,7 +84,7 @@ const ProfileOverview = (props) => {
     };
 
     const response = await fetch(
-      `https://cd-server.herokuapp.com/user/loggedInUser/email/${loggedInUser.id}`,
+      `${APIURL}/user/loggedInUser/email/${loggedInUser.id}`,
       settings
     );
     const data = await response.json();

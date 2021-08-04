@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Button, Collapse } from "antd";
 import { TokenContext } from "../../../App";
+import APIURL from "../../../helpers/environment";
 
 const { Panel } = Collapse;
 const { TextArea } = Input;
@@ -21,7 +22,7 @@ const CreateReply = ({
   const token = useContext(TokenContext);
 
   const handleSubmit = async () => {
-    await fetch(`https://cd-server.herokuapp.com/replies/${createReply.id}`, {
+    await fetch(`${APIURL}/replies/${createReply.id}`, {
       method: "POST",
       body: JSON.stringify({
         replyMessage: replyMessage,

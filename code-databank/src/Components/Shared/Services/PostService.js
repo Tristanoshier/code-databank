@@ -1,7 +1,7 @@
 // post up and down votes
 // const upVotePostService = (post, newUpVotes, token) => {
 //   try {
-//     fetch(`https://cd-server.herokuapp.com/posts/${post.id}`, {
+//     fetch(`${APIURL}/posts/${post.id}`, {
 //       method: "PUT",
 //       body: JSON.stringify({
 //         upVotes: newUpVotes,
@@ -19,7 +19,7 @@
 
 // const downVotePostService = (post, newUpVotes, token) => {
 //   try {
-//     fetch(`https://cd-server.herokuapp.com/posts/${post.id}`, {
+//     fetch(`${APIURL}/posts/${post.id}`, {
 //       method: "PUT",
 //       body: JSON.stringify({
 //         upVotes: newUpVotes,
@@ -38,7 +38,7 @@
 // // reply up and down votes
 // const upVoteReplyService = (reply, newUpVotes, token) => {
 //   try {
-//     fetch(`https://cd-server.herokuapp.com/replies/${reply.id}`, {
+//     fetch(`${APIURL}/replies/${reply.id}`, {
 //       method: "PUT",
 //       body: JSON.stringify({
 //         replyMessage: reply.replyMessage,
@@ -57,7 +57,7 @@
 
 // const downVoteReplyService = (reply, newUpVotes, token) => {
 //   try {
-//     fetch(`https://cd-server.herokuapp.com/replies/${reply.id}`, {
+//     fetch(`${APIURL}/replies/${reply.id}`, {
 //       method: "PUT",
 //       body: JSON.stringify({
 //         replyMessage: reply.replyMessage,
@@ -78,7 +78,7 @@
 
 // const createPostService = (title, message, pt, ct, token) => {
 //     try {
-//       fetch("https://cd-server.herokuapp.com/posts", {
+//       fetch("${APIURL}/posts", {
 //         method: "POST",
 //         body: JSON.stringify({
 //           postTitle: title,
@@ -99,7 +99,7 @@
 
 // const deleteReplyService = (reply, token) => {
 //   try {
-//     fetch(`https://cd-server.herokuapp.com/replies/${reply.id}`, {
+//     fetch(`${APIURL}/replies/${reply.id}`, {
 //       method: "DELETE",
 //       headers: new Headers({
 //         "Content-Type": "application/json",
