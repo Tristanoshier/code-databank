@@ -14,13 +14,13 @@ const validateSession = (req, res, next) => {
 
     if (payload) {
       User.findOne({
-        where: { id: payload.id }, // finds a user whose id matches the id was assigned upon login
+        where: { id: payload.id },
       }).then((user) => {
         console.log("REQUEST BEFORE", req.user);
         req.user = user;
-        // this creates a user object inside of my request object. This object stores the data we grabbed from the user table in the database
+
         console.log("REQUEST AFTER", req.user);
-        next(); //next jumps out of the callback function. We use this to stop triggering the callback function a second time.
+        next();
       });
     } else {
       res.status(401).json({
