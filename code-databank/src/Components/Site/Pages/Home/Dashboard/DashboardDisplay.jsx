@@ -12,8 +12,6 @@ const DashboardDisplay = ({
   loading,
   posts,
   setPostChange,
-  // isAuth,
-  // setIsAuth,
 }) => {
   const token = useContext(TokenContext);
 
@@ -44,50 +42,10 @@ const DashboardDisplay = ({
         </div>
       ))
     ) : (
-      <DashboardCard
-        loading={loading}
-        // loggedInUser={loggedInUser}
-        // postActive={postActive}
-        // postOn={postOn}
-        // postOff={postOff}
-        getPosts={getPosts}
-        posts={posts}
-        // setPostChange={setPostChange}
-      />
+      <DashboardCard loading={loading} getPosts={getPosts} posts={posts} />
     );
   };
-  return (
-    <>
-      {/* {loading ? (
-        <Card>
-          <Skeleton active paragraph={{ rows: 10 }} />
-        </Card>
-      ) : !user ? (
-        <DashboardCard
-          loading={loading}
-          getPosts={getPosts}
-          posts={posts}
-        />
-      ) : (
-        user.map((loggedInUser) => (
-          <div key={loggedInUser.id}>
-            <DashboardCard
-              // isAuth={isAuth}
-              loading={loading}
-              loggedInUser={loggedInUser}
-              postActive={postActive}
-              postOn={postOn}
-              postOff={postOff}
-              getPosts={getPosts}
-              posts={posts}
-              setPostChange={setPostChange}
-            />
-          </div>
-        ))
-      )} */}
-      {displayDashboard()}
-    </>
-  );
+  return <>{displayDashboard()}</>;
 };
 
 export default DashboardDisplay;

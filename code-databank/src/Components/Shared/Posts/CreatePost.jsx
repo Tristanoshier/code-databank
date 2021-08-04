@@ -48,39 +48,6 @@ const CreatePost = ({ postOff, getPosts }) => {
     setPostCodeActive(false);
   };
 
-  // const handleSubmit = () => {
-  //   try {
-  //     fetch("${APIURL}/posts", {
-  //       method: "POST",
-  //       body: JSON.stringify({
-  //         postTitle: postTitle,
-  //         postMessage: postMessage,
-  //         postCode: postCode,
-  //         postType: postType,
-  //         codeType: codeType,
-  //       }),
-  //       headers: new Headers({
-  //         "Content-Type": "application/json",
-  //         Authorization: token,
-  //       }),
-  //     })
-  //       .then((res) => res.json())
-  //       .then(() => {
-  //         postOff();
-  //         codeOff();
-  //         openCreatedPostNotification();
-  //         getPosts(false);
-  //         setPostTitle("");
-  //         setPostMessage("");
-  //         setPostCode("");
-  //         setPostType("");
-  //         setCodeType("");
-  //       });
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const handleSubmit = async () => {
     const settings = {
       method: "POST",

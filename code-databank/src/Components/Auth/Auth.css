@@ -1,9 +1,7 @@
 .auth {
-  /* background-color: #f8f8f8; */
   display: flex;
   justify-content: center;
   align-items: center;
-  /* height: 100vh; */
 }
 
 .auth-switch {
@@ -16,16 +14,6 @@
     transform: translateY(0);
   }
 }
-
-/* .auth-card {
-  width: 400px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-} */
-
-/* .ant-card-cover img {
-  height: 200px;
-  object-fit: cover;
-} */
 
 @media only screen and (max-width: 480px) {
   .auth {

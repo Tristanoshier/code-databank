@@ -33,7 +33,6 @@ const ProfileOverview = (props) => {
   };
 
   const updatePassword = async (loggedInUser) => {
-    // e.preventDefault();
     if (password !== passwordConfirm) {
       passwordMatchFailure();
       setPassword("");
@@ -64,7 +63,6 @@ const ProfileOverview = (props) => {
   };
 
   const updateEmail = async (loggedInUser) => {
-    // e.preventDefault();
     if (email !== emailConfirm) {
       emailMatchFailure();
       setEmail("");

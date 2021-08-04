@@ -66,16 +66,12 @@ const Auth = (props) => {
           setPassword("");
           setPasswordConfirm("");
           setLoading(false);
-          // props.setIsAuth(true);
         }
         return res.json();
       })
       .then((data) => {
-        // props.updateToken(data.token);
         updateToken(data.token);
-        // props.updatedFirstName(data.user.firstName);
         updatedFirstName(data.user.firstName);
-        // props.updatedUserId(data.user.id);
         updatedUserId(data.user.id);
       });
     setLoading(true);
@@ -149,16 +145,12 @@ const Auth = (props) => {
       <div>
         <Form
           name="basic"
-          // labelCol={login ? { span: 7 } : { span: 9 }}
-          // wrapperCol={{ span: 14 }}
           onFinish={handleSubmit}
           onFinishFailed={onFinishFailed}
         >
           {registerFields()}
 
-          {/* Email */}
           <Form.Item
-            // label="Email"
             name="email"
             rules={[{ required: true, message: "Please input your email." }]}
           >
@@ -172,9 +164,7 @@ const Auth = (props) => {
             />
           </Form.Item>
 
-          {/* Password */}
           <Form.Item
-            // label="Password"
             name="password"
             rules={[{ required: true, message: "Please input your password." }]}
           >
@@ -186,12 +176,9 @@ const Auth = (props) => {
             />
           </Form.Item>
 
-          {/* Confirm Password */}
           {!login && (
             <>
               <Form.Item
-                // label="Confirm Password"
-
                 name="passwordConfirm"
                 rules={[
                   { required: true, message: "Please input your password." },
@@ -207,7 +194,6 @@ const Auth = (props) => {
             </>
           )}
 
-          {/* <Form.Item wrapperCol={{ offset: 7, span: 16 }}> */}
           <div
             style={{
               display: "flex",
@@ -217,13 +203,7 @@ const Auth = (props) => {
             }}
           >
             {!loading ? (
-              <div
-              // style={{
-              //   display: "flex",
-              //   flexDirection: "column",
-              //   justifyContent: "center",
-              // }}
-              >
+              <div>
                 <div
                   style={{
                     display: "flex",
@@ -231,13 +211,7 @@ const Auth = (props) => {
                     marginBottom: "5px",
                   }}
                 >
-                  <Button
-                    type="primary"
-                    htmlType="submit"
-                    size="small"
-                    danger
-                    // style={{ maxWidth: "70%" }}
-                  >
+                  <Button type="primary" htmlType="submit" size="small" danger>
                     {authTitle()}
                   </Button>
                 </div>
@@ -270,24 +244,7 @@ const Auth = (props) => {
 
   return (
     <div className="auth">
-      {/* <Card
-        bordered={false}
-        className="auth-card"
-        cover={
-          <img
-            alt="mobile-shield"
-            src={sitelogo}
-          />
-        }
-        actions={[
-          <p>Forgot Password?</p>,
-          <a href="https://learninggym-3a62e.web.app/" target="_blank">
-            Learning Gym
-          </a>,
-        ]}
-      > */}
       <Meta description={authForm()} />
-      {/* </Card> */}
     </div>
   );
 };
