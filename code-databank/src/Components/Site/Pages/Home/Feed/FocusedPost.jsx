@@ -574,33 +574,31 @@ const FocusedPost = (props) => {
                           <div className="reply-message-container">
                             <p id="reply-message">{reply?.replyMessage}</p>
                             {reply?.replyCode !== "" &&
-                            reply?.replyCode !== null ? (
-                              <div className="code-container">
-                                <SyntaxHighlighter
-                                  lineProps={{
-                                    style: {
-                                      // wordBreak: "break-all",
-                                      // whiteSpace: "pre-line",
-                                      whiteSpace: "pre-wrap",
-                                    },
-                                  }}
-                                  customStyle={{
-                                    paddingLeft: "2em",
-                                    borderRadius: "5px",
-                                  }}
-                                  useInlineStyles={true}
-                                  wrapLines={true}
-                                  key={reply.id}
-                                  language={post?.codeType}
-                                  language="Javascript"
-                                  style={rainbow}
-                                >
-                                  {reply?.replyCode}
-                                </SyntaxHighlighter>
-                              </div>
-                            ) : (
-                              <></>
-                            )}
+                              reply?.replyCode !== null && (
+                                <div className="code-container">
+                                  <SyntaxHighlighter
+                                    lineProps={{
+                                      style: {
+                                        // wordBreak: "break-all",
+                                        // whiteSpace: "pre-line",
+                                        whiteSpace: "pre-wrap",
+                                      },
+                                    }}
+                                    customStyle={{
+                                      paddingLeft: "2em",
+                                      borderRadius: "5px",
+                                    }}
+                                    useInlineStyles={true}
+                                    wrapLines={true}
+                                    key={reply.id}
+                                    language={post?.codeType}
+                                    language="Javascript"
+                                    style={rainbow}
+                                  >
+                                    {reply?.replyCode}
+                                  </SyntaxHighlighter>
+                                </div>
+                              )}
                           </div>
                         </Badge.Ribbon>
                         <div className="reply-footer">
@@ -609,7 +607,7 @@ const FocusedPost = (props) => {
                         </div>
                       </Col>
                     </Row>
-                    {editReplyActive ? (
+                    {editReplyActive && (
                       <EditReply
                         getFocusedPost={getPost}
                         post={post}
@@ -619,8 +617,6 @@ const FocusedPost = (props) => {
                         reply={reply}
                         // getPosts={getPosts}
                       />
-                    ) : (
-                      <></>
                     )}
                   </div>
                 ))}
@@ -654,7 +650,7 @@ const FocusedPost = (props) => {
                     )
                   }
                 >
-                  {replyActive ? (
+                  {replyActive && (
                     <CreateReply
                       getFocusedPost={getPost}
                       post={post}
@@ -663,15 +659,13 @@ const FocusedPost = (props) => {
                       createReply={createReply}
                       replyOff={replyOff}
                     />
-                  ) : (
-                    <></>
                   )}
                 </Panel>
               </Collapse>
             </Card>
           </Badge.Ribbon>
         </div>
-        {editPostActive ? (
+        {editPostActive && (
           <EditPost
             getFocusedPost={getPost}
             post={post}
@@ -681,8 +675,6 @@ const FocusedPost = (props) => {
             post={post}
             // getPosts={getPosts}
           />
-        ) : (
-          <></>
         )}
       </div>
     );

@@ -132,7 +132,7 @@ const CreatePost = ({ postOff, getPosts }) => {
                 </Button>
               }
             >
-              {postCodeActive ? (
+              {postCodeActive && (
                 <Form.Item label="Code">
                   <TextArea
                     autoSize={{ minRows: 6 }}
@@ -141,8 +141,6 @@ const CreatePost = ({ postOff, getPosts }) => {
                     onChange={(e) => setPostCode(e.target.value)}
                   />
                 </Form.Item>
-              ) : (
-                <></>
               )}
             </Panel>
           </Collapse>
