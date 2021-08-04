@@ -15,7 +15,7 @@ export default ({ mode }) => {
   return defineConfig({
     plugins: [reactRefresh()],
     build: {
-      chunkSizeWarningLimit: 900,
+      chunkSizeWarningLimit: 1600,
     },
     server: {
       port: process.env.VITE_PORT,
