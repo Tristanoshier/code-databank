@@ -4,6 +4,7 @@ import CreatePost from "../../../../Shared/Posts/CreatePost";
 import { Card, Divider, Button, Skeleton } from "antd";
 import { Link } from "react-router-dom";
 import { TokenContext } from "../../../../../App";
+import APIURL from "../../../../../helpers/environment";
 
 const DashboardCard = ({
   postActive,
@@ -26,7 +27,7 @@ const DashboardCard = ({
 
   const getPopularPosts = () => {
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/popular/dashboard`, {
+      fetch(`${APIURL}/posts/popular/dashboard`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",

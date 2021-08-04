@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
 import { TokenContext } from "../../App";
 import ProfileDisplay from "./ProfileDisplay";
+import APIURL from "../../helpers/environment";
 
 const ProfileIndex = (props) => {
   const [posts, setPosts] = useState([]);
@@ -8,7 +9,7 @@ const ProfileIndex = (props) => {
   const token = useContext(TokenContext);
 
   const getPosts = () => {
-    fetch("https://cd-server.herokuapp.com/profile", {
+    fetch(`${APIURL}/profile`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

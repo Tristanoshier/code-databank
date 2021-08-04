@@ -3,6 +3,7 @@ import { Skeleton, Card, Input, Select, Button, Row, Col } from "antd";
 import { TokenContext } from "../../../../App";
 import { SearchDisplay } from "./SearchDisplay";
 import "./Search.css";
+import APIURL from "../../../../helpers/environment";
 
 export const Search = () => {
   const [query, setQuery] = useState("");
@@ -24,7 +25,7 @@ export const Search = () => {
   const searchAllByTitleQuery = () => {
     try {
       setLoading(true);
-      fetch(`https://cd-server.herokuapp.com/search/all?search=${query}`, {
+      fetch(`${APIURL}/search/all?search=${query}`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -46,16 +47,13 @@ export const Search = () => {
   const searchAllByPostTypeForTitle = () => {
     try {
       setLoading(true);
-      fetch(
-        `https://cd-server.herokuapp.com/search/type?search=${query}&type=${filterType}`,
-        {
-          method: "GET",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: token,
-          }),
-        }
-      )
+      fetch(`${APIURL}/search/type?search=${query}&type=${filterType}`, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
         .then((res) => res.json())
         .then((data) => {
           console.log(data);

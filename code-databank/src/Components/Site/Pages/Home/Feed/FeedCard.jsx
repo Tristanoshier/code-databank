@@ -6,6 +6,7 @@ import { rainbow } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import CreateReply from "../../../../Shared/Replies/CreateReply";
 import EditPost from "../../../../Shared/Posts/EditPost";
 import EditReply from "../../../../Shared/Replies/EditReply";
+import APIURL from "../../../../../helpers/environment";
 
 import {
   Row,
@@ -136,7 +137,7 @@ const FeedCard = ({
   const upVotePost = (post) => {
     let newUpVotes = post?.upVotes + 1;
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/vote/${post.id}`, {
+      fetch(`${APIURL}/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -159,7 +160,7 @@ const FeedCard = ({
   const downVotePost = (post) => {
     let newUpVotes = post.upVotes - 1;
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/vote/${post.id}`, {
+      fetch(`${APIURL}/posts/vote/${post.id}`, {
         method: "PUT",
         body: JSON.stringify({
           upVotes: newUpVotes,
@@ -182,7 +183,7 @@ const FeedCard = ({
   const upVoteReply = (reply) => {
     let newUpVotes = reply.upVotes + 1;
     try {
-      fetch(`https://cd-server.herokuapp.com/replies/vote/${reply.id}`, {
+      fetch(`${APIURL}/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -206,7 +207,7 @@ const FeedCard = ({
   const downVoteReply = (reply) => {
     let newUpVotes = reply.upVotes - 1;
     try {
-      fetch(`https://cd-server.herokuapp.com/replies/vote/${reply.id}`, {
+      fetch(`${APIURL}/replies/vote/${reply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: reply.replyMessage,
@@ -229,7 +230,7 @@ const FeedCard = ({
 
   const DeletePost = (post) => {
     try {
-      fetch(`https://cd-server.herokuapp.com/posts/${post.id}`, {
+      fetch(`${APIURL}/posts/${post.id}`, {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -248,7 +249,7 @@ const FeedCard = ({
 
   const deleteReply = (reply) => {
     try {
-      fetch(`https://cd-server.herokuapp.com/replies/${reply.id}`, {
+      fetch(`${APIURL}/replies/${reply.id}`, {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -272,7 +273,7 @@ const FeedCard = ({
   const addToSaved = async (post) => {
     try {
       token &&
-        fetch("https://cd-server.herokuapp.com/profile", {
+        fetch(`${APIURL}/profile`, {
           method: "POST",
           body: JSON.stringify({
             postTitle: post.postTitle,

@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Form, Input, Card, Modal, notification } from "antd";
 import { TokenContext } from "../../../App";
+import APIURL from "../../../helpers/environment";
 
 const { TextArea } = Input;
 
@@ -26,7 +27,7 @@ const EditReply = (props) => {
 
   const handleSubmit = () => {
     try {
-      fetch(`https://cd-server.herokuapp.com/replies/${props.editReply.id}`, {
+      fetch(`${APIURL}/replies/${props.editReply.id}`, {
         method: "PUT",
         body: JSON.stringify({
           replyMessage: replyMessage,

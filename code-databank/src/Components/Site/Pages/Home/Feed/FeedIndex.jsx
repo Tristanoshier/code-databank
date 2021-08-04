@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { TokenContext } from "../../../../../App";
 import FeedDisplay from "./FeedDisplay";
+import APIURL from "../../../../../helpers/environment";
 
 const FeedIndex = () => {
   const token = useContext(TokenContext);
@@ -35,7 +36,7 @@ const FeedIndex = () => {
   // since we are passing down diff fuctions as same prop, have to include scrolling even though its not being used
   const getPosts = async (scrolling) => {
     try {
-      await fetch(`https://cd-server.herokuapp.com/posts`, {
+      await fetch(`${APIURL}/posts`, {
         method: "GET",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -64,16 +65,13 @@ const FeedIndex = () => {
     }
 
     try {
-      await fetch(
-        `https://cd-server.herokuapp.com/posts/infinite?page=${pageNumber}&limit=10`,
-        {
-          method: "GET",
-          headers: new Headers({
-            "Content-Type": "application/json",
-            Authorization: token,
-          }),
-        }
-      )
+      await fetch(`${APIURL}/posts/infinite?page=${pageNumber}&limit=10`, {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: token,
+        }),
+      })
         .then((res) => res.json())
         .then((postResults) => {
           if (scrolling) {
@@ -112,7 +110,7 @@ const FeedIndex = () => {
   //   };
   //   try {
   //     const response = await fetch(
-  //       `https://cd-server.herokuapp.com/posts?page=${pageNumber}&limit=10`,
+  //       `${APIURL}/posts?page=${pageNumber}&limit=10`,
   //       settings
   //     );
   //     const data = await response.json();

@@ -28,6 +28,7 @@ import EditReply from "../../../../Shared/Replies/EditReply";
 import { TokenContext } from "../../../../../App";
 import "./FeedCard-Styles.css";
 import CreatePost from "../../../../Shared/Posts/CreatePost";
+import APIURL from "../../../../../helpers/environment";
 
 const { Panel } = Collapse;
 
@@ -286,7 +287,7 @@ const FocusedPost = (props) => {
   };
 
   const getPost = (post) => {
-    fetch(`https://cd-server.herokuapp.com/posts/${post.id}`, {
+    fetch(`${APIURL}/posts/${post.id}`, {
       method: "GET",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -303,7 +304,7 @@ const FocusedPost = (props) => {
 
   const upVoteReply = (reply) => {
     let newUpvotes = reply.upVotes + 1;
-    fetch(`https://cd-server.herokuapp.com/replies/vote/${reply.id}`, {
+    fetch(`${APIURL}/replies/vote/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
         replyMessage: reply.replyMessage,
@@ -337,10 +338,7 @@ const FocusedPost = (props) => {
       }),
     };
     try {
-      const response = await fetch(
-        `https://cd-server.herokuapp.com/posts/vote/${post.id}`,
-        settings
-      );
+      const response = await fetch(`${APIURL}/posts/vote/${post.id}`, settings);
       const data = await response.json();
       setUpvotePostCount(newUpvotes);
       getPost(post);
@@ -352,7 +350,7 @@ const FocusedPost = (props) => {
 
   // const upVotePost = (post) => {
   //   let newUpvotes = post.upVotes + 1;
-  //   fetch(`https://cd-server.herokuapp.com/posts/vote/${post.id}`, {
+  //   fetch(`${APIURL}/posts/vote/${post.id}`, {
   //     method: "PUT",
   //     body: JSON.stringify({
   //       upVotes: newUpvotes,
@@ -371,7 +369,7 @@ const FocusedPost = (props) => {
 
   const downVotePost = (post) => {
     let newUpvotes = post.upVotes - 1;
-    fetch(`https://cd-server.herokuapp.com/posts/vote/${post.id}`, {
+    fetch(`${APIURL}/posts/vote/${post.id}`, {
       method: "PUT",
       body: JSON.stringify({
         upVotes: newUpvotes,
@@ -390,7 +388,7 @@ const FocusedPost = (props) => {
 
   const downVoteReply = (reply) => {
     let newUpvotes = reply.upVotes - 1;
-    fetch(`https://cd-server.herokuapp.com/replies/vote/${reply.id}`, {
+    fetch(`${APIURL}/replies/vote/${reply.id}`, {
       method: "PUT",
       body: JSON.stringify({
         replyMessage: reply.replyMessage,
@@ -409,7 +407,7 @@ const FocusedPost = (props) => {
   };
 
   const DeletePost = (post) => {
-    fetch(`https://cd-server.herokuapp.com/posts/${post.id}`, {
+    fetch(`${APIURL}/posts/${post.id}`, {
       method: "DELETE",
       headers: new Headers({
         "Content-Type": "application/json",
@@ -427,7 +425,7 @@ const FocusedPost = (props) => {
 
   const deleteReply = (reply) => {
     try {
-      fetch(`https://cd-server.herokuapp.com/replies/${reply.id}`, {
+      fetch(`${APIURL}/replies/${reply.id}`, {
         method: "DELETE",
         headers: new Headers({
           "Content-Type": "application/json",
@@ -447,7 +445,7 @@ const FocusedPost = (props) => {
   const addToSaved = async (post) => {
     try {
       token &&
-        fetch("https://cd-server.herokuapp.com/profile", {
+        fetch(`${APIURL}/profile`, {
           method: "POST",
           body: JSON.stringify({
             postTitle: post.postTitle,
