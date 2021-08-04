@@ -348,25 +348,6 @@ const FocusedPost = (props) => {
     }
   };
 
-  // const upVotePost = (post) => {
-  //   let newUpvotes = post.upVotes + 1;
-  //   fetch(`${APIURL}/posts/vote/${post.id}`, {
-  //     method: "PUT",
-  //     body: JSON.stringify({
-  //       upVotes: newUpvotes,
-  //     }),
-  //     headers: new Headers({
-  //       "Content-Type": "application/json",
-  //       Authorization: token,
-  //     }),
-  //   })
-  //     .then((res) => res.json())
-  //     .then(() => {
-  //       setUpvotePostCount(newUpvotes);
-  //       getPost(post);
-  //     });
-  // };
-
   const downVotePost = (post) => {
     let newUpvotes = post.upVotes - 1;
     fetch(`${APIURL}/posts/vote/${post.id}`, {
@@ -710,7 +691,6 @@ const FocusedPost = (props) => {
   return (
     <Row justify="center">
       <Col xs={24} sm={24} md={16} lg={14} xl={14} xxl={14}>
-        {/* <Col xs={24} sm={24} md={16} lg={16} xl={16} xxl={16}> */}
         {displayPost()}
       </Col>
     </Row>

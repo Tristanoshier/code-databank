@@ -118,8 +118,6 @@ const ProfileCard = ({ post, getPosts }) => {
           <div className="postedBy">
             <h5>Posted by: {post?.posterName}</h5>
           </div>
-
-          {/* <Divider /> */}
         </Card>
       </Badge.Ribbon>
     </div>

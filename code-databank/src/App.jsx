@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import "antd/dist/antd.css";
-import Auth from "./Components/Auth/Auth";
 import MainLayout from "./Components/Site/MainLayout";
 export const TokenContext = React.createContext();
 export const UpdateTokenContext = React.createContext();
@@ -71,21 +70,6 @@ function App() {
       localStorage.setItem("setupTime", now);
     }
   }
-
-  // const protectedViews = () => {
-  //   return (token === localStorage.getItem("token")) |
-  //     (localStorage.getItem("token") === !undefined) ? (
-  //     <TokenContext.Provider value={token}>
-  //       <MainLayout clickLogout={clearToken} firstName={firstName} />
-  //     </TokenContext.Provider>
-  //   ) : (
-  //     <Auth
-  //       updateToken={updateToken}
-  //       updatedFirstName={updatedFirstName}
-  //       updatedUserId={updatedUserId}
-  //     />
-  //   );
-  // };
 
   return (
     <div className="App">

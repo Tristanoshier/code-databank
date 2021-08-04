@@ -53,7 +53,6 @@ const CreateReply = ({
 
   const codeOn = () => {
     setCodeActive(true);
-    // setReplyCode("");
   };
 
   return (
@@ -107,22 +106,6 @@ const CreateReply = ({
           </Panel>
         </Collapse>
       </Form.Item>
-
-      {/* OLD */}
-      {/* {codeActive ? (
-        <Form.Item>
-          <h5>Add Code Here</h5>
-          <TextArea
-            style={{ width: "100%", marginTop: "5px" }}
-            autoSize={{ minRows: 4 }}
-            name="replyCode"
-            value={replyCode}
-            onChange={(e) => setReplyCode(e.target.value)}
-          />
-        </Form.Item>
-      ) : (
-        <></>
-      )} */}
       <Form.Item>
         <Button type="ghost" htmlType="submit">
           Submit
