@@ -14,8 +14,6 @@ const DashboardCard = ({
   loggedInUser,
   loading,
   posts,
-  // isAuth,
-  // setIsAuth,
 }) => {
   const firstName = localStorage.getItem("firstName");
   const token = useContext(TokenContext);

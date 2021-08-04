@@ -92,44 +92,6 @@ const FeedIndex = () => {
     }
   };
 
-  // const getPosts = async (scrolling) => {
-  //   pageNumber <= 1
-  //     ? setInfiniteScrollLoading(false)
-  //     : setInfiniteScrollLoading(true);
-
-  //   if (scrolling === false) {
-  //     setPageNumber(1);
-  //   }
-
-  //   const settings = {
-  //     method: "GET",
-  //     headers: new Headers({
-  //       "Content-Type": "application/json",
-  //       Authorization: token,
-  //     }),
-  //   };
-  //   try {
-  //     const response = await fetch(
-  //       `${APIURL}/posts?page=${pageNumber}&limit=10`,
-  //       settings
-  //     );
-  //     const data = await response.json();
-  //     if (scrolling) {
-  //       setPosts((prevPosts) => {
-  //         return [...prevPosts, ...data];
-  //       });
-  //       setHasMore(data.length > 0);
-  //     } else {
-  //       setPosts(data);
-  //     }
-  //     console.log(data);
-  //     setLoading(false);
-  //     setInfiniteScrollLoading(false);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const observer = useRef();
 
   const lastPostOnScreen = useCallback(
