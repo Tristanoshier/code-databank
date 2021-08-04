@@ -2,7 +2,7 @@
 
 ## Deployed:
 
-[https://code-databank.web.app/](https://code-databank.web.app/)
+[https://efa-code.web.app/](https://efa-code.web.app/)
 
 ### How to setup
 
@@ -15,10 +15,10 @@ npm install
 
 ```
 
-- CD into /code-databank-refactor and install node modules
+- CD into /code-databank and install node modules
 
 ```
-cd code-databank-refactor/
+cd code-databank
 npm install
 ```
 
