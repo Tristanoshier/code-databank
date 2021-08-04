@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Profile, Replies } = require("../models");
+const { Profile } = require("../models");
 const validateSession = require("../middleware/validate-session");
 
 router.get("/", validateSession, (req, res) => {
