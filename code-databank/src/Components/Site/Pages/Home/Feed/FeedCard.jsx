@@ -495,11 +495,8 @@ const FeedCard = ({
 
             <h4>{post?.postType}</h4>
             <div className="post-container">
-              {/* {post?.postMessage.split("\n").map((message) => (
-                <p key={post.id}>{message}</p>
-              ))} */}
               <p>{post?.postMessage}</p>
-              {post.postCode !== "" && post?.postCode !== null ? (
+              {post.postCode !== "" && post?.postCode !== null && (
                 <div className="post-code">
                   <SyntaxHighlighter
                     lineProps={{
@@ -522,8 +519,6 @@ const FeedCard = ({
                     {post?.postCode}
                   </SyntaxHighlighter>
                 </div>
-              ) : (
-                <></>
               )}
             </div>
 
@@ -602,15 +597,13 @@ const FeedCard = ({
                     </Col>
                   </Row>
 
-                  {editReplyActive ? (
+                  {editReplyActive && (
                     <EditReply
                       editReply={editReply}
                       editReplyOff={editReplyOff}
                       reply={reply}
                       getPosts={getPosts}
                     />
-                  ) : (
-                    <></>
                   )}
                 </div>
               ))}
@@ -671,15 +664,13 @@ const FeedCard = ({
                     )
                   }
                 >
-                  {replyActive ? (
+                  {replyActive && (
                     <CreateReply
                       createReply={createReply}
                       replyOff={replyOff}
                       getPosts={getPosts}
                       closeCollapsePanel={closeCollapsePanel}
                     />
-                  ) : (
-                    <></>
                   )}
                 </Panel>
               </Collapse>
@@ -687,15 +678,13 @@ const FeedCard = ({
           </Card>
         </Badge.Ribbon>
       </div>
-      {editPostActive ? (
+      {editPostActive && (
         <EditPost
           editPost={editPost}
           editPostOff={editPostOff}
           post={post}
           getPosts={getPosts}
         />
-      ) : (
-        <></>
       )}
     </div>
   );
